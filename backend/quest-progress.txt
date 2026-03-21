@@ -1,5 +1,5 @@
 {
-  "totalXP": 730,
+  "totalXP": 760,
   "questHistory": [
     {
       "id": "migrated-1774124542821",
@@ -650,7 +650,177 @@
           }
         ]
       }
+    },
+    {
+      "id": "adb8191c-8598-41af-bd2a-438635d9670c",
+      "createdAt": 1774132284524,
+      "userGoal": "i want to be a more patient driver",
+      "theme": "sci-fi",
+      "questline": {
+        "quest_title": "Pacific Patience Drive: Survive the Exclusion Zone",
+        "quests": [
+          {
+            "title": "Calibrate Your Starship Controls",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "During your next drive, breathe deeply for 5 counts before accelerating at green lights",
+                "difficulty": "easy",
+                "id": "quest-1-sub-1",
+                "completed": true,
+                "xp": 5
+              },
+              {
+                "title": "Practice smooth steering: Avoid sudden lane changes, glide like through cosmic drift",
+                "difficulty": "easy",
+                "id": "quest-1-sub-2",
+                "completed": true,
+                "xp": 5
+              },
+              {
+                "title": "Log 3 instances where you let a merging vehicle in without honking",
+                "difficulty": "easy",
+                "id": "quest-1-sub-3",
+                "completed": true,
+                "xp": 5
+              }
+            ],
+            "id": "quest-1",
+            "completed": true
+          },
+          {
+            "title": "Navigate Anomalous Traffic Storms",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "In heavy traffic, count to 10 before passing slow drivers ahead",
+                "difficulty": "medium",
+                "id": "quest-2-sub-1",
+                "completed": true,
+                "xp": 10
+              },
+              {
+                "title": "Use wipers or lights as 'shields' - toggle them calmly instead of honking at rain or fog",
+                "difficulty": "easy",
+                "id": "quest-2-sub-2",
+                "completed": true,
+                "xp": 5
+              },
+              {
+                "title": "Spot 5 'mannequin dummies' (pedestrians/cars) and yield patiently without rushing",
+                "difficulty": "medium",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Journal one positive thought about a 'breacher' driver who cuts you off",
+                "difficulty": "medium",
+                "id": "quest-2-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Stabilize the Plasma Core (Rush Hour Run)",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "During peak hours, maintain steady speed without tailgating - create a 'force field' gap",
+                "difficulty": "medium",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "If stopped, activate 'radio voices': Hum a sci-fi tune instead of getting frustrated",
+                "difficulty": "easy",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Safely siphon 'fuel' patience: Let 3 cars go first at intersections",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Breacher Extraction Through the Wall",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "On a long commute, ignore road rage triggers - focus on 'zone mysteries' like scenery",
+                "difficulty": "hard",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Handle a frustrating delay (construction/accident) by planning an alternate 'warp route' calmly",
+                "difficulty": "hard",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Track full drive: Rate your patience 1-10, upgrade with one improvement for next run",
+                "difficulty": "hard",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Share your 'extraction log' with a friend for feedback on patient piloting",
+                "difficulty": "medium",
+                "id": "quest-4-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Upgrade to Zone Master Pilot",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Complete a 30-min drive with zero honks or gestures - earn 'anomaly shield' badge",
+                "difficulty": "hard",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Teach a passenger your breathing technique during a joint drive",
+                "difficulty": "medium",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Reflect: Review logs, identify patterns, set 'mid-zone' goal for next week",
+                "difficulty": "hard",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
+          }
+        ]
+      }
     }
   ],
-  "activeQuestRunId": "83b73dc7-53de-4bc6-9fdf-358ce134e80c"
+  "activeQuestRunId": "adb8191c-8598-41af-bd2a-438635d9670c"
 }

@@ -14,6 +14,7 @@ export default function HomePage({
   rockScale,
   questCount,
   activeQuestRun,
+  onToggleSubquest,
 }) {
   const focus = useMemo(
     () => getTodayFocusInfo(activeQuestRun),
@@ -56,6 +57,17 @@ export default function HomePage({
       </>
     );
   } else if (focus.nextTask) {
+    const { questId, subquestId } = focus.nextTask;
+    const q = activeQuestRun?.questline?.quests?.find((x) => x.id === questId);
+    const sub = q?.subquests?.find((s) => s.id === subquestId);
+    const subCompleted = sub?.completed ?? false;
+
+    const canToggle =
+      typeof onToggleSubquest === "function" &&
+      questId &&
+      subquestId &&
+      activeQuestRun;
+
     focusBody = (
       <>
         {focus.userGoal ? (
@@ -64,13 +76,39 @@ export default function HomePage({
           </p>
         ) : null}
         <p className="home-focus__next-label">Next up</p>
-        <p className="home-focus__next-task">{focus.nextTask.taskTitle}</p>
+        <div className="home-focus__task-row">
+          {canToggle ? (
+            <label className="home-focus__task-check">
+              <input
+                type="checkbox"
+                checked={subCompleted}
+                onChange={() => onToggleSubquest(questId, subquestId)}
+              />
+              <span className="home-focus__next-task">
+                {focus.nextTask.taskTitle}
+                {sub?.xp != null ? (
+                  <span className="home-focus__task-xp muted">
+                    {" "}
+                    (+{sub.xp} XP)
+                  </span>
+                ) : null}
+              </span>
+            </label>
+          ) : (
+            <p className="home-focus__next-task">{focus.nextTask.taskTitle}</p>
+          )}
+        </div>
         <p className="home-focus__meta muted">
           From <em>{focus.nextTask.questTitle}</em> · {focus.questTitle}
         </p>
         <p className="home-focus__progress muted">
           Tasks in this run: {focus.completed}/{focus.total} done
         </p>
+        {canToggle ? (
+          <p className="home-focus__toggle-hint muted">
+            Check off to earn XP — your next task appears here automatically.
+          </p>
+        ) : null}
       </>
     );
   } else {

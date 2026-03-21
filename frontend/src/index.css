@@ -216,6 +216,42 @@ select {
   color: #f1f5f9;
 }
 
+.home-focus__task-row {
+  margin-bottom: 8px;
+}
+
+.home-focus__task-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.home-focus__task-check input {
+  margin-top: 6px;
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: #2563eb;
+}
+
+.home-focus__task-check .home-focus__next-task {
+  margin: 0;
+}
+
+.home-focus__task-xp {
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.home-focus__toggle-hint {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
 .home-focus__meta {
   margin: 0 0 6px;
   font-size: 0.82rem;

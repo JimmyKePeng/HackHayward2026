@@ -217,6 +217,7 @@ function AppRoutes() {
                 rockScale={rockScale}
                 questCount={questHistory.length}
                 activeQuestRun={activeQuestRun}
+                onToggleSubquest={handleToggleSubquest}
               />
             }
           />

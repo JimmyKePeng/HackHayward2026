@@ -24,6 +24,8 @@ export function getTodayFocusInfo(run) {
       if (sq.completed) completed += 1;
       else if (!nextTask) {
         nextTask = {
+          questId: q.id,
+          subquestId: sq.id,
           questTitle: q.title,
           taskTitle: sq.title,
         };
