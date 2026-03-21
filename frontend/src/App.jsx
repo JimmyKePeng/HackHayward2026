@@ -4,13 +4,21 @@ import QuestListPanel from "./components/QuestListPanel";
 import ProgressPanel from "./components/ProgressPanel";
 import QuestlinePanel from "./components/QuestlinePanel";
 import PetRockFixed from "./components/PetRockFixed";
+import { ProgressReportModal } from "./components/ProgressReportModal";
 import { migrateAppState, useQuestState } from "./hooks/useQuestState";
+
+const API_BASE_URL = "http://localhost:3001";
 
 function App() {
   const rockAnchorRef = useRef(null);
   const [goal, setGoal] = useState("");
   const [theme, setTheme] = useState("fantasy");
+  const [reportOpen, setReportOpen] = useState(false);
+  const [reportText, setReportText] = useState("");
+  const [reportLoading, setReportLoading] = useState(false);
+  const [reportError, setReportError] = useState("");
   const {
+    appState,
     loading,
     error,
     setError,
@@ -36,7 +44,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3001/generate-quest", {
+      const res = await fetch(`${API_BASE_URL}/generate-quest`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,6 +92,29 @@ function App() {
     setError("");
   }
 
+  async function handleGetReport() {
+    setReportError("");
+    setReportText("");
+    setReportOpen(true);
+    setReportLoading(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/progress-report`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appState: migrateAppState(appState) }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to generate progress report.");
+      }
+      setReportText(data.report ?? "");
+    } catch (err) {
+      setReportError(err.message || "Something went wrong.");
+    } finally {
+      setReportLoading(false);
+    }
+  }
+
   return (
     <div className="app-shell">
       <PetRockFixed
@@ -103,10 +134,12 @@ function App() {
             goal={goal}
             theme={theme}
             loading={loading}
+            reportLoading={reportLoading}
             onGoalChange={setGoal}
             onThemeChange={setTheme}
             onGenerate={handleGenerate}
             onReset={handleReset}
+            onGetReport={handleGetReport}
             onUncheckAll={handleUncheckAllInActiveRun}
             onCheckAll={handleCheckAllInActiveRun}
             canBulkToggleQuests={Boolean(
@@ -137,6 +170,14 @@ function App() {
           onDeleteQuest={handleDeleteQuestInActiveRun}
         />
       </div>
+
+      <ProgressReportModal
+        open={reportOpen}
+        onClose={() => setReportOpen(false)}
+        reportText={reportText}
+        loading={reportLoading}
+        error={reportError}
+      />
     </div>
   );
 }

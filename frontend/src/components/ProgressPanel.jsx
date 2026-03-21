@@ -26,7 +26,7 @@ function ProgressPanel({ totalXP, rockScale, rockAnchorRef }) {
         </div>
         <p className="tier-progress__label muted">
           {tierInfo.isMaxTier ? (
-            <>Max rarity — keep earning XP to grow your rock!</>
+            <>Max rarity — keep earning XP to grow your blob!</>
           ) : (
             <>
               {tierInfo.xpIntoNextTier} XP until <strong>{tierInfo.nextTierLabel}</strong>
@@ -36,7 +36,7 @@ function ProgressPanel({ totalXP, rockScale, rockAnchorRef }) {
       </div>
 
       <p className="muted pet-rock-hint">
-        Pet rock starts in the slot below — drag it anywhere on the screen. Position is saved.
+        Your blob pet starts in the slot below — drag it anywhere. Tap without dragging to boop.
       </p>
       <div ref={rockAnchorRef} className="pet-rock-anchor" aria-hidden />
     </div>

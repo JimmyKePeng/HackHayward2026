@@ -48,6 +48,35 @@ export function getRockAppearance(totalXP, rockScale, options = {}) {
   };
 }
 
+/** HSL palette for blob pet (same tier math as rock, no transform). */
+export function getBlobColors(totalXP) {
+  const tierIndex = RARITY_TIERS.findIndex(
+    (tier) => totalXP >= tier.minXP && totalXP <= tier.maxXP
+  );
+  const currentTier =
+    RARITY_TIERS[tierIndex >= 0 ? tierIndex : 0] ?? RARITY_TIERS[0];
+
+  const tierSpan = Number.isFinite(currentTier.maxXP)
+    ? currentTier.maxXP - currentTier.minXP + 1
+    : 250;
+  const tierProgress = Math.min(
+    1,
+    Math.max(0, (totalXP - currentTier.minXP) / tierSpan)
+  );
+
+  const hue = currentTier.hue;
+  const saturation = Math.round(currentTier.saturation + tierProgress * 6);
+  const lightness = Math.round(currentTier.lightness - tierProgress * 4);
+
+  return {
+    hue,
+    saturation,
+    lightness,
+    tierLabel: currentTier.label,
+    tierIndex: tierIndex >= 0 ? tierIndex : 0,
+  };
+}
+
 /** Progress toward filling the current rarity tier (for UI bar). */
 export function getTierProgressInfo(totalXP) {
   const idx = RARITY_TIERS.findIndex(

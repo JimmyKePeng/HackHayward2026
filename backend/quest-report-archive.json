@@ -1,6 +1,5 @@
 {
-  "totalXP": 495,
-  "questHistory": [
+  "runs": [
     {
       "id": "migrated-1774124542821",
       "createdAt": 1774124542821,
@@ -687,6 +686,5 @@
         ]
       }
     }
-  ],
-  "activeQuestRunId": "migrated-1774124542821"
+  ]
 }
