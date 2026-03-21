@@ -87,6 +87,7 @@ function AppRoutes() {
           activeQuestRunId: newRun.id,
         };
       });
+      setGoal("");
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {

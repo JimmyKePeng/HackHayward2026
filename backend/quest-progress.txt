@@ -1,5 +1,5 @@
 {
-  "totalXP": 760,
+  "totalXP": 730,
   "questHistory": [
     {
       "id": "migrated-1774124542821",
@@ -667,26 +667,26 @@
                 "title": "During your next drive, breathe deeply for 5 counts before accelerating at green lights",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Practice smooth steering: Avoid sudden lane changes, glide like through cosmic drift",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Log 3 instances where you let a merging vehicle in without honking",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               }
             ],
             "id": "quest-1",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Navigate Anomalous Traffic Storms",
@@ -696,14 +696,14 @@
                 "title": "In heavy traffic, count to 10 before passing slow drivers ahead",
                 "difficulty": "medium",
                 "id": "quest-2-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Use wipers or lights as 'shields' - toggle them calmly instead of honking at rain or fog",
                 "difficulty": "easy",
                 "id": "quest-2-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
@@ -820,7 +820,170 @@
           }
         ]
       }
+    },
+    {
+      "id": "60ff3bc7-65e0-47b7-8d1b-c3c8ae41cfe0",
+      "createdAt": 1774132734730,
+      "userGoal": "i want to loss weight",
+      "theme": "adventure",
+      "questline": {
+        "quest_title": "The Weight Loss Adventure: Quest for the Legendary Fitness Realm",
+        "quests": [
+          {
+            "title": "Explorer's Foundation - Build Your Base Camp",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Create Your Adventurer Avatar",
+                "difficulty": "easy",
+                "id": "quest-1-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Map Your Starting Territory - Track Current Weight & Measurements",
+                "difficulty": "easy",
+                "id": "quest-1-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Establish Daily Step Goals - Begin with 5,000 Steps",
+                "difficulty": "easy",
+                "id": "quest-1-sub-3",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Scout Nutrition - Log Your Meals for 3 Days",
+                "difficulty": "easy",
+                "id": "quest-1-sub-4",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-1",
+            "completed": false
+          },
+          {
+            "title": "Cardio Expeditions - Journey Through Active Lands",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Complete 3 Walking Adventures (20-30 minutes each)",
+                "difficulty": "medium",
+                "id": "quest-2-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Master Speed Play Intervals - 2 Workouts",
+                "difficulty": "medium",
+                "id": "quest-2-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Conquer Steady-State Endurance Walk",
+                "difficulty": "medium",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Strength Training Quests - Forge Your Power",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Complete 2 Beginner Strength Training Sessions",
+                "difficulty": "medium",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Build Core Stability - 3 Core-Focused Workouts",
+                "difficulty": "medium",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Progressive Resistance Challenge - Increase Difficulty by 1 Level",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Nutrition Mastery - Tame the Food Realm",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Track Daily Calories for 2 Weeks Consistently",
+                "difficulty": "medium",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Replace 5 High-Calorie Meals with Healthier Alternatives",
+                "difficulty": "medium",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Meal Prep Sunday - Prepare 3 Healthy Meals for the Week",
+                "difficulty": "medium",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Champion's Ascent - The Final Push to Victory",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Complete 4 Advanced Interval Training Sessions",
+                "difficulty": "hard",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Achieve 10,000 Daily Steps for 7 Consecutive Days",
+                "difficulty": "hard",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Reach Your First Weight Loss Milestone - Celebrate Victory",
+                "difficulty": "hard",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
+          }
+        ]
+      }
     }
   ],
-  "activeQuestRunId": "adb8191c-8598-41af-bd2a-438635d9670c"
+  "activeQuestRunId": "60ff3bc7-65e0-47b7-8d1b-c3c8ae41cfe0"
 }
