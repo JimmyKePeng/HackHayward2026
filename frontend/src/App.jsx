@@ -1,47 +1,26 @@
-import { useEffect, useMemo, useState } from "react";
-
-const STORAGE_KEY = "quest-app-state";
+import { useState } from "react";
+import CreateQuestForm from "./components/CreateQuestForm";
+import ObjectivesPanel from "./components/ObjectivesPanel";
+import ProgressPanel from "./components/ProgressPanel";
+import QuestlinePanel from "./components/QuestlinePanel";
+import { useQuestState } from "./hooks/useQuestState";
 
 function App() {
   const [goal, setGoal] = useState("");
   const [theme, setTheme] = useState("fantasy");
-  const [appState, setAppState] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        setAppState(JSON.parse(saved));
-      } catch {
-        localStorage.removeItem(STORAGE_KEY);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (appState) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-    }
-  }, [appState]);
-
-  const totalXP = appState?.totalXP || 0;
-  const rockScale = 1 + totalXP / 100;
-
-  const todaysObjectives = useMemo(() => {
-    if (!appState?.questline?.quests) return [];
-    return appState.questline.quests
-      .flatMap((quest) =>
-        quest.subquests
-          .filter((subquest) => !subquest.completed)
-          .map((subquest) => ({
-            ...subquest,
-            questTitle: quest.title,
-          }))
-      )
-      .slice(0, 5);
-  }, [appState]);
+  const {
+    appState,
+    loading,
+    error,
+    setError,
+    setAppState,
+    setLoading,
+    handleToggleSubquest,
+    clearStoredState,
+    todaysObjectives,
+    totalXP,
+    rockScale,
+  } = useQuestState();
 
   async function handleGenerate(e) {
     e.preventDefault();
@@ -63,7 +42,8 @@ function App() {
         throw new Error(data.error || "Failed to generate quest.");
       }
 
-      setAppState(data);
+      const previousXP = appState?.totalXP || 0;
+      setAppState({ ...data, totalXP: previousXP });
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -71,36 +51,8 @@ function App() {
     }
   }
 
-  function handleToggleSubquest(questId, subquestId) {
-    setAppState((prev) => {
-      if (!prev) return prev;
-
-      const next = structuredClone(prev);
-
-      for (const quest of next.questline.quests) {
-        if (quest.id !== questId) continue;
-
-        for (const subquest of quest.subquests) {
-          if (subquest.id !== subquestId) continue;
-
-          if (!subquest.completed) {
-            subquest.completed = true;
-            next.totalXP += subquest.xp;
-          } else {
-            subquest.completed = false;
-            next.totalXP -= subquest.xp;
-          }
-        }
-
-        quest.completed = quest.subquests.every((sq) => sq.completed);
-      }
-
-      return next;
-    });
-  }
-
-  function handleReset() {
-    localStorage.removeItem(STORAGE_KEY);
+  async function handleReset() {
+    await clearStoredState();
     setAppState(null);
     setGoal("");
     setTheme("fantasy");
@@ -117,113 +69,24 @@ function App() {
 
         <section className="panel">
           <h2>Create Your Quest</h2>
-          <form onSubmit={handleGenerate} className="form">
-            <label>
-              Goal
-              <textarea
-                value={goal}
-                onChange={(e) => setGoal(e.target.value)}
-                placeholder="Example: I want to stop procrastinating on homework"
-                rows={4}
-                required
-              />
-            </label>
-
-            <label>
-              Theme
-              <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-                <option value="fantasy">Fantasy</option>
-                <option value="sci-fi">Sci-Fi</option>
-                <option value="adventure">Adventure</option>
-              </select>
-            </label>
-
-            <div className="button-row">
-              <button type="submit" disabled={loading}>
-                {loading ? "Generating..." : "Generate Quest"}
-              </button>
-
-              <button type="button" className="secondary" onClick={handleReset}>
-                Reset
-              </button>
-            </div>
-          </form>
-
+          <CreateQuestForm
+            goal={goal}
+            theme={theme}
+            loading={loading}
+            onGoalChange={setGoal}
+            onThemeChange={setTheme}
+            onGenerate={handleGenerate}
+            onReset={handleReset}
+          />
           {error && <p className="error">{error}</p>}
         </section>
 
         <section className="dashboard-grid">
-          <div className="panel">
-            <h2>Progress</h2>
-            <p><strong>Total XP:</strong> {totalXP}</p>
-            <div className="rock-area">
-              <div
-                className="rock"
-                style={{ transform: `scale(${rockScale})` }}
-                title="Pet Rock"
-              />
-            </div>
-            <p className="muted">Your rock grows as XP increases.</p>
-          </div>
-
-          <div className="panel">
-            <h2>Today's Objectives</h2>
-            {todaysObjectives.length === 0 ? (
-              <p className="muted">No active tasks yet.</p>
-            ) : (
-              <ul className="objective-list">
-                {todaysObjectives.map((task) => (
-                  <li key={task.id}>
-                    <strong>{task.title}</strong>
-                    <span>{task.questTitle}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <ProgressPanel totalXP={totalXP} rockScale={rockScale} />
+          <ObjectivesPanel todaysObjectives={todaysObjectives} />
         </section>
 
-        <section className="panel">
-          <h2>Questline</h2>
-
-          {!appState?.questline ? (
-            <p className="muted">Generate a quest to begin.</p>
-          ) : (
-            <>
-              <p className="quest-title">{appState.questline.quest_title}</p>
-
-              <div className="quest-list">
-                {appState.questline.quests.map((quest) => (
-                  <div key={quest.id} className="quest-card">
-                    <div className="quest-header">
-                      <h3>{quest.title}</h3>
-                      <span className="badge">{quest.difficulty}</span>
-                    </div>
-
-                    <ul className="subquest-list">
-                      {quest.subquests.map((subquest) => (
-                        <li key={subquest.id} className="subquest-item">
-                          <label>
-                            <input
-                              type="checkbox"
-                              checked={subquest.completed}
-                              onChange={() =>
-                                handleToggleSubquest(quest.id, subquest.id)
-                              }
-                            />
-                            <span>
-                              {subquest.title} (+{subquest.xp} XP)
-                            </span>
-                          </label>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </section>
+        <QuestlinePanel appState={appState} onToggleSubquest={handleToggleSubquest} />
       </div>
     </div>
   );
