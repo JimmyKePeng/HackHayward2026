@@ -368,7 +368,325 @@
           }
         ]
       }
+    },
+    {
+      "id": "83b73dc7-53de-4bc6-9fdf-358ce134e80c",
+      "createdAt": 1774127557230,
+      "userGoal": "i want to clean my room\n",
+      "theme": "fantasy",
+      "questline": {
+        "quest_title": "Dragon's Hoard Purification: Cleanse Your Enchanted Chamber",
+        "quests": [
+          {
+            "title": "Enter the Dragon's Lair",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Don your adventurer's garb: apron as armor, kerchief as hood",
+                "difficulty": "easy",
+                "id": "quest-1-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Survey the hoard: make a simple map of clutter zones in your room",
+                "difficulty": "easy",
+                "id": "quest-1-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Gather your tools: broom as enchanted staff, trash bag as treasure sack",
+                "difficulty": "easy",
+                "id": "quest-1-sub-3",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Clear the floor path: remove items blocking your way like defeating minor minions",
+                "difficulty": "easy",
+                "id": "quest-1-sub-4",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-1",
+            "completed": false
+          },
+          {
+            "title": "Sort the Cursed Artifacts",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Identify trash curses: toss three broken or useless items",
+                "difficulty": "easy",
+                "id": "quest-2-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Find disguised treasures: sort three keepers into a 'magical relic' pile",
+                "difficulty": "medium",
+                "id": "quest-2-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Neutralize dark energy: wipe dust from one surface with a cleansing ritual",
+                "difficulty": "medium",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Detect illusions: decide fate for three questionable items (keep, donate, discard)",
+                "difficulty": "medium",
+                "id": "quest-2-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Restore the Wizard's Tower",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Polish the runes: clean one shelf or desk like revealing ancient spells",
+                "difficulty": "easy",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Organize potions: neatly stack books or clothes in their proper alcoves",
+                "difficulty": "medium",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Sweep the enchanted floor: vacuum or sweep away the dust dragons",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Arrange the altar: make one spot beautiful, like a hero's display",
+                "difficulty": "medium",
+                "id": "quest-3-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Side Quest to the Fey Charity Portal",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Pack faerie gifts: bag up five donate-worthy items for the magical shop",
+                "difficulty": "medium",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Transport the bounty: take bags to your door or car as offering to otherworldly beings",
+                "difficulty": "hard",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Seal the portal: return and confirm the room feels lighter and purified",
+                "difficulty": "hard",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Claim your boon: reward yourself with a hero's rest or small treat",
+                "difficulty": "easy",
+                "id": "quest-4-sub-4",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Final Chamber Consecration",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Inspect for hidden beasts: check under bed and furniture for stray clutter",
+                "difficulty": "medium",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Perform the great alignment: straighten all remaining items into harmony",
+                "difficulty": "hard",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Invoke the cleaning fairy: give the room a final wipe-down glow-up",
+                "difficulty": "hard",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "4c77f72d-d254-4e83-931a-86ae1671555d",
+      "createdAt": 1774127747343,
+      "userGoal": "I want to stop procrastinating on homework",
+      "theme": "adventure",
+      "questline": {
+        "quest_title": "The Homework Hero's Quest",
+        "quests": [
+          {
+            "title": "Break the Procrastination Spell",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Identify your first homework task and write it down as a mission objective",
+                "difficulty": "easy",
+                "id": "quest-2-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Set a 25-minute timer and complete one small homework section",
+                "difficulty": "medium",
+                "id": "quest-2-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Take a 5-minute nature break to recharge your energy",
+                "difficulty": "easy",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Repeat the cycle until one assignment is complete",
+                "difficulty": "medium",
+                "id": "quest-2-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Master Real-World Problem Solving",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Connect one homework concept to something you observe in nature or the real world",
+                "difficulty": "medium",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Solve a challenging homework problem by breaking it into smaller steps",
+                "difficulty": "medium",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Teach someone else what you learned to solidify your understanding",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Build Your Self-Reliance Streak",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Complete homework without checking your phone for 45 minutes",
+                "difficulty": "hard",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Attempt a difficult problem on your own before asking for help",
+                "difficulty": "hard",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Finish all assigned homework before the deadline",
+                "difficulty": "hard",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Celebrate Your Victory",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Reflect on what you accomplished today",
+                "difficulty": "easy",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Reward yourself with outdoor time or a favorite activity",
+                "difficulty": "easy",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Plan tomorrow's homework adventure",
+                "difficulty": "easy",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
+          }
+        ]
+      }
     }
   ],
-  "activeQuestRunId": "migrated-1774124542821"
+  "activeQuestRunId": "4c77f72d-d254-4e83-931a-86ae1671555d"
 }

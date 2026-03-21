@@ -19,6 +19,8 @@ function App() {
     handleToggleSubquest,
     handleUncheckAllInActiveRun,
     handleCheckAllInActiveRun,
+    handleDeleteQuestRun,
+    handleDeleteQuestInActiveRun,
     clearStoredState,
     questHistory,
     activeQuestRunId,
@@ -124,6 +126,7 @@ function App() {
             questHistory={questHistory}
             activeQuestRunId={activeQuestRunId}
             onSelectQuestRun={setActiveQuestRunId}
+            onDeleteQuestRun={handleDeleteQuestRun}
           />
         </section>
 
@@ -131,6 +134,7 @@ function App() {
           key={activeQuestRunId ?? "none"}
           activeQuestRun={activeQuestRun}
           onToggleSubquest={handleToggleSubquest}
+          onDeleteQuest={handleDeleteQuestInActiveRun}
         />
       </div>
     </div>

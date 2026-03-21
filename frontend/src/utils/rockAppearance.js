@@ -1,4 +1,4 @@
-const RARITY_TIERS = [
+export const RARITY_TIERS = [
   { minXP: 0, maxXP: 99, hue: 215, saturation: 10, lightness: 62, label: "Common" },
   { minXP: 100, maxXP: 249, hue: 140, saturation: 45, lightness: 56, label: "Uncommon" },
   { minXP: 250, maxXP: 499, hue: 210, saturation: 65, lightness: 54, label: "Rare" },
@@ -45,5 +45,37 @@ export function getRockAppearance(totalXP, rockScale, options = {}) {
       background: `linear-gradient(145deg, hsl(${hue} ${saturation}% ${lightness + 8}%), hsl(${hue} ${saturation}% ${lightness}%))`,
       boxShadow: `inset -8px -8px 0 hsla(${hue}, ${Math.max(10, saturation - 10)}%, ${Math.max(20, lightness - 20)}%, 0.35)`,
     },
+  };
+}
+
+/** Progress toward filling the current rarity tier (for UI bar). */
+export function getTierProgressInfo(totalXP) {
+  const idx = RARITY_TIERS.findIndex(
+    (tier) => totalXP >= tier.minXP && totalXP <= tier.maxXP
+  );
+  const tier = idx >= 0 ? RARITY_TIERS[idx] : RARITY_TIERS[0];
+  const nextTier = RARITY_TIERS[idx + 1];
+
+  if (!nextTier) {
+    return {
+      tierLabel: tier.label,
+      nextTierLabel: null,
+      barPercent: 100,
+      xpIntoNextTier: 0,
+      isMaxTier: true,
+    };
+  }
+
+  const span = tier.maxXP - tier.minXP + 1;
+  const pos = Math.max(0, totalXP - tier.minXP);
+  const barPercent = Math.min(100, (pos / span) * 100);
+  const xpIntoNextTier = Math.max(0, nextTier.minXP - totalXP);
+
+  return {
+    tierLabel: tier.label,
+    nextTierLabel: nextTier.label,
+    barPercent,
+    xpIntoNextTier,
+    isMaxTier: false,
   };
 }

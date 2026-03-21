@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function QuestlinePanel({ activeQuestRun, onToggleSubquest }) {
+function QuestlinePanel({ activeQuestRun, onToggleSubquest, onDeleteQuest }) {
   const questline = activeQuestRun?.questline;
   const firstQuestId = questline?.quests?.[0]?.id;
   const [expandedQuestIds, setExpandedQuestIds] = useState(
@@ -30,25 +30,36 @@ function QuestlinePanel({ activeQuestRun, onToggleSubquest }) {
             </p>
           ) : null}
           <p className="quest-title">{questline.quest_title}</p>
-          <p className="muted questline-hint">Click a quest to expand or collapse its tasks.</p>
+          <p className="muted questline-hint">Click a quest to expand or collapse its tasks. × removes a quest.</p>
 
           <div className="quest-list">
             {questline.quests.map((quest) => {
               const expanded = expandedQuestIds.has(quest.id);
               return (
                 <div key={quest.id} className={`quest-card${expanded ? " quest-card--open" : ""}`}>
-                  <button
-                    type="button"
-                    className="quest-header quest-header--toggle"
-                    onClick={() => toggleQuest(quest.id)}
-                    aria-expanded={expanded}
-                  >
-                    <span className="quest-chevron" aria-hidden>
-                      {expanded ? "▼" : "▶"}
-                    </span>
-                    <h3>{quest.title}</h3>
-                    <span className="badge">{quest.difficulty}</span>
-                  </button>
+                  <div className="quest-card-header-row">
+                    <button
+                      type="button"
+                      className="quest-header quest-header--toggle"
+                      onClick={() => toggleQuest(quest.id)}
+                      aria-expanded={expanded}
+                    >
+                      <span className="quest-chevron" aria-hidden>
+                        {expanded ? "▼" : "▶"}
+                      </span>
+                      <h3>{quest.title}</h3>
+                      <span className="badge">{quest.difficulty}</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="quest-card-delete"
+                      onClick={() => onDeleteQuest(quest.id)}
+                      aria-label={`Remove quest: ${quest.title}`}
+                      title="Remove this quest from the questline"
+                    >
+                      ×
+                    </button>
+                  </div>
 
                   {expanded ? (
                     <ul className="subquest-list">

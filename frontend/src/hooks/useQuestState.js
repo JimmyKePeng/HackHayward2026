@@ -201,6 +201,61 @@ export function useQuestState() {
     });
   }
 
+  /** Remove a saved quest run from history; subtract XP earned from its completed tasks. */
+  function handleDeleteQuestRun(runId) {
+    setAppState((prev) => {
+      if (!prev) return prev;
+
+      const run = prev.questHistory.find((r) => r.id === runId);
+      if (!run) return prev;
+
+      const next = structuredClone(prev);
+
+      for (const quest of run.questline.quests ?? []) {
+        for (const subquest of quest.subquests ?? []) {
+          if (subquest.completed) {
+            next.totalXP -= subquest.xp;
+          }
+        }
+      }
+      next.totalXP = Math.max(0, next.totalXP);
+
+      next.questHistory = next.questHistory.filter((r) => r.id !== runId);
+
+      if (next.activeQuestRunId === runId) {
+        next.activeQuestRunId =
+          next.questHistory[next.questHistory.length - 1]?.id ?? null;
+      }
+
+      return next;
+    });
+  }
+
+  /** Remove one quest from the active questline; subtract XP from its completed subquests. */
+  function handleDeleteQuestInActiveRun(questId) {
+    setAppState((prev) => {
+      if (!prev?.activeQuestRunId) return prev;
+
+      const next = structuredClone(prev);
+      const run = next.questHistory.find((r) => r.id === next.activeQuestRunId);
+      if (!run?.questline?.quests) return prev;
+
+      const quest = run.questline.quests.find((q) => q.id === questId);
+      if (!quest) return prev;
+
+      for (const subquest of quest.subquests) {
+        if (subquest.completed) {
+          next.totalXP -= subquest.xp;
+        }
+      }
+      next.totalXP = Math.max(0, next.totalXP);
+
+      run.questline.quests = run.questline.quests.filter((q) => q.id !== questId);
+
+      return next;
+    });
+  }
+
   async function clearStoredState() {
     localStorage.removeItem(STORAGE_KEY);
     try {
@@ -220,6 +275,8 @@ export function useQuestState() {
     handleToggleSubquest,
     handleUncheckAllInActiveRun,
     handleCheckAllInActiveRun,
+    handleDeleteQuestRun,
+    handleDeleteQuestInActiveRun,
     clearStoredState,
     questHistory,
     activeQuestRunId,

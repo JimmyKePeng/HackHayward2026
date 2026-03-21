@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { getRockAppearance } from "../utils/rockAppearance";
+import { getRockAppearance, RARITY_TIERS } from "../utils/rockAppearance";
 
 const POSITION_KEY = "pet-rock-position-free-v2";
 
@@ -60,10 +60,49 @@ function PetRockFixed({ totalXP, rockScale, anchorRef }) {
 
   const [pos, setPos] = useState(() => initialSaved ?? { left: 0, top: 0 });
   const [visible, setVisible] = useState(initialSaved !== null);
+  const [xpPop, setXpPop] = useState(null);
+  const [celebrate, setCelebrate] = useState(false);
+  const [tierPop, setTierPop] = useState(null);
+
+  const prevXpRef = useRef(null);
+  const prevTierRef = useRef(null);
 
   useEffect(() => {
     posRef.current = pos;
   }, [pos]);
+
+  /** XP gain pop + pulse; tier upgrade banner (skip first run). */
+  useEffect(() => {
+    if (prevXpRef.current === null) {
+      prevXpRef.current = totalXP;
+      prevTierRef.current = tierLabel;
+      return;
+    }
+
+    const delta = totalXP - prevXpRef.current;
+    prevXpRef.current = totalXP;
+
+    const timers = [];
+
+    if (delta > 0) {
+      setXpPop(`+${delta} XP`);
+      setCelebrate(true);
+      timers.push(window.setTimeout(() => setXpPop(null), 1100));
+      timers.push(window.setTimeout(() => setCelebrate(false), 550));
+    }
+
+    if (prevTierRef.current !== tierLabel) {
+      const oldIdx = RARITY_TIERS.findIndex((t) => t.label === prevTierRef.current);
+      const newIdx = RARITY_TIERS.findIndex((t) => t.label === tierLabel);
+      if (newIdx > oldIdx) {
+        setTierPop(`🎉 ${tierLabel}!`);
+        timers.push(window.setTimeout(() => setTierPop(null), 2200));
+      }
+      prevTierRef.current = tierLabel;
+    }
+
+    return () => timers.forEach(clearTimeout);
+  }, [totalXP, tierLabel]);
 
   const updateMetricsAndClamp = useCallback(() => {
     const el = rootRef.current;
@@ -181,7 +220,17 @@ function PetRockFixed({ totalXP, rockScale, anchorRef }) {
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
     >
-      <div className="pet-rock-fixed__rock-wrap">
+      {xpPop ? (
+        <span className="pet-rock-fixed__xp-pop" key={xpPop}>
+          {xpPop}
+        </span>
+      ) : null}
+      {tierPop ? (
+        <span className="pet-rock-fixed__tier-pop" role="status">
+          {tierPop}
+        </span>
+      ) : null}
+      <div className={`pet-rock-fixed__rock-wrap${celebrate ? " pet-rock-fixed__rock-wrap--celebrate" : ""}`}>
         <div
           className={`rock rock--fixed rock--shape-${shapeId}`}
           style={style}

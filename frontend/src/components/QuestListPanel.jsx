@@ -12,7 +12,7 @@ function formatWhen(ts) {
   }
 }
 
-function QuestListPanel({ questHistory, activeQuestRunId, onSelectQuestRun }) {
+function QuestListPanel({ questHistory, activeQuestRunId, onSelectQuestRun, onDeleteQuestRun }) {
   const sorted = [...questHistory].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
   return (
@@ -29,7 +29,7 @@ function QuestListPanel({ questHistory, activeQuestRunId, onSelectQuestRun }) {
             const title = run.questline?.quest_title || "Untitled quest";
             const selected = run.id === activeQuestRunId;
             return (
-              <li key={run.id}>
+              <li key={run.id} className="quest-history-row">
                 <button
                   type="button"
                   className={`quest-history-item${selected ? " selected" : ""}`}
@@ -40,6 +40,18 @@ function QuestListPanel({ questHistory, activeQuestRunId, onSelectQuestRun }) {
                     {run.userGoal ? `${run.userGoal.slice(0, 48)}${run.userGoal.length > 48 ? "…" : ""}` : "—"}
                     {run.createdAt ? ` · ${formatWhen(run.createdAt)}` : ""}
                   </span>
+                </button>
+                <button
+                  type="button"
+                  className="quest-history-delete"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteQuestRun(run.id);
+                  }}
+                  aria-label={`Delete quest: ${title}`}
+                  title="Remove this quest from the list"
+                >
+                  ×
                 </button>
               </li>
             );
