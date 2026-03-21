@@ -157,6 +157,50 @@ export function useQuestState() {
     });
   }
 
+  function handleUncheckAllInActiveRun() {
+    setAppState((prev) => {
+      if (!prev?.activeQuestRunId) return prev;
+
+      const next = structuredClone(prev);
+      const run = next.questHistory.find((r) => r.id === next.activeQuestRunId);
+      if (!run?.questline?.quests) return prev;
+
+      for (const quest of run.questline.quests) {
+        for (const subquest of quest.subquests) {
+          if (subquest.completed) {
+            subquest.completed = false;
+            next.totalXP -= subquest.xp;
+          }
+        }
+        quest.completed = false;
+      }
+
+      return next;
+    });
+  }
+
+  function handleCheckAllInActiveRun() {
+    setAppState((prev) => {
+      if (!prev?.activeQuestRunId) return prev;
+
+      const next = structuredClone(prev);
+      const run = next.questHistory.find((r) => r.id === next.activeQuestRunId);
+      if (!run?.questline?.quests) return prev;
+
+      for (const quest of run.questline.quests) {
+        for (const subquest of quest.subquests) {
+          if (!subquest.completed) {
+            subquest.completed = true;
+            next.totalXP += subquest.xp;
+          }
+        }
+        quest.completed = quest.subquests.every((sq) => sq.completed);
+      }
+
+      return next;
+    });
+  }
+
   async function clearStoredState() {
     localStorage.removeItem(STORAGE_KEY);
     try {
@@ -174,6 +218,8 @@ export function useQuestState() {
     setAppState,
     setLoading,
     handleToggleSubquest,
+    handleUncheckAllInActiveRun,
+    handleCheckAllInActiveRun,
     clearStoredState,
     questHistory,
     activeQuestRunId,

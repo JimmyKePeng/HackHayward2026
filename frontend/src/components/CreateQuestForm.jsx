@@ -6,6 +6,9 @@ function CreateQuestForm({
   onThemeChange,
   onGenerate,
   onReset,
+  onUncheckAll,
+  onCheckAll,
+  canBulkToggleQuests,
 }) {
   return (
     <form onSubmit={onGenerate} className="form">
@@ -29,13 +32,33 @@ function CreateQuestForm({
         </select>
       </label>
 
-      <div className="button-row">
+      <div className="button-row button-row--wrap">
         <button type="submit" disabled={loading}>
           {loading ? "Generating..." : "Generate Quest"}
         </button>
 
         <button type="button" className="secondary" onClick={onReset}>
           Reset Everything
+        </button>
+
+        <button
+          type="button"
+          className="secondary"
+          onClick={onUncheckAll}
+          disabled={!canBulkToggleQuests}
+          title="Uncheck all tasks in the active quest"
+        >
+          Uncheck all
+        </button>
+
+        <button
+          type="button"
+          className="secondary"
+          onClick={onCheckAll}
+          disabled={!canBulkToggleQuests}
+          title="Check all tasks in the active quest"
+        >
+          Check all
         </button>
       </div>
     </form>

@@ -1,18 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function QuestlinePanel({ activeQuestRun, onToggleSubquest }) {
   const questline = activeQuestRun?.questline;
-  const [expandedQuestIds, setExpandedQuestIds] = useState(() => new Set());
-
-  useEffect(() => {
-    const quests = questline?.quests;
-    if (!quests?.length) {
-      setExpandedQuestIds(new Set());
-      return;
-    }
-    // When switching quest runs, open the first quest by default
-    setExpandedQuestIds(new Set([quests[0].id]));
-  }, [activeQuestRun?.id, questline?.quest_title]);
+  const firstQuestId = questline?.quests?.[0]?.id;
+  const [expandedQuestIds, setExpandedQuestIds] = useState(
+    () => new Set(firstQuestId ? [firstQuestId] : [])
+  );
 
   function toggleQuest(questId) {
     setExpandedQuestIds((prev) => {

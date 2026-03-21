@@ -74,6 +74,11 @@ select {
   gap: 12px;
 }
 
+.button-row--wrap {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 button {
   border: none;
   border-radius: 10px;
@@ -111,8 +116,107 @@ button:disabled {
   height: 70px;
   background: #9ca3af;
   border-radius: 52% 48% 43% 57% / 42% 46% 54% 58%;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background 0.35s ease, box-shadow 0.35s ease;
   box-shadow: inset -8px -8px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* Draggable overlay — starts over Progress anchor, then drag anywhere */
+.pet-rock-fixed {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+
+.pet-rock-fixed--dragging {
+  cursor: grabbing;
+}
+
+.pet-rock-fixed__rock-wrap {
+  width: 120px;
+  height: 120px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(17, 24, 39, 0.92);
+  border: 1px solid #374151;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+}
+
+.rock--fixed {
+  transform-origin: center center;
+  transition:
+    transform 0.2s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease,
+    border-radius 0.45s ease,
+    width 0.45s ease,
+    height 0.45s ease;
+}
+
+.rock--fixed.rock--shape-0 {
+  width: 86px;
+  height: 74px;
+  border-radius: 55% 45% 50% 50% / 45% 55% 48% 52%;
+}
+
+.rock--fixed.rock--shape-1 {
+  width: 96px;
+  height: 64px;
+  border-radius: 60% 40% 55% 45% / 48% 52% 50% 50%;
+}
+
+.rock--fixed.rock--shape-2 {
+  width: 70px;
+  height: 86px;
+  border-radius: 48% 52% 50% 50% / 55% 45% 52% 48%;
+}
+
+.rock--fixed.rock--shape-3 {
+  width: 88px;
+  height: 76px;
+  border-radius: 65% 35% 55% 45% / 42% 58% 42% 58%;
+}
+
+.rock--fixed.rock--shape-4 {
+  width: 84px;
+  height: 82px;
+  border-radius: 42% 58% 58% 42% / 48% 52% 48% 52%;
+}
+
+.pet-rock-fixed__caption {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  max-width: 130px;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.pet-rock-fixed__drag-hint {
+  font-size: 0.65rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pet-rock-hint {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
+.pet-rock-anchor {
+  min-height: 200px;
+  margin-top: 12px;
+  border-radius: 12px;
+  border: 1px dashed #4b5563;
+  background: #111827;
+  pointer-events: none;
 }
 
 .quest-title {

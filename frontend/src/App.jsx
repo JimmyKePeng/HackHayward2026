@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CreateQuestForm from "./components/CreateQuestForm";
 import QuestListPanel from "./components/QuestListPanel";
 import ProgressPanel from "./components/ProgressPanel";
 import QuestlinePanel from "./components/QuestlinePanel";
+import PetRockFixed from "./components/PetRockFixed";
 import { migrateAppState, useQuestState } from "./hooks/useQuestState";
 
 function App() {
+  const rockAnchorRef = useRef(null);
   const [goal, setGoal] = useState("");
   const [theme, setTheme] = useState("fantasy");
   const {
@@ -15,6 +17,8 @@ function App() {
     setAppState,
     setLoading,
     handleToggleSubquest,
+    handleUncheckAllInActiveRun,
+    handleCheckAllInActiveRun,
     clearStoredState,
     questHistory,
     activeQuestRunId,
@@ -80,6 +84,11 @@ function App() {
 
   return (
     <div className="app-shell">
+      <PetRockFixed
+        totalXP={totalXP}
+        rockScale={rockScale}
+        anchorRef={rockAnchorRef}
+      />
       <div className="container">
         <header className="hero">
           <h1>Gamified Self-Help Quest App</h1>
@@ -96,12 +105,21 @@ function App() {
             onThemeChange={setTheme}
             onGenerate={handleGenerate}
             onReset={handleReset}
+            onUncheckAll={handleUncheckAllInActiveRun}
+            onCheckAll={handleCheckAllInActiveRun}
+            canBulkToggleQuests={Boolean(
+              activeQuestRun?.questline?.quests?.some((q) => q.subquests?.length)
+            )}
           />
           {error && <p className="error">{error}</p>}
         </section>
 
         <section className="dashboard-grid">
-          <ProgressPanel totalXP={totalXP} rockScale={rockScale} />
+          <ProgressPanel
+            totalXP={totalXP}
+            rockScale={rockScale}
+            rockAnchorRef={rockAnchorRef}
+          />
           <QuestListPanel
             questHistory={questHistory}
             activeQuestRunId={activeQuestRunId}
@@ -110,6 +128,7 @@ function App() {
         </section>
 
         <QuestlinePanel
+          key={activeQuestRunId ?? "none"}
           activeQuestRun={activeQuestRun}
           onToggleSubquest={handleToggleSubquest}
         />

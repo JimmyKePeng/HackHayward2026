@@ -1,0 +1,197 @@
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { getRockAppearance } from "../utils/rockAppearance";
+
+const POSITION_KEY = "pet-rock-position-free-v2";
+
+function loadSaved() {
+  try {
+    const raw = localStorage.getItem(POSITION_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      if (typeof p.left === "number" && typeof p.top === "number") {
+        return { left: p.left, top: p.top };
+      }
+    }
+    const legacy = localStorage.getItem("pet-rock-position-v1");
+    if (legacy) {
+      const p = JSON.parse(legacy);
+      if (typeof p.left === "number" && typeof p.top === "number") {
+        return { left: p.left, top: p.top };
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return null;
+}
+
+function savePosition(left, top) {
+  try {
+    localStorage.setItem(POSITION_KEY, JSON.stringify({ left, top }));
+  } catch {
+    // ignore
+  }
+}
+
+function clampPosition(left, top, width, height) {
+  const pad = 8;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  return {
+    left: Math.min(Math.max(pad, left), vw - width - pad),
+    top: Math.min(Math.max(pad, top), vh - height - pad),
+  };
+}
+
+/**
+ * Fixed overlay: draggable anywhere on the viewport.
+ * With no saved position, starts centered on `anchorRef` (Progress panel slot).
+ */
+function PetRockFixed({ totalXP, rockScale, anchorRef }) {
+  const { style, tierLabel, scale, shapeId } = getRockAppearance(totalXP, rockScale, {
+    maxScale: 2.75,
+  });
+
+  const initialSaved = useMemo(() => loadSaved(), []);
+
+  const rootRef = useRef(null);
+  const dragRef = useRef(null);
+  const posRef = useRef({ left: 0, top: 0 });
+
+  const [pos, setPos] = useState(() => initialSaved ?? { left: 0, top: 0 });
+  const [visible, setVisible] = useState(initialSaved !== null);
+
+  useEffect(() => {
+    posRef.current = pos;
+  }, [pos]);
+
+  const updateMetricsAndClamp = useCallback(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    setPos((p) => {
+      const next = clampPosition(p.left, p.top, w, h);
+      posRef.current = next;
+      return next;
+    });
+  }, []);
+
+  /** No saved position: center on Progress anchor. Saved: just clamp. */
+  useLayoutEffect(() => {
+    if (initialSaved !== null) {
+      updateMetricsAndClamp();
+      return;
+    }
+
+    function tryPlace() {
+      const block = rootRef.current;
+      const anchor = anchorRef?.current;
+      if (!block || !anchor) return false;
+
+      const ar = anchor.getBoundingClientRect();
+      if (ar.width < 8 || ar.height < 8) return false;
+
+      const bw = block.offsetWidth;
+      const bh = block.offsetHeight;
+      const left = ar.left + (ar.width - bw) / 2;
+      const top = ar.top + (ar.height - bh) / 2;
+      const next = clampPosition(left, top, bw, bh);
+      posRef.current = next;
+      setPos(next);
+      queueMicrotask(() => setVisible(true));
+      return true;
+    }
+
+    if (tryPlace()) return;
+
+    const raf = requestAnimationFrame(() => tryPlace());
+    const t = window.setTimeout(() => tryPlace(), 80);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(t);
+    };
+  }, [anchorRef, initialSaved, updateMetricsAndClamp]);
+
+  useEffect(() => {
+    function onResize() {
+      updateMetricsAndClamp();
+    }
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [updateMetricsAndClamp]);
+
+  const onPointerDown = useCallback((e) => {
+    if (e.button !== 0) return;
+    const el = rootRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    dragRef.current = {
+      offsetX: e.clientX - rect.left,
+      offsetY: e.clientY - rect.top,
+    };
+    el.setPointerCapture(e.pointerId);
+    el.classList.add("pet-rock-fixed--dragging");
+  }, []);
+
+  const onPointerMove = useCallback((e) => {
+    if (!dragRef.current) return;
+    const el = rootRef.current;
+    if (!el) return;
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    const left = e.clientX - dragRef.current.offsetX;
+    const top = e.clientY - dragRef.current.offsetY;
+    const next = clampPosition(left, top, w, h);
+    posRef.current = next;
+    setPos(next);
+  }, []);
+
+  const endDrag = useCallback((e) => {
+    if (!dragRef.current) return;
+    dragRef.current = null;
+    const el = rootRef.current;
+    try {
+      if (el && e?.pointerId != null && el.hasPointerCapture(e.pointerId)) {
+        el.releasePointerCapture(e.pointerId);
+      }
+    } catch {
+      // ignore
+    }
+    el?.classList.remove("pet-rock-fixed--dragging");
+    savePosition(posRef.current.left, posRef.current.top);
+  }, []);
+
+  return (
+    <div
+      ref={rootRef}
+      className="pet-rock-fixed"
+      style={{
+        left: pos.left,
+        top: pos.top,
+        right: "auto",
+        bottom: "auto",
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? "auto" : "none",
+      }}
+      role="img"
+      aria-label={`Pet rock. Rarity ${tierLabel}. Shape ${shapeId + 1} of 5. Scale ${scale.toFixed(2)}. Drag to move anywhere.`}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
+    >
+      <div className="pet-rock-fixed__rock-wrap">
+        <div
+          className={`rock rock--fixed rock--shape-${shapeId}`}
+          style={style}
+          title="Drag to move"
+        />
+      </div>
+      <span className="pet-rock-fixed__caption">Pet rock · {tierLabel}</span>
+      <span className="pet-rock-fixed__drag-hint">Drag anywhere</span>
+    </div>
+  );
+}
+
+export default PetRockFixed;
