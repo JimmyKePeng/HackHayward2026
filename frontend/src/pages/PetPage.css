@@ -1,7 +1,8 @@
-/* Pet playground — seesaw + launch animation */
+/* Pet playground — narrow seesaw, drop sequence, weight-based rest tilt */
 
 .pet-play {
-  overflow: hidden;
+  /* Allow falling blob to draw above the stage without clipping the top */
+  overflow: visible;
 }
 
 .pet-play__stats {
@@ -18,11 +19,22 @@
   color: #f1f5f9;
 }
 
+.pet-play__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px 24px;
+}
+
 .pet-play__stage {
-  min-height: 320px;
+  flex: 1 1 280px;
+  min-height: 300px;
   display: grid;
   place-items: center;
-  padding: 20px 12px 8px;
+  /* Extra top padding so the falling blob (translateY -150px) isn’t clipped by ancestors */
+  padding: 44px 16px 16px;
+  overflow: visible;
   border-radius: 16px;
   background:
     radial-gradient(ellipse 80% 60% at 50% 100%, rgba(99, 102, 241, 0.12), transparent 50%),
@@ -30,210 +42,301 @@
   border: 1px solid #374151;
 }
 
+.pet-play__drop-col {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  min-width: 120px;
+}
+
+/* --- Seesaw --- */
+
 .pet-seesaw {
   position: relative;
-  width: min(100%, 380px);
+  width: min(100%, 320px);
+}
+
+.pet-seesaw__scale {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Sky area — person launches here */
-.pet-seesaw__sky {
-  height: 140px;
+/* Rotates around fulcrum; riders + plank are inside */
+.pet-seesaw__beam-rot {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  transform-origin: 50% 100%;
+}
+
+.pet-seesaw--phase-idle .pet-seesaw__beam-rot {
+  transform: rotate(var(--tilt-idle));
+}
+
+.pet-seesaw--phase-settled .pet-seesaw__beam-rot {
+  transform: rotate(var(--tilt-rest));
+}
+
+.pet-seesaw--phase-settled .pet-seesaw__beam-rot {
+  transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.56, 1);
+}
+
+.pet-seesaw--phase-idle .pet-seesaw__beam-rot {
+  transition: none;
+}
+
+.pet-seesaw--phase-animating .pet-seesaw__beam-rot {
+  animation: pet-beam-drop 1.85s cubic-bezier(0.34, 1.2, 0.56, 1) forwards;
+}
+
+.pet-seesaw--phase-animating.pet-seesaw--tiny .pet-seesaw__beam-rot {
+  animation: pet-beam-drop-tiny 1.2s ease-out forwards;
+}
+
+@keyframes pet-beam-drop {
+  0%,
+  26% {
+    transform: rotate(var(--tilt-idle));
+  }
+  34% {
+    transform: rotate(var(--tilt-impact));
+  }
+  58% {
+    transform: rotate(calc(var(--tilt-rest) + 2deg));
+  }
+  100% {
+    transform: rotate(var(--tilt-rest));
+  }
+}
+
+@keyframes pet-beam-drop-tiny {
+  0%,
+  26% {
+    transform: rotate(var(--tilt-idle));
+  }
+  40% {
+    transform: rotate(calc(var(--tilt-idle) * 0.65));
+  }
+  100% {
+    transform: rotate(var(--tilt-rest));
+  }
+}
+
+.pet-seesaw__beam-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
   position: relative;
-  margin-bottom: -4px;
+}
+
+/*
+ * Deck holds riders above the plank. Don’t use overflow:hidden — tall blobs
+ * (scale × wrap) are taller than the old 108px box and the top was clipped
+ * after the drop settles (when the blob mounts here instead of the fall layer).
+ */
+.pet-seesaw__deck {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  min-height: 200px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.pet-seesaw__end {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+/* Person stands near the outer (left) end of the board */
+.pet-seesaw__end--left {
+  justify-content: flex-start;
+  padding-left: 2px;
+  padding-right: 8px;
+}
+
+.pet-seesaw__end--right {
+  justify-content: center;
+  padding-left: 4px;
 }
 
 .pet-seesaw__person {
-  position: absolute;
-  left: 18%;
-  bottom: 0;
-  transform: translateX(-50%);
-  font-size: 2.75rem;
+  display: inline-block;
+  font-size: 2.5rem;
   line-height: 1;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
+  transform-origin: 50% 100%;
   will-change: transform;
 }
 
-.pet-seesaw__person-emoji {
+.pet-seesaw__empty {
   display: inline-block;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
 }
 
-/* Beam + pivot */
-.pet-seesaw__beam-wrap {
+/* Narrow, flat board — under riders so blobs don’t paint “through” the top edge */
+.pet-seesaw__plank {
   position: relative;
+  z-index: 1;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.pet-seesaw__beam {
-  display: flex;
-  width: 100%;
-  max-width: 340px;
-  min-height: 100px;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 0 8px 10px;
-  border-radius: 8px;
-  background: linear-gradient(180deg, #3d2e1f 0%, #292018 100%);
+  height: 10px;
+  margin-top: 0;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #a89078 0%, #6b5344 55%, #4a3a30 100%);
   box-shadow:
-    0 4px 0 #1a1612,
-    inset 0 2px 0 rgba(255, 255, 255, 0.06);
-  transform-origin: 50% 100%;
-  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+    0 2px 0 #2d241c,
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.pet-seesaw--animate .pet-seesaw__beam {
-  animation: pet-beam-tilt 0.9s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
-}
-
-.pet-seesaw--tiny.pet-seesaw--animate .pet-seesaw__beam {
-  animation: pet-beam-tilt-tiny 0.6s ease-out forwards;
-}
-
-@keyframes pet-beam-tilt {
-  0% {
-    transform: rotate(0deg);
-  }
-  12% {
-    transform: rotate(calc(var(--tilt, 12deg) * -1));
-  }
-  55% {
-    transform: rotate(calc(var(--tilt, 12deg) * -0.35));
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes pet-beam-tilt-tiny {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  30% {
-    transform: rotate(-1.5deg);
-  }
-}
-
-.pet-seesaw__pad {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  flex: 0 0 auto;
-}
-
-.pet-seesaw__pad--left {
-  width: 38%;
-}
-
-.pet-seesaw__pad--right {
-  width: 48%;
-  align-items: center;
-}
-
-.pet-seesaw__label {
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #94a3b8;
-}
-
-.pet-seesaw__blob {
-  transform: scale(0.92);
-  transform-origin: 50% 100%;
-}
-
-.pet-seesaw__blob .blob-pet-wrap {
-  transform: scale(0.95);
-}
-
-.pet-seesaw--animate .pet-seesaw__blob .blob-pet {
-  animation: pet-blob-drop 0.85s cubic-bezier(0.34, 1.4, 0.64, 1);
-}
-
-@keyframes pet-blob-drop {
-  0% {
-    transform: scale(var(--blob-scale, 1)) translateY(0);
-  }
-  18% {
-    transform: scale(calc(var(--blob-scale, 1) * 0.92)) translateY(14px);
-  }
-  45% {
-    transform: scale(var(--blob-scale, 1)) translateY(0);
-  }
-  100% {
-    transform: scale(var(--blob-scale, 1)) translateY(0);
-  }
-}
-
-.pet-seesaw__pivot {
+.pet-seesaw__fulcrum {
   width: 0;
   height: 0;
-  border-left: 28px solid transparent;
-  border-right: 28px solid transparent;
-  border-bottom: 44px solid #475569;
-  margin-top: -2px;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+  border-left: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-bottom: 36px solid #64748b;
+  margin-top: -1px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
 }
 
-/* Person launch — uses --launch from inline style */
-.pet-seesaw--animate .pet-seesaw__person {
-  animation: pet-person-fly 0.95s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+/* Blob on board — bottom edge aligned to deck/plank seam (no translate into plank) */
+.pet-seesaw__blob-on-board {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  max-width: 100%;
 }
 
-.pet-seesaw--tiny.pet-seesaw--animate .pet-seesaw__person {
-  animation: pet-person-wiggle 0.55s ease-out forwards;
+.pet-seesaw__blob-on-board .blob-pet-wrap {
+  min-width: 0;
+  transform: scale(0.88);
+  transform-origin: 50% 100%;
 }
 
-@keyframes pet-person-fly {
+/* Falling blob — bottom aligned to plank; don’t use overflow:hidden here or the
+   upward translateY clips the top of the blob until it lands */
+.pet-seesaw__blob-fall {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 3;
+  overflow: visible;
+}
+
+.pet-seesaw__blob-fall-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transform-origin: 50% 100%;
+  animation: pet-blob-fall-in 1.85s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+.pet-seesaw--phase-animating.pet-seesaw--tiny .pet-seesaw__blob-fall-inner {
+  animation: pet-blob-fall-in-tiny 1.2s ease-out forwards;
+}
+
+.pet-seesaw__blob-fall .blob-pet-wrap {
+  min-width: 0;
+  transform: scale(0.88);
+  transform-origin: 50% 100%;
+}
+
+/* Wobble morphs border-radius; with a parent translateY it can look like the top is cut off */
+.pet-seesaw__blob-fall .blob-pet {
+  animation: none;
+}
+
+@keyframes pet-blob-fall-in {
   0% {
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateY(-150px);
+    opacity: 1;
   }
-  18% {
-    transform: translateX(-50%) translateY(0) scale(1);
-  }
-  42% {
-    transform: translateX(-50%) translateY(calc(-1 * var(--launch, 0px))) scale(1.08);
-  }
-  65% {
-    transform: translateX(-50%) translateY(calc(-0.4 * var(--launch, 0px))) scale(1);
+  30% {
+    transform: translateY(0);
+    opacity: 1;
   }
   100% {
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pet-blob-fall-in-tiny {
+  0% {
+    transform: translateY(-120px);
+    opacity: 1;
+  }
+  32% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Person launch — rise eases; descent to board uses linear timing (see keyframes) */
+.pet-seesaw--phase-animating:not(.pet-seesaw--tiny) .pet-seesaw__person {
+  animation: pet-person-pop 1.85s forwards;
+}
+
+.pet-seesaw--phase-animating.pet-seesaw--tiny .pet-seesaw__person {
+  animation: pet-person-wiggle 1.05s ease-out forwards;
+}
+
+@keyframes pet-person-pop {
+  0%,
+  28% {
+    transform: translateY(0) scale(1);
+    animation-timing-function: cubic-bezier(0.34, 1.2, 0.56, 1);
+  }
+  42% {
+    transform: translateY(calc(-1 * var(--launch, 80px))) scale(1.06);
+    /* From peak back to board: constant speed */
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes pet-person-wiggle {
   0%,
+  30% {
+    transform: translateY(0);
+  }
+  42% {
+    transform: translateY(-6px) rotate(-5deg);
+  }
+  58% {
+    transform: translateY(-2px) rotate(4deg);
+  }
   100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  25% {
-    transform: translateX(-50%) translateY(-4px) rotate(-4deg);
-  }
-  50% {
-    transform: translateX(-50%) translateY(0) rotate(3deg);
-  }
-  75% {
-    transform: translateX(-50%) translateY(-2px);
+    transform: translateY(0);
   }
 }
 
-.pet-play__actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-}
-
+/* Buttons */
 .pet-play__btn {
-  padding: 14px 28px;
+  padding: 14px 24px;
   border-radius: 14px;
   border: none;
   font: inherit;
@@ -241,22 +344,37 @@
   font-size: 1rem;
   cursor: pointer;
   color: #fff;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed, #db2777);
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
   box-shadow:
-    0 6px 24px rgba(79, 70, 229, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+    0 6px 20px rgba(79, 70, 229, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
   transition:
     transform 0.15s ease,
-    filter 0.15s ease;
+    filter 0.15s ease,
+    opacity 0.15s ease;
 }
 
-.pet-play__btn:hover {
+.pet-play__btn:hover:not(:disabled) {
   transform: translateY(-2px);
   filter: brightness(1.06);
 }
 
-.pet-play__btn:active {
+.pet-play__btn:active:not(:disabled) {
   transform: translateY(0);
+}
+
+.pet-play__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.pet-play__btn--secondary {
+  background: #334155;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.pet-play__btn--secondary:hover:not(:disabled) {
+  filter: brightness(1.08);
 }
 
 .pet-play__hint {
@@ -282,4 +400,31 @@
 
 .pet-play__hint--warn a:hover {
   text-decoration: underline;
+}
+
+/* Reduced motion: skip long animation */
+@media (prefers-reduced-motion: reduce) {
+  .pet-seesaw--phase-animating .pet-seesaw__beam-rot {
+    animation: none;
+    transform: rotate(var(--tilt-rest));
+  }
+
+  .pet-seesaw--phase-animating.pet-seesaw--tiny .pet-seesaw__beam-rot {
+    animation: none;
+    transform: rotate(var(--tilt-rest));
+  }
+
+  .pet-seesaw__blob-fall-inner {
+    animation: none;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .pet-seesaw--phase-animating:not(.pet-seesaw--tiny) .pet-seesaw__person {
+    animation: none;
+  }
+
+  .pet-seesaw--phase-animating.pet-seesaw--tiny .pet-seesaw__person {
+    animation: none;
+  }
 }

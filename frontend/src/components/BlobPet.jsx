@@ -13,6 +13,7 @@ import "./BlobPet.css";
  * @param {string} props.quip
  * @param {string} props.tierLabel
  * @param {boolean} [props.showQuip] — set false for compact / preview cards
+ * @param {boolean} [props.compactGround] — no large shadow below blob (flush on a surface, e.g. seesaw plank)
  */
 export default function BlobPet({
   hue,
@@ -24,19 +25,27 @@ export default function BlobPet({
   quip = "",
   tierLabel,
   showQuip = true,
+  compactGround = false,
 }) {
   const s = Math.min(2.75, Math.max(0.85, scale));
+
+  const inset = `inset -6px -10px 0 hsla(${hue}, ${Math.max(12, saturation - 8)}%, ${Math.max(18, lightness - 22)}%, 0.4)`;
+  const outer = compactGround
+    ? `0 1px 3px hsla(${hue}, 45%, 6%, 0.18)`
+    : `0 8px 24px hsla(${hue}, 50%, 8%, 0.45)`;
 
   const blobStyle = {
     "--blob-scale": String(s),
     background: `linear-gradient(145deg, hsl(${hue} ${saturation}% ${lightness + 10}%), hsl(${hue} ${saturation}% ${lightness - 6}%))`,
-    boxShadow: `inset -6px -10px 0 hsla(${hue}, ${Math.max(12, saturation - 8)}%, ${Math.max(18, lightness - 22)}%, 0.4), 0 8px 24px hsla(${hue}, 50%, 8%, 0.45)`,
+    boxShadow: `${inset}, ${outer}`,
   };
 
   return (
     <div className="blob-pet-wrap">
       <div
-        className={`blob-pet blob-pet--mood-${mood} blob-pet--react-${reaction}`}
+        className={`blob-pet blob-pet--mood-${mood} blob-pet--react-${reaction}${
+          compactGround ? " blob-pet--ground" : ""
+        }`}
         style={blobStyle}
       >
         <div className="blob-pet__shine" aria-hidden />

@@ -4,17 +4,26 @@ import BlobPet from "../components/BlobPet";
 import { getBlobColors, getRockAppearance } from "../utils/rockAppearance";
 import "./PetPage.css";
 
-/** Minimum XP before the seesaw launches you noticeably (blob ~1.12×). */
+/** Minimum XP before the seesaw launches you noticeably. */
 const MIN_XP_FOR_LAUNCH = 15;
+
+const PERSON_WEIGHT = 1;
 
 function clamp(n, min, max) {
   return Math.min(max, Math.max(min, n));
+}
+
+/** Positive = left (person) side down. */
+function tiltFromWeights(leftW, rightW, k = 9) {
+  return clamp(k * (leftW - rightW), -26, 26);
 }
 
 export default function PetPage({ totalXP, rockScale }) {
   const { scale } = getRockAppearance(totalXP, rockScale, { maxScale: 2.75 });
   const blobColors = getBlobColors(totalXP);
   const { tierLabel } = blobColors;
+
+  const blobWeight = scale;
 
   const blobVisualScale = useMemo(
     () => Math.min(1.6, Math.max(0.75, scale * 0.55)),
@@ -30,21 +39,56 @@ export default function PetPage({ totalXP, rockScale }) {
 
   const blobTooSmall = totalXP < MIN_XP_FOR_LAUNCH;
 
-  const [animKey, setAnimKey] = useState(0);
+  const tiltIdleDeg = useMemo(
+    () => tiltFromWeights(PERSON_WEIGHT, 0),
+    [],
+  );
+  const tiltRestDeg = useMemo(
+    () => tiltFromWeights(PERSON_WEIGHT, blobWeight),
+    [blobWeight],
+  );
+  /** Brief impact tilt — right side slams down. */
+  const tiltImpactDeg = useMemo(() => {
+    const towardRight = clamp(-12 - (blobWeight - 1) * 8, -32, -8);
+    return towardRight;
+  }, [blobWeight]);
 
-  const petTheBlob = useCallback(() => {
-    setAnimKey((k) => k + 1);
+  /** idle | animating | settled */
+  const [phase, setPhase] = useState("idle");
+
+  const handleDrop = useCallback(() => {
+    if (phase === "animating") return;
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setPhase("settled");
+      return;
+    }
+    setPhase("animating");
+  }, [phase]);
+
+  const handleBeamAnimationEnd = useCallback((e) => {
+    if (e.target !== e.currentTarget) return;
+    const name = e.animationName || "";
+    if (!name.includes("pet-beam-drop")) return;
+    setPhase("settled");
   }, []);
 
-  const beamTilt = blobTooSmall ? 2 : clamp(6 + (scale - 1) * 10, 8, 22);
+  const dropAgain = useCallback(() => {
+    setPhase("idle");
+  }, []);
+
+  const showBlobOnBoard = phase === "settled";
+  const showFallingBlob = phase === "animating";
 
   return (
     <>
       <header className="hero hero--page hero--compact">
         <h1>Pet playground</h1>
         <p>
-          Drop the blob on the seesaw — the bigger your blob (more XP), the higher
-          you fly.
+          Stand on the seesaw, then drop your blob — the bigger it is, the higher
+          you&apos;ll pop.
         </p>
       </header>
 
@@ -63,58 +107,102 @@ export default function PetPage({ totalXP, rockScale }) {
           </span>
         </div>
 
-        <div className="pet-play__stage" aria-live="polite">
-          <div
-            key={animKey}
-            className={`pet-seesaw${
-              animKey > 0 ? " pet-seesaw--animate" : ""
-            }${blobTooSmall ? " pet-seesaw--tiny" : ""}`}
-            style={{
-              "--launch": `${launchHeight}px`,
-              "--tilt": `${beamTilt}deg`,
-            }}
-          >
-            <div className="pet-seesaw__sky">
-              <div className="pet-seesaw__person" aria-hidden>
-                <span className="pet-seesaw__person-emoji">🧍</span>
-              </div>
-            </div>
-
-            <div className="pet-seesaw__beam-wrap">
-              <div className="pet-seesaw__beam">
-                <div className="pet-seesaw__pad pet-seesaw__pad--left">
-                  <span className="pet-seesaw__label">You</span>
-                </div>
-                <div className="pet-seesaw__pad pet-seesaw__pad--right">
-                  <span className="pet-seesaw__label">Blob</span>
-                  <div className="pet-seesaw__blob">
-                    <BlobPet
-                      hue={blobColors.hue}
-                      saturation={blobColors.saturation}
-                      lightness={blobColors.lightness}
-                      scale={blobVisualScale}
-                      mood="idle"
-                      reaction="none"
-                      quip=""
-                      tierLabel={tierLabel}
-                      showQuip={false}
-                    />
+        <div className="pet-play__row">
+          <div className="pet-play__stage" aria-live="polite">
+            <div
+              className={`pet-seesaw pet-seesaw--phase-${phase}${
+                blobTooSmall ? " pet-seesaw--tiny" : ""
+              }`}
+              style={{
+                "--tilt-idle": `${tiltIdleDeg}deg`,
+                "--tilt-rest": `${tiltRestDeg}deg`,
+                "--tilt-impact": `${tiltImpactDeg}deg`,
+                "--launch": `${launchHeight}px`,
+              }}
+            >
+              <div className="pet-seesaw__scale">
+                <div
+                  className="pet-seesaw__beam-rot"
+                  onAnimationEnd={handleBeamAnimationEnd}
+                >
+                  <div className="pet-seesaw__beam-inner">
+                    <div className="pet-seesaw__deck">
+                      <div className="pet-seesaw__end pet-seesaw__end--left">
+                        <span
+                          className="pet-seesaw__person"
+                          aria-hidden
+                        >
+                          🧍
+                        </span>
+                      </div>
+                      <div className="pet-seesaw__end pet-seesaw__end--right">
+                        {showBlobOnBoard ? (
+                          <div className="pet-seesaw__blob-on-board">
+                            <BlobPet
+                              hue={blobColors.hue}
+                              saturation={blobColors.saturation}
+                              lightness={blobColors.lightness}
+                              scale={blobVisualScale}
+                              mood="idle"
+                              reaction="none"
+                              quip=""
+                              tierLabel={tierLabel}
+                              showQuip={false}
+                              compactGround
+                            />
+                          </div>
+                        ) : (
+                          <span className="pet-seesaw__empty" aria-hidden />
+                        )}
+                      </div>
+                    </div>
+                    <div className="pet-seesaw__plank" aria-hidden />
                   </div>
+
+                  {showFallingBlob ? (
+                    <div className="pet-seesaw__blob-fall" aria-hidden>
+                      <div className="pet-seesaw__blob-fall-inner">
+                        <BlobPet
+                          hue={blobColors.hue}
+                          saturation={blobColors.saturation}
+                          lightness={blobColors.lightness}
+                          scale={blobVisualScale}
+                          mood="idle"
+                          reaction="none"
+                          quip=""
+                          tierLabel={tierLabel}
+                          showQuip={false}
+                          compactGround
+                        />
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
+
+                <div className="pet-seesaw__fulcrum" aria-hidden />
               </div>
-              <div className="pet-seesaw__pivot" aria-hidden />
             </div>
           </div>
-        </div>
 
-        <div className="pet-play__actions">
-          <button
-            type="button"
-            className="pet-play__btn"
-            onClick={petTheBlob}
-          >
-            Pet the blob — drop the rock!
-          </button>
+          <div className="pet-play__drop-col">
+            {phase === "settled" ? (
+              <button
+                type="button"
+                className="pet-play__btn pet-play__btn--secondary"
+                onClick={dropAgain}
+              >
+                Reset
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="pet-play__btn"
+              onClick={handleDrop}
+              disabled={phase === "animating"}
+            >
+              Drop
+            </button>
+          </div>
         </div>
 
         {blobTooSmall ? (
@@ -125,7 +213,8 @@ export default function PetPage({ totalXP, rockScale }) {
           </p>
         ) : (
           <p className="pet-play__hint">
-            Higher XP → bigger blob → heavier drop → you fly higher. Try again!
+            After the drop, the board tips toward whoever&apos;s heavier — you or
+            your blob.
           </p>
         )}
       </section>

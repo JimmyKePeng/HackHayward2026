@@ -19,6 +19,11 @@
   animation: blob-wobble 7s ease-in-out infinite;
 }
 
+/* Sit on a surface (seesaw): scale from bottom so the silhouette doesn’t dip below the line */
+.blob-pet--ground {
+  transform-origin: 50% 100%;
+}
+
 @keyframes blob-wobble {
   0%,
   100% {
