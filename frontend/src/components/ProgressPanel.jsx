@@ -10,6 +10,9 @@ function ProgressPanel({ totalXP, rockScale, rockAnchorRef }) {
       <p>
         <strong>Total XP:</strong> {totalXP}
       </p>
+      <p className="muted xp-lifetime-hint">
+        Lifetime total — removing quests from the list does not lower this.
+      </p>
       <p className="muted">
         <strong>Rarity:</strong> {tierLabel}
       </p>
@@ -35,7 +38,7 @@ function ProgressPanel({ totalXP, rockScale, rockAnchorRef }) {
       <p className="muted pet-rock-hint">
         Pet rock starts in the slot below — drag it anywhere on the screen. Position is saved.
       </p>
-
+      <div ref={rockAnchorRef} className="pet-rock-anchor" aria-hidden />
     </div>
   );
 }

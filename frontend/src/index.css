@@ -210,6 +210,11 @@ button:disabled {
   font-size: 0.9rem;
 }
 
+.xp-lifetime-hint {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+}
+
 .pet-rock-anchor {
   min-height: 200px;
   margin-top: 12px;

@@ -201,7 +201,10 @@ export function useQuestState() {
     });
   }
 
-  /** Remove a saved quest run from history; subtract XP earned from its completed tasks. */
+  /**
+   * Remove a saved quest run from history.
+   * Total XP is not reduced — it stays as your lifetime total (also in localStorage + backend file).
+   */
   function handleDeleteQuestRun(runId) {
     setAppState((prev) => {
       if (!prev) return prev;
@@ -210,15 +213,6 @@ export function useQuestState() {
       if (!run) return prev;
 
       const next = structuredClone(prev);
-
-      for (const quest of run.questline.quests ?? []) {
-        for (const subquest of quest.subquests ?? []) {
-          if (subquest.completed) {
-            next.totalXP -= subquest.xp;
-          }
-        }
-      }
-      next.totalXP = Math.max(0, next.totalXP);
 
       next.questHistory = next.questHistory.filter((r) => r.id !== runId);
 
@@ -231,7 +225,10 @@ export function useQuestState() {
     });
   }
 
-  /** Remove one quest from the active questline; subtract XP from its completed subquests. */
+  /**
+   * Remove one quest from the active questline.
+   * Total XP is unchanged — deleting quests does not take away earned XP.
+   */
   function handleDeleteQuestInActiveRun(questId) {
     setAppState((prev) => {
       if (!prev?.activeQuestRunId) return prev;
@@ -242,13 +239,6 @@ export function useQuestState() {
 
       const quest = run.questline.quests.find((q) => q.id === questId);
       if (!quest) return prev;
-
-      for (const subquest of quest.subquests) {
-        if (subquest.completed) {
-          next.totalXP -= subquest.xp;
-        }
-      }
-      next.totalXP = Math.max(0, next.totalXP);
 
       run.questline.quests = run.questline.quests.filter((q) => q.id !== questId);
 
