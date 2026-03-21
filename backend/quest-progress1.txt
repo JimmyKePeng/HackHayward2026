@@ -1,5 +1,5 @@
 {
-  "totalXP": 755,
+  "totalXP": 275,
   "questHistory": [
     {
       "id": "migrated-1774124542821",
@@ -201,35 +201,6 @@
         "quest_title": "The Enchanted Codex: Python Apprentice Questline",
         "quests": [
           {
-            "title": "Awaken the Ancient Scroll",
-            "difficulty": "easy",
-            "subquests": [
-              {
-                "title": "Install Python and VS Code as your magical forge",
-                "difficulty": "easy",
-                "id": "quest-1-sub-1",
-                "completed": true,
-                "xp": 5
-              },
-              {
-                "title": "Launch the Python REPL and cast your first 'Hello, World!' spell",
-                "difficulty": "easy",
-                "id": "quest-1-sub-2",
-                "completed": true,
-                "xp": 5
-              },
-              {
-                "title": "Watch a beginner tutorial intro (first 10 mins of Dave Gray or similar)",
-                "difficulty": "easy",
-                "id": "quest-1-sub-3",
-                "completed": true,
-                "xp": 5
-              }
-            ],
-            "id": "quest-1",
-            "completed": true
-          },
-          {
             "title": "Master the Runes of Variables and Data",
             "difficulty": "easy",
             "subquests": [
@@ -237,33 +208,33 @@
                 "title": "Declare variables: strings, numbers, and booleans like potion ingredients",
                 "difficulty": "easy",
                 "id": "quest-2-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Practice print statements to summon messages from the void",
                 "difficulty": "easy",
                 "id": "quest-2-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Experiment with basic operators (+, -, *, /) in the REPL",
                 "difficulty": "easy",
                 "id": "quest-2-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Complete a 'Hello, Adventurer!' program with user name input",
                 "difficulty": "easy",
                 "id": "quest-2-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               }
             ],
             "id": "quest-2",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Forge Paths with Conditions and Loops",
@@ -273,33 +244,33 @@
                 "title": "Learn if/else statements to choose quest paths",
                 "difficulty": "easy",
                 "id": "quest-3-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Master for and while loops to repeat incantations",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Build a simple 'Dragon Encounter' simulator with random choices",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Debug indentation errors like unraveling cursed scrolls",
                 "difficulty": "medium",
                 "id": "quest-3-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Summon Functions and Lists",
@@ -309,33 +280,33 @@
                 "title": "Define your first function: a spell to calculate mana",
                 "difficulty": "medium",
                 "id": "quest-4-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Work with lists as inventories of treasures",
                 "difficulty": "medium",
                 "id": "quest-4-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Create a function that processes a list of enemy health points",
                 "difficulty": "medium",
                 "id": "quest-4-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Add comments to your code like ancient runes of wisdom",
                 "difficulty": "easy",
                 "id": "quest-4-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               }
             ],
             "id": "quest-4",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Conquer the Python Dungeon Project",
@@ -345,26 +316,26 @@
                 "title": "Build a text-based adventure game with rooms, items, and choices",
                 "difficulty": "hard",
                 "id": "quest-5-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Incorporate loops, conditions, functions, and lists",
                 "difficulty": "hard",
                 "id": "quest-5-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Test and refine your game by playing it 3 times",
                 "difficulty": "hard",
                 "id": "quest-5-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               }
             ],
             "id": "quest-5",
-            "completed": true
+            "completed": false
           }
         ]
       }
@@ -375,180 +346,173 @@
       "userGoal": "i want to clean my room\n",
       "theme": "fantasy",
       "questline": {
-        "quest_title": "Dragon's Hoard Purification: Cleanse Your Enchanted Chamber",
+        "quest_title": "The Dragon's Hoard: Cleanse Your Enchanted Chamber",
         "quests": [
           {
             "title": "Enter the Dragon's Lair",
             "difficulty": "easy",
             "subquests": [
               {
-                "title": "Don your adventurer's garb: apron as armor, kerchief as hood",
+                "title": "Don your adventurer's garb (apron as armor, kerchief as hood)",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
-                "title": "Survey the hoard: make a simple map of clutter zones in your room",
+                "title": "Survey the hoard: Pick up 10 visible treasures or trash",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
-                "title": "Gather your tools: broom as enchanted staff, trash bag as treasure sack",
+                "title": "Sort the first pile: Separate junk from keepers",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": true,
-                "xp": 5
-              },
-              {
-                "title": "Clear the floor path: remove items blocking your way like defeating minor minions",
-                "difficulty": "easy",
-                "id": "quest-1-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               }
             ],
             "id": "quest-1",
-            "completed": true
+            "completed": false
           },
           {
-            "title": "Sort the Cursed Artifacts",
+            "title": "Sneak Past the Dragon's Traps",
             "difficulty": "medium",
             "subquests": [
               {
-                "title": "Identify trash curses: toss three broken or useless items",
+                "title": "Clear the floor: Remove 20 items from walking paths",
                 "difficulty": "easy",
                 "id": "quest-2-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
-                "title": "Find disguised treasures: sort three keepers into a 'magical relic' pile",
+                "title": "Disarm curses: Wipe dust from 3 surfaces with a magic cloth",
                 "difficulty": "medium",
                 "id": "quest-2-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
-                "title": "Neutralize dark energy: wipe dust from one surface with a cleansing ritual",
+                "title": "Identify artifacts: Organize clothes into keep, donate, discard piles",
                 "difficulty": "medium",
                 "id": "quest-2-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
-                "title": "Detect illusions: decide fate for three questionable items (keep, donate, discard)",
+                "title": "Bag the loot: Fill one bag with items for the charity realm",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Restore the Wizard's Tower",
             "difficulty": "medium",
             "subquests": [
               {
-                "title": "Polish the runes: clean one shelf or desk like revealing ancient spells",
+                "title": "Polish enchanted surfaces: Clean desk or shelves",
                 "difficulty": "easy",
                 "id": "quest-3-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
-                "title": "Organize potions: neatly stack books or clothes in their proper alcoves",
+                "title": "Arrange potions: Sort papers and books neatly",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
-                "title": "Sweep the enchanted floor: vacuum or sweep away the dust dragons",
-                "difficulty": "medium",
+                "title": "Make the bed: Invoke the spell of tidy repose",
+                "difficulty": "easy",
                 "id": "quest-3-sub-3",
-                "completed": true,
-                "xp": 10
+                "completed": false,
+                "xp": 5
               },
               {
-                "title": "Arrange the altar: make one spot beautiful, like a hero's display",
+                "title": "Vacuum the shadows: Suck away floor grime with your arcane broom",
                 "difficulty": "medium",
                 "id": "quest-3-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": true
+            "completed": false
           },
           {
-            "title": "Side Quest to the Fey Charity Portal",
+            "title": "Deliver Treasures to the Fey Merchant",
             "difficulty": "hard",
             "subquests": [
               {
-                "title": "Pack faerie gifts: bag up five donate-worthy items for the magical shop",
+                "title": "Prepare the tribute: Final sort of donate bag",
                 "difficulty": "medium",
                 "id": "quest-4-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
-                "title": "Transport the bounty: take bags to your door or car as offering to otherworldly beings",
+                "title": "Deep clean corners: Tackle hidden clutter spots",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
-                "title": "Seal the portal: return and confirm the room feels lighter and purified",
+                "title": "Claim your reward: Drop off donations (or plan for tomorrow)",
                 "difficulty": "hard",
                 "id": "quest-4-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 20
-              },
-              {
-                "title": "Claim your boon: reward yourself with a hero's rest or small treat",
-                "difficulty": "easy",
-                "id": "quest-4-sub-4",
-                "completed": true,
-                "xp": 5
               }
             ],
             "id": "quest-4",
-            "completed": true
+            "completed": false
           },
           {
-            "title": "Final Chamber Consecration",
+            "title": "Seal the Chamber's Magic",
             "difficulty": "hard",
             "subquests": [
               {
-                "title": "Inspect for hidden beasts: check under bed and furniture for stray clutter",
+                "title": "Final sweep: Check every surface for stray items",
                 "difficulty": "medium",
                 "id": "quest-5-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
-                "title": "Perform the great alignment: straighten all remaining items into harmony",
-                "difficulty": "hard",
+                "title": "Admire your glory: Arrange 3 decorative spots",
+                "difficulty": "easy",
                 "id": "quest-5-sub-2",
-                "completed": true,
-                "xp": 20
+                "completed": false,
+                "xp": 5
               },
               {
-                "title": "Invoke the cleaning fairy: give the room a final wipe-down glow-up",
-                "difficulty": "hard",
+                "title": "Log your epic: Note what you conquered for next quest",
+                "difficulty": "easy",
                 "id": "quest-5-sub-3",
-                "completed": true,
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Rest like a hero: Enjoy your purified realm",
+                "difficulty": "hard",
+                "id": "quest-5-sub-4",
+                "completed": false,
                 "xp": 20
               }
             ],
             "id": "quest-5",
-            "completed": true
+            "completed": false
           }
         ]
       }
@@ -569,33 +533,33 @@
                 "title": "Identify your first homework task and write it down as a mission objective",
                 "difficulty": "easy",
                 "id": "quest-2-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Set a 25-minute timer and complete one small homework section",
                 "difficulty": "medium",
                 "id": "quest-2-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Take a 5-minute nature break to recharge your energy",
                 "difficulty": "easy",
                 "id": "quest-2-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Repeat the cycle until one assignment is complete",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Master Real-World Problem Solving",
@@ -605,26 +569,26 @@
                 "title": "Connect one homework concept to something you observe in nature or the real world",
                 "difficulty": "medium",
                 "id": "quest-3-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Solve a challenging homework problem by breaking it into smaller steps",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Teach someone else what you learned to solidify your understanding",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Build Your Self-Reliance Streak",
@@ -634,26 +598,26 @@
                 "title": "Complete homework without checking your phone for 45 minutes",
                 "difficulty": "hard",
                 "id": "quest-4-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Attempt a difficult problem on your own before asking for help",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Finish all assigned homework before the deadline",
                 "difficulty": "hard",
                 "id": "quest-4-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               }
             ],
             "id": "quest-4",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Celebrate Your Victory",
@@ -663,30 +627,533 @@
                 "title": "Reflect on what you accomplished today",
                 "difficulty": "easy",
                 "id": "quest-5-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Reward yourself with outdoor time or a favorite activity",
                 "difficulty": "easy",
                 "id": "quest-5-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Plan tomorrow's homework adventure",
                 "difficulty": "easy",
                 "id": "quest-5-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               }
             ],
             "id": "quest-5",
-            "completed": true
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "adb8191c-8598-41af-bd2a-438635d9670c",
+      "createdAt": 1774132284524,
+      "userGoal": "i want to be a more patient driver",
+      "theme": "sci-fi",
+      "questline": {
+        "quest_title": "Pacific Patience Drive: Survive the Exclusion Zone",
+        "quests": [
+          {
+            "title": "Calibrate Your Starship Controls",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "During your next drive, breathe deeply for 5 counts before accelerating at green lights",
+                "difficulty": "easy",
+                "id": "quest-1-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Practice smooth steering: Avoid sudden lane changes, glide like through cosmic drift",
+                "difficulty": "easy",
+                "id": "quest-1-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Log 3 instances where you let a merging vehicle in without honking",
+                "difficulty": "easy",
+                "id": "quest-1-sub-3",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-1",
+            "completed": false
+          },
+          {
+            "title": "Navigate Anomalous Traffic Storms",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "In heavy traffic, count to 10 before passing slow drivers ahead",
+                "difficulty": "medium",
+                "id": "quest-2-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Use wipers or lights as 'shields' - toggle them calmly instead of honking at rain or fog",
+                "difficulty": "easy",
+                "id": "quest-2-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Spot 5 'mannequin dummies' (pedestrians/cars) and yield patiently without rushing",
+                "difficulty": "medium",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Journal one positive thought about a 'breacher' driver who cuts you off",
+                "difficulty": "medium",
+                "id": "quest-2-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Stabilize the Plasma Core (Rush Hour Run)",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "During peak hours, maintain steady speed without tailgating - create a 'force field' gap",
+                "difficulty": "medium",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "If stopped, activate 'radio voices': Hum a sci-fi tune instead of getting frustrated",
+                "difficulty": "easy",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Safely siphon 'fuel' patience: Let 3 cars go first at intersections",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Breacher Extraction Through the Wall",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "On a long commute, ignore road rage triggers - focus on 'zone mysteries' like scenery",
+                "difficulty": "hard",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Handle a frustrating delay (construction/accident) by planning an alternate 'warp route' calmly",
+                "difficulty": "hard",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Track full drive: Rate your patience 1-10, upgrade with one improvement for next run",
+                "difficulty": "hard",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Share your 'extraction log' with a friend for feedback on patient piloting",
+                "difficulty": "medium",
+                "id": "quest-4-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Upgrade to Zone Master Pilot",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Complete a 30-min drive with zero honks or gestures - earn 'anomaly shield' badge",
+                "difficulty": "hard",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Teach a passenger your breathing technique during a joint drive",
+                "difficulty": "medium",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Reflect: Review logs, identify patterns, set 'mid-zone' goal for next week",
+                "difficulty": "hard",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "60ff3bc7-65e0-47b7-8d1b-c3c8ae41cfe0",
+      "createdAt": 1774132734730,
+      "userGoal": "i want to loss weight",
+      "theme": "adventure",
+      "questline": {
+        "quest_title": "The Weight Loss Adventure: Quest for the Legendary Fitness Realm",
+        "quests": [
+          {
+            "title": "Explorer's Foundation - Build Your Base Camp",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Create Your Adventurer Avatar",
+                "difficulty": "easy",
+                "id": "quest-1-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Map Your Starting Territory - Track Current Weight & Measurements",
+                "difficulty": "easy",
+                "id": "quest-1-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Establish Daily Step Goals - Begin with 5,000 Steps",
+                "difficulty": "easy",
+                "id": "quest-1-sub-3",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Scout Nutrition - Log Your Meals for 3 Days",
+                "difficulty": "easy",
+                "id": "quest-1-sub-4",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-1",
+            "completed": false
+          },
+          {
+            "title": "Cardio Expeditions - Journey Through Active Lands",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Complete 3 Walking Adventures (20-30 minutes each)",
+                "difficulty": "medium",
+                "id": "quest-2-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Master Speed Play Intervals - 2 Workouts",
+                "difficulty": "medium",
+                "id": "quest-2-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Conquer Steady-State Endurance Walk",
+                "difficulty": "medium",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Strength Training Quests - Forge Your Power",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Complete 2 Beginner Strength Training Sessions",
+                "difficulty": "medium",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Build Core Stability - 3 Core-Focused Workouts",
+                "difficulty": "medium",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Progressive Resistance Challenge - Increase Difficulty by 1 Level",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Nutrition Mastery - Tame the Food Realm",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Track Daily Calories for 2 Weeks Consistently",
+                "difficulty": "medium",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Replace 5 High-Calorie Meals with Healthier Alternatives",
+                "difficulty": "medium",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Meal Prep Sunday - Prepare 3 Healthy Meals for the Week",
+                "difficulty": "medium",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Champion's Ascent - The Final Push to Victory",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Complete 4 Advanced Interval Training Sessions",
+                "difficulty": "hard",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Achieve 10,000 Daily Steps for 7 Consecutive Days",
+                "difficulty": "hard",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Reach Your First Weight Loss Milestone - Celebrate Victory",
+                "difficulty": "hard",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "d3a88166-69ee-4034-a190-2622de948fa2",
+      "createdAt": 1774133426362,
+      "userGoal": "beep boop",
+      "theme": "adventure",
+      "questline": {
+        "quest_title": "Beep Boop: The Robotic Awakening",
+        "quests": [
+          {
+            "title": "Awaken the Inner Robot",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Say 'beep boop' 10 times while stretching your arms like robot limbs",
+                "difficulty": "easy",
+                "id": "quest-1-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Stand still for 1 minute pretending to recharge",
+                "difficulty": "easy",
+                "id": "quest-1-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Scan your room by turning your head slowly and noting 5 objects aloud",
+                "difficulty": "easy",
+                "id": "quest-1-sub-3",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-1",
+            "completed": false
+          },
+          {
+            "title": "Assemble Your Adventure Kit",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Gather 3 household items to use as robot tools (e.g., spoon as laser)",
+                "difficulty": "easy",
+                "id": "quest-2-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Name each item with a robotic function and say it in a robot voice",
+                "difficulty": "easy",
+                "id": "quest-2-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Practice using one tool on a safe object for 30 seconds",
+                "difficulty": "easy",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Log your kit in a note app as 'Mission Gear Activated'",
+                "difficulty": "easy",
+                "id": "quest-2-sub-4",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Navigate the Circuit Maze",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Create a simple obstacle course in your space with pillows or tape",
+                "difficulty": "medium",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Walk the maze backwards while beeping at turns",
+                "difficulty": "medium",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Time yourself completing it 3 times and beat your best time",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Upgrade Your Systems",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Do 20 jumping jacks while chanting 'system upgrade in progress'",
+                "difficulty": "medium",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Drink a full glass of water as 'coolant fluid' and track how you feel",
+                "difficulty": "medium",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Meditate for 5 minutes visualizing circuits powering up",
+                "difficulty": "medium",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Journal one way you'll improve tomorrow like a robot update",
+                "difficulty": "medium",
+                "id": "quest-4-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Defeat the Glitch Boss",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Pick a tough habit (e.g., procrastination) as your 'glitch' and list 3 causes",
+                "difficulty": "hard",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Do 10 push-ups or squats per cause while declaring 'glitch terminated'",
+                "difficulty": "hard",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Set a 15-minute timer to work on fixing one cause right now",
+                "difficulty": "hard",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
           }
         ]
       }
     }
   ],
-  "activeQuestRunId": "migrated-1774124542821"
+  "activeQuestRunId": "d3a88166-69ee-4034-a190-2622de948fa2"
 }

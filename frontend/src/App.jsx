@@ -10,6 +10,7 @@ import {
 import PetRockFixed from "./components/PetRockFixed";
 import { ProgressReportModal } from "./components/ProgressReportModal";
 import HomePage from "./pages/HomePage";
+import PetPage from "./pages/PetPage";
 import QuestsPage from "./pages/QuestsPage";
 import ProgressPage from "./pages/ProgressPage";
 import { migrateAppState, useQuestState } from "./hooks/useQuestState";
@@ -190,6 +191,14 @@ function AppRoutes() {
             Quests
           </NavLink>
           <NavLink
+            to="/pet"
+            className={({ isActive }) =>
+              `app-nav__link${isActive ? " app-nav__link--active" : ""}`
+            }
+          >
+            Pet
+          </NavLink>
+          <NavLink
             to="/progress"
             className={({ isActive }) =>
               `app-nav__link${isActive ? " app-nav__link--active" : ""}`
@@ -221,6 +230,10 @@ function AppRoutes() {
                 onToggleSubquest={handleToggleSubquest}
               />
             }
+          />
+          <Route
+            path="/pet"
+            element={<PetPage totalXP={totalXP} rockScale={rockScale} />}
           />
           <Route
             path="/quests"

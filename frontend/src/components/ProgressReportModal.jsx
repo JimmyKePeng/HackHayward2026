@@ -34,8 +34,15 @@ export function ProgressReportModal({
         aria-modal="true"
         aria-labelledby="report-modal-title"
       >
+        <div className="report-modal__accent" aria-hidden />
         <div className="report-modal__header">
-          <h2 id="report-modal-title">Progress report</h2>
+          <div className="report-modal__title-block">
+            <span className="report-modal__badge">Archive</span>
+            <h2 id="report-modal-title">Progress report</h2>
+            <p className="report-modal__subtitle">
+              Full quest history · server export
+            </p>
+          </div>
           <button
             type="button"
             className="report-modal__close"
@@ -46,15 +53,22 @@ export function ProgressReportModal({
           </button>
         </div>
 
-        <p className="report-modal__intro">
-          Full quest history is stored in{" "}
-          <code>backend/quest-report-archive.json</code> (removed quests stay in
-          the report). Text export: <code>backend/progress-report.txt</code>.
-          Backend: {API_BASE_URL}
-        </p>
+        <div className="report-modal__intro-wrap">
+          <p className="report-modal__intro">
+            <strong className="report-modal__intro-strong">Stored files</strong> —{" "}
+            <code>quest-report-archive.json</code> keeps every run (even deleted
+            from the app). <code>progress-report.txt</code> is the latest text
+            snapshot. API: <span className="report-modal__api-pill">{API_BASE_URL}</span>
+          </p>
+        </div>
 
         <div className="report-modal__body-wrap">
-          {loading && <p className="report-modal__status">Loading report…</p>}
+          {loading && (
+            <div className="report-modal__loading" role="status">
+              <span className="report-modal__spinner" aria-hidden />
+              <span>Generating your report…</span>
+            </div>
+          )}
           {error && !loading && (
             <p className="report-modal__error">{error}</p>
           )}
@@ -64,8 +78,8 @@ export function ProgressReportModal({
         </div>
 
         <div className="report-modal__footer">
-          <button type="button" onClick={onClose}>
-            Close
+          <button type="button" className="report-modal__footer-btn" onClick={onClose}>
+            Done
           </button>
         </div>
       </div>

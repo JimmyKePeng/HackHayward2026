@@ -1,6 +1,6 @@
 # Gamified Self-Help Quest App
 
-Turn a real-life goal into an AI-generated **questline** (quests and subquests), earn **XP**, grow a **blob pet**, and keep a **progress report** — built for **HackHayward 2026** (or any self-help / productivity hackathon).
+Turn a real-life goal into an AI-generated **questline** (quests and subquests), earn **XP**, grow a **blob pet**, and keep a **progress report** — built for **HackHayward 2026 using Cursor**.
 
 ## Features
 
@@ -11,7 +11,7 @@ Turn a real-life goal into an AI-generated **questline** (quests and subquests),
 - **Regenerate** — Per quest run, **↻** re-rolls the questline with the **same goal & theme** (XP from completed tasks on that run is adjusted).
 - **Persistence** — State syncs to `localStorage` and the backend (`quest-progress.txt`).
 - **Progress report** — Separate archive (`quest-report-archive.json`) keeps **all** quest runs (including removed ones); **Get Report** writes `progress-report.txt` and shows it in a modal.
-- **Routes** — **Home** (focus + blob preview + XP bar), **Quests** (create, list, questline), **Progress** (full XP panel, blob anchor, report).
+- **Routes** — **Home** (focus + blob preview + XP bar), **Quests** (create, list, questline), **Pet** (seesaw mini-game — bigger blob = higher launch), **Progress** (full XP panel, blob anchor, report).
 
 ## Tech stack
 
@@ -126,7 +126,7 @@ HackHayward2026/
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx       # Routes, quest generation, report modal
-│   │   ├── pages/        # Home, Quests, Progress
+│   │   ├── pages/        # Home, Quests, Pet, Progress
 │   │   ├── components/   # Blob pet, panels, forms, etc.
 │   │   └── hooks/        # useQuestState (sync + XP)
 │   └── package.json
