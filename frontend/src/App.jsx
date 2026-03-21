@@ -1,15 +1,14 @@
 import { useState } from "react";
 import CreateQuestForm from "./components/CreateQuestForm";
-import ObjectivesPanel from "./components/ObjectivesPanel";
+import QuestListPanel from "./components/QuestListPanel";
 import ProgressPanel from "./components/ProgressPanel";
 import QuestlinePanel from "./components/QuestlinePanel";
-import { useQuestState } from "./hooks/useQuestState";
+import { migrateAppState, useQuestState } from "./hooks/useQuestState";
 
 function App() {
   const [goal, setGoal] = useState("");
   const [theme, setTheme] = useState("fantasy");
   const {
-    appState,
     loading,
     error,
     setError,
@@ -17,7 +16,10 @@ function App() {
     setLoading,
     handleToggleSubquest,
     clearStoredState,
-    todaysObjectives,
+    questHistory,
+    activeQuestRunId,
+    activeQuestRun,
+    setActiveQuestRunId,
     totalXP,
     rockScale,
   } = useQuestState();
@@ -42,8 +44,25 @@ function App() {
         throw new Error(data.error || "Failed to generate quest.");
       }
 
-      const previousXP = appState?.totalXP || 0;
-      setAppState({ ...data, totalXP: previousXP });
+      const newRun = {
+        id: crypto.randomUUID(),
+        createdAt: Date.now(),
+        userGoal: goal,
+        theme,
+        questline: data.questline,
+      };
+
+      setAppState((prev) => {
+        const migrated = prev
+          ? migrateAppState(prev)
+          : { totalXP: 0, questHistory: [], activeQuestRunId: null };
+        const previousXP = migrated.totalXP ?? 0;
+        return {
+          totalXP: previousXP,
+          questHistory: [...(migrated.questHistory ?? []), newRun],
+          activeQuestRunId: newRun.id,
+        };
+      });
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -83,10 +102,17 @@ function App() {
 
         <section className="dashboard-grid">
           <ProgressPanel totalXP={totalXP} rockScale={rockScale} />
-          <ObjectivesPanel todaysObjectives={todaysObjectives} />
+          <QuestListPanel
+            questHistory={questHistory}
+            activeQuestRunId={activeQuestRunId}
+            onSelectQuestRun={setActiveQuestRunId}
+          />
         </section>
 
-        <QuestlinePanel appState={appState} onToggleSubquest={handleToggleSubquest} />
+        <QuestlinePanel
+          activeQuestRun={activeQuestRun}
+          onToggleSubquest={handleToggleSubquest}
+        />
       </div>
     </div>
   );

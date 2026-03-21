@@ -140,8 +140,52 @@ button:disabled {
   gap: 12px;
 }
 
+.quest-header--toggle {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  border-radius: 8px;
+  outline-offset: 2px;
+}
+
+.quest-header--toggle:hover {
+  color: #e5e7eb;
+}
+
+.quest-header--toggle:focus-visible {
+  outline: 2px solid #2563eb;
+}
+
+.quest-header--toggle h3 {
+  flex: 1;
+  min-width: 0;
+}
+
+.quest-chevron {
+  flex-shrink: 0;
+  width: 1.25rem;
+  font-size: 0.7rem;
+  color: #94a3b8;
+  line-height: 1;
+}
+
+.quest-card--open .quest-chevron {
+  color: #cbd5e1;
+}
+
 .quest-header h3 {
   margin: 0;
+}
+
+.questline-hint {
+  margin: -8px 0 16px;
+  font-size: 0.85rem;
 }
 
 .badge {
@@ -180,6 +224,65 @@ button:disabled {
 .objective-list span,
 .muted {
   color: #94a3b8;
+}
+
+.quest-panel-sub {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+}
+
+.quest-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.quest-history-list li {
+  margin-bottom: 8px;
+}
+
+.quest-history-item {
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #374151;
+  background: #111827;
+  color: #f9fafb;
+  cursor: pointer;
+  font-weight: 600;
+  display: grid;
+  gap: 6px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.quest-history-item:hover {
+  border-color: #4b5563;
+  background: #1f2937;
+}
+
+.quest-history-item.selected {
+  border-color: #2563eb;
+  background: #1e3a5f;
+}
+
+.quest-history-title {
+  font-size: 1rem;
+  display: block;
+}
+
+.quest-history-meta {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #94a3b8;
+  display: block;
+}
+
+.questline-goal {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
 }
 
 .error {

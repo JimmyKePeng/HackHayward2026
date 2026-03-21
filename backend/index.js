@@ -5,12 +5,14 @@ import { promises as fs } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env from this folder (works even if you start Node from repo root)
+dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const PROGRESS_FILE = path.join(__dirname, "quest-progress.txt");
 
 app.use(cors());
@@ -21,8 +23,11 @@ const XP_MAP = {
     medium: 10,
     hard: 20,
 };
-const PERPLEXITY_API_URL = "https://api.perplexity.ai/chat/completions";
-const PERPLEXITY_MODEL = process.env.PERPLEXITY_MODEL || "sonar";
+// OpenAI-compatible base: must include /v1/chat/completions (not /chat/completions)
+const PERPLEXITY_API_URL =
+    process.env.PERPLEXITY_API_URL || "https://api.perplexity.ai/v1/sonar";
+// Docs often use sonar-pro; "sonar" may not be valid on all accounts
+const PERPLEXITY_MODEL = process.env.PERPLEXITY_MODEL || "sonar-pro";
 
 function addIdsAndXp(questline) {
     return {
@@ -102,10 +107,20 @@ function extractJsonObject(text) {
     }
 }
 
+function messageContentToString(content) {
+    if (typeof content === "string") return content;
+    if (Array.isArray(content)) {
+        return content
+            .map((part) => (typeof part?.text === "string" ? part.text : part?.content || ""))
+            .join("");
+    }
+    return "";
+}
+
 async function generateQuestlineWithPerplexity(goal, theme) {
-    const apiKey = process.env.PERPLEXITY_API_KEY;
+    const apiKey = process.env.PERPLEXITY_API_KEY?.trim();
     if (!apiKey) {
-        throw new Error("Missing PERPLEXITY_API_KEY in backend environment.");
+        throw new Error("Missing PERPLEXITY_API_KEY in backend .env (backend/index.js folder).");
     }
 
     const systemPrompt = [
@@ -150,11 +165,24 @@ async function generateQuestlineWithPerplexity(goal, theme) {
 
     const rawText = await response.text();
     if (!response.ok) {
-        throw new Error(`Perplexity API error (${response.status}): ${rawText}`);
+        let detail = rawText;
+        try {
+            const errJson = JSON.parse(rawText);
+            detail = errJson.error?.message || errJson.message || rawText;
+        } catch {
+            // keep rawText
+        }
+        throw new Error(`Perplexity API error (${response.status}): ${detail}`);
     }
 
-    const payload = JSON.parse(rawText);
-    const content = payload?.choices?.[0]?.message?.content;
+    let payload;
+    try {
+        payload = JSON.parse(rawText);
+    } catch {
+        throw new Error(`Perplexity returned non-JSON: ${rawText.slice(0, 200)}`);
+    }
+
+    const content = messageContentToString(payload?.choices?.[0]?.message?.content);
     const parsed = extractJsonObject(content);
 
     if (!parsed) {
@@ -225,7 +253,9 @@ app.post("/generate-quest", async (req, res) => {
         });
     } catch (error) {
         console.error("Error generating quest:", error);
-        res.status(500).json({ error: "Something went wrong." });
+        const message =
+            error instanceof Error ? error.message : "Something went wrong.";
+        res.status(500).json({ error: message });
     }
 });
 

@@ -1,0 +1,374 @@
+{
+  "totalXP": 0,
+  "questHistory": [
+    {
+      "id": "migrated-1774124542821",
+      "createdAt": 1774124542821,
+      "userGoal": "i want to learn css",
+      "theme": "fantasy",
+      "questline": {
+        "quest_title": "Arcane Codex Mastery: CSS Sorcerer's Journey",
+        "quests": [
+          {
+            "title": "Awaken the Scroll: CSS Basics",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Forge your first spellbook by linking a CSS file to an HTML scroll",
+                "difficulty": "easy",
+                "id": "quest-1-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Enchant the body with mystical background colors like papaya whip or gold",
+                "difficulty": "easy",
+                "id": "quest-1-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Invoke text colors using names, hex, or RGB potions on your ancient runes",
+                "difficulty": "easy",
+                "id": "quest-1-sub-3",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Test your incantations in the browser's crystal viewer",
+                "difficulty": "easy",
+                "id": "quest-1-sub-4",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-1",
+            "completed": false
+          },
+          {
+            "title": "Rune Weaver: Selectors & Fonts",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Summon selectors to target headers, paragraphs, and elven classes",
+                "difficulty": "medium",
+                "id": "quest-2-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Weave font families like Arial or Helvetica into your enchanted texts",
+                "difficulty": "medium",
+                "id": "quest-2-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Resize runes with font-size spells and align them with text-align",
+                "difficulty": "medium",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Create a fantasy cheat sheet page with body-wide enchantments",
+                "difficulty": "medium",
+                "id": "quest-2-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Shadowforge: Colors & Borders",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Master hex colors and RGB elixirs for dark grays and glowing blues",
+                "difficulty": "medium",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Craft borders around your spell cards with solid, dotted, or dragon-scale styles",
+                "difficulty": "medium",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Apply padding and margins to space your arcane elements like a wizard's tome",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Override cascade rules to layer colors on nested elements",
+                "difficulty": "medium",
+                "id": "quest-3-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Dragon's Lair Layout: Advanced Styling",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Build a mythical website folder with a hero section and fantasy navigation",
+                "difficulty": "hard",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Style links as glowing portals with hover effects and uppercase text",
+                "difficulty": "hard",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Position elements using float spells for a treasure map layout",
+                "difficulty": "hard",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Polish your dragon lair page with full styling and preview in Chrome",
+                "difficulty": "hard",
+                "id": "quest-4-sub-4",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Elder Scroll: Master the Cascade",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Experiment with inline, internal, and external CSS to understand priority",
+                "difficulty": "hard",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Create conflicting styles and resolve them with specificity runes",
+                "difficulty": "hard",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Design a complete fantasy portfolio page applying all prior spells",
+                "difficulty": "hard",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Share your enchanted creation and reflect on your sorcerer's progress",
+                "difficulty": "hard",
+                "id": "quest-5-sub-4",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "0f8cd863-ebc2-45c0-a7d1-7739bfecdec4",
+      "createdAt": 1774124580846,
+      "userGoal": "i want to learn python",
+      "theme": "fantasy",
+      "questline": {
+        "quest_title": "The Enchanted Codex: Python Apprentice Questline",
+        "quests": [
+          {
+            "title": "Awaken the Ancient Scroll",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Install Python and VS Code as your magical forge",
+                "difficulty": "easy",
+                "id": "quest-1-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Launch the Python REPL and cast your first 'Hello, World!' spell",
+                "difficulty": "easy",
+                "id": "quest-1-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Watch a beginner tutorial intro (first 10 mins of Dave Gray or similar)",
+                "difficulty": "easy",
+                "id": "quest-1-sub-3",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-1",
+            "completed": false
+          },
+          {
+            "title": "Master the Runes of Variables and Data",
+            "difficulty": "easy",
+            "subquests": [
+              {
+                "title": "Declare variables: strings, numbers, and booleans like potion ingredients",
+                "difficulty": "easy",
+                "id": "quest-2-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Practice print statements to summon messages from the void",
+                "difficulty": "easy",
+                "id": "quest-2-sub-2",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Experiment with basic operators (+, -, *, /) in the REPL",
+                "difficulty": "easy",
+                "id": "quest-2-sub-3",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Complete a 'Hello, Adventurer!' program with user name input",
+                "difficulty": "easy",
+                "id": "quest-2-sub-4",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-2",
+            "completed": false
+          },
+          {
+            "title": "Forge Paths with Conditions and Loops",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Learn if/else statements to choose quest paths",
+                "difficulty": "easy",
+                "id": "quest-3-sub-1",
+                "completed": false,
+                "xp": 5
+              },
+              {
+                "title": "Master for and while loops to repeat incantations",
+                "difficulty": "medium",
+                "id": "quest-3-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Build a simple 'Dragon Encounter' simulator with random choices",
+                "difficulty": "medium",
+                "id": "quest-3-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Debug indentation errors like unraveling cursed scrolls",
+                "difficulty": "medium",
+                "id": "quest-3-sub-4",
+                "completed": false,
+                "xp": 10
+              }
+            ],
+            "id": "quest-3",
+            "completed": false
+          },
+          {
+            "title": "Summon Functions and Lists",
+            "difficulty": "medium",
+            "subquests": [
+              {
+                "title": "Define your first function: a spell to calculate mana",
+                "difficulty": "medium",
+                "id": "quest-4-sub-1",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Work with lists as inventories of treasures",
+                "difficulty": "medium",
+                "id": "quest-4-sub-2",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Create a function that processes a list of enemy health points",
+                "difficulty": "medium",
+                "id": "quest-4-sub-3",
+                "completed": false,
+                "xp": 10
+              },
+              {
+                "title": "Add comments to your code like ancient runes of wisdom",
+                "difficulty": "easy",
+                "id": "quest-4-sub-4",
+                "completed": false,
+                "xp": 5
+              }
+            ],
+            "id": "quest-4",
+            "completed": false
+          },
+          {
+            "title": "Conquer the Python Dungeon Project",
+            "difficulty": "hard",
+            "subquests": [
+              {
+                "title": "Build a text-based adventure game with rooms, items, and choices",
+                "difficulty": "hard",
+                "id": "quest-5-sub-1",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Incorporate loops, conditions, functions, and lists",
+                "difficulty": "hard",
+                "id": "quest-5-sub-2",
+                "completed": false,
+                "xp": 20
+              },
+              {
+                "title": "Test and refine your game by playing it 3 times",
+                "difficulty": "hard",
+                "id": "quest-5-sub-3",
+                "completed": false,
+                "xp": 20
+              }
+            ],
+            "id": "quest-5",
+            "completed": false
+          }
+        ]
+      }
+    }
+  ],
+  "activeQuestRunId": "migrated-1774124542821"
+}

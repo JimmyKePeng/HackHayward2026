@@ -1,15 +1,53 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const STORAGE_KEY = "quest-app-state";
 const API_BASE_URL = "http://localhost:3001";
+const EMPTY_QUEST_HISTORY = [];
+
+export function migrateAppState(raw) {
+  if (!raw || typeof raw !== "object") return null;
+
+  if (Array.isArray(raw.questHistory) && raw.questHistory.length > 0) {
+    return {
+      totalXP: raw.totalXP ?? 0,
+      questHistory: raw.questHistory,
+      activeQuestRunId:
+        raw.activeQuestRunId ??
+        raw.questHistory[raw.questHistory.length - 1]?.id ??
+        null,
+    };
+  }
+
+  if (raw.questline?.quests?.length) {
+    const id = `migrated-${Date.now()}`;
+    return {
+      totalXP: raw.totalXP ?? 0,
+      questHistory: [
+        {
+          id,
+          createdAt: Date.now(),
+          userGoal: raw.userGoal ?? "",
+          theme: raw.theme ?? "fantasy",
+          questline: raw.questline,
+        },
+      ],
+      activeQuestRunId: id,
+    };
+  }
+
+  return {
+    totalXP: raw.totalXP ?? 0,
+    questHistory: [],
+    activeQuestRunId: null,
+  };
+}
 
 export function useQuestState() {
   const [appState, setAppState] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return null;
-
     try {
-      return JSON.parse(saved);
+      return migrateAppState(JSON.parse(saved));
     } catch {
       localStorage.removeItem(STORAGE_KEY);
       return null;
@@ -29,7 +67,7 @@ export function useQuestState() {
 
         const data = await res.json();
         if (isMounted && data?.appState) {
-          setAppState(data.appState);
+          setAppState(migrateAppState(data.appState));
         }
       } catch {
         // Backend persistence is best-effort; local storage still works.
@@ -74,27 +112,30 @@ export function useQuestState() {
   const totalXP = appState?.totalXP || 0;
   const rockScale = 1 + totalXP / 100;
 
-  const todaysObjectives = useMemo(() => {
-    if (!appState?.questline?.quests) return [];
-    return appState.questline.quests
-      .flatMap((quest) =>
-        quest.subquests
-          .filter((subquest) => !subquest.completed)
-          .map((subquest) => ({
-            ...subquest,
-            questTitle: quest.title,
-          }))
-      )
-      .slice(0, 5);
-  }, [appState]);
+  const questHistory = appState?.questHistory ?? EMPTY_QUEST_HISTORY;
+  const activeQuestRunId = appState?.activeQuestRunId ?? null;
+
+  const activeQuestRun = useMemo(() => {
+    if (!activeQuestRunId || !questHistory.length) return null;
+    return questHistory.find((r) => r.id === activeQuestRunId) ?? null;
+  }, [questHistory, activeQuestRunId]);
+
+  const setActiveQuestRunId = useCallback((id) => {
+    setAppState((prev) => {
+      if (!prev) return prev;
+      return { ...prev, activeQuestRunId: id };
+    });
+  }, []);
 
   function handleToggleSubquest(questId, subquestId) {
     setAppState((prev) => {
-      if (!prev) return prev;
+      if (!prev?.activeQuestRunId) return prev;
 
       const next = structuredClone(prev);
+      const run = next.questHistory.find((r) => r.id === next.activeQuestRunId);
+      if (!run?.questline?.quests) return prev;
 
-      for (const quest of next.questline.quests) {
+      for (const quest of run.questline.quests) {
         if (quest.id !== questId) continue;
 
         for (const subquest of quest.subquests) {
@@ -134,7 +175,10 @@ export function useQuestState() {
     setLoading,
     handleToggleSubquest,
     clearStoredState,
-    todaysObjectives,
+    questHistory,
+    activeQuestRunId,
+    activeQuestRun,
+    setActiveQuestRunId,
     totalXP,
     rockScale,
   };
