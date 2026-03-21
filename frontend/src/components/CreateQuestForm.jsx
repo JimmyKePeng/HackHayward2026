@@ -2,12 +2,10 @@ function CreateQuestForm({
   goal,
   theme,
   loading,
-  reportLoading,
   onGoalChange,
   onThemeChange,
   onGenerate,
   onReset,
-  onGetReport,
   onUncheckAll,
   onCheckAll,
   canBulkToggleQuests,
@@ -41,16 +39,6 @@ function CreateQuestForm({
 
         <button type="button" className="secondary" onClick={onReset}>
           Reset Everything
-        </button>
-
-        <button
-          type="button"
-          className="secondary"
-          onClick={onGetReport}
-          disabled={reportLoading}
-          title="Save a text report on the server and view it here"
-        >
-          {reportLoading ? "Loading…" : "Get Report"}
         </button>
 
         <button

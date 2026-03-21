@@ -1,16 +1,24 @@
 import { useRef, useState } from "react";
-import CreateQuestForm from "./components/CreateQuestForm";
-import QuestListPanel from "./components/QuestListPanel";
-import ProgressPanel from "./components/ProgressPanel";
-import QuestlinePanel from "./components/QuestlinePanel";
+import {
+  BrowserRouter,
+  Navigate,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import PetRockFixed from "./components/PetRockFixed";
 import { ProgressReportModal } from "./components/ProgressReportModal";
+import HomePage from "./pages/HomePage";
+import QuestsPage from "./pages/QuestsPage";
+import ProgressPage from "./pages/ProgressPage";
 import { migrateAppState, useQuestState } from "./hooks/useQuestState";
 
 const API_BASE_URL = "http://localhost:3001";
 
-function App() {
+function AppRoutes() {
   const rockAnchorRef = useRef(null);
+  const location = useLocation();
   const [goal, setGoal] = useState("");
   const [theme, setTheme] = useState("fantasy");
   const [reportOpen, setReportOpen] = useState(false);
@@ -37,6 +45,9 @@ function App() {
     totalXP,
     rockScale,
   } = useQuestState();
+
+  const activeQuestTitle =
+    activeQuestRun?.questline?.quest_title?.trim() || "";
 
   async function handleGenerate(e) {
     e.preventDefault();
@@ -115,60 +126,111 @@ function App() {
     }
   }
 
+  const showOffscreenAnchor = location.pathname !== "/progress";
+
   return (
     <div className="app-shell">
       <PetRockFixed
+        key={location.pathname}
         totalXP={totalXP}
         rockScale={rockScale}
         anchorRef={rockAnchorRef}
       />
-      <div className="container">
-        <header className="hero">
-          <h1>Gamified Self-Help Quest App</h1>
-          <p>Turn one real goal into quests, XP, and a growing pet rock.</p>
-        </header>
 
-        <section className="panel">
-          <h2>Create Your Quest</h2>
-          <CreateQuestForm
-            goal={goal}
-            theme={theme}
-            loading={loading}
-            reportLoading={reportLoading}
-            onGoalChange={setGoal}
-            onThemeChange={setTheme}
-            onGenerate={handleGenerate}
-            onReset={handleReset}
-            onGetReport={handleGetReport}
-            onUncheckAll={handleUncheckAllInActiveRun}
-            onCheckAll={handleCheckAllInActiveRun}
-            canBulkToggleQuests={Boolean(
-              activeQuestRun?.questline?.quests?.some((q) => q.subquests?.length)
-            )}
-          />
-          {error && <p className="error">{error}</p>}
-        </section>
+      <nav className="app-nav" aria-label="Main">
+        <span className="app-nav__brand">Quest App</span>
+        <div className="app-nav__links">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `app-nav__link${isActive ? " app-nav__link--active" : ""}`
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/quests"
+            className={({ isActive }) =>
+              `app-nav__link${isActive ? " app-nav__link--active" : ""}`
+            }
+          >
+            Quests
+          </NavLink>
+          <NavLink
+            to="/progress"
+            className={({ isActive }) =>
+              `app-nav__link${isActive ? " app-nav__link--active" : ""}`
+            }
+          >
+            Progress
+          </NavLink>
+        </div>
+      </nav>
 
-        <section className="dashboard-grid">
-          <ProgressPanel
-            totalXP={totalXP}
-            rockScale={rockScale}
-            rockAnchorRef={rockAnchorRef}
-          />
-          <QuestListPanel
-            questHistory={questHistory}
-            activeQuestRunId={activeQuestRunId}
-            onSelectQuestRun={setActiveQuestRunId}
-            onDeleteQuestRun={handleDeleteQuestRun}
-          />
-        </section>
-
-        <QuestlinePanel
-          key={activeQuestRunId ?? "none"}
-          activeQuestRun={activeQuestRun}
-          onToggleSubquest={handleToggleSubquest}
-          onDeleteQuest={handleDeleteQuestInActiveRun}
+      {showOffscreenAnchor ? (
+        <div
+          ref={rockAnchorRef}
+          className="pet-rock-anchor pet-rock-anchor--offscreen"
+          aria-hidden
         />
+      ) : null}
+
+      <div className="container">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                totalXP={totalXP}
+                questCount={questHistory.length}
+                activeQuestTitle={activeQuestTitle}
+              />
+            }
+          />
+          <Route
+            path="/quests"
+            element={
+              <QuestsPage
+                goal={goal}
+                theme={theme}
+                loading={loading}
+                error={error}
+                onGoalChange={setGoal}
+                onThemeChange={setTheme}
+                onGenerate={handleGenerate}
+                onReset={handleReset}
+                onUncheckAll={handleUncheckAllInActiveRun}
+                onCheckAll={handleCheckAllInActiveRun}
+                canBulkToggleQuests={Boolean(
+                  activeQuestRun?.questline?.quests?.some((q) =>
+                    q.subquests?.length,
+                  ),
+                )}
+                questHistory={questHistory}
+                activeQuestRunId={activeQuestRunId}
+                activeQuestRun={activeQuestRun}
+                onSelectQuestRun={setActiveQuestRunId}
+                onDeleteQuestRun={handleDeleteQuestRun}
+                onToggleSubquest={handleToggleSubquest}
+                onDeleteQuestInActiveRun={handleDeleteQuestInActiveRun}
+              />
+            }
+          />
+          <Route
+            path="/progress"
+            element={
+              <ProgressPage
+                rockAnchorRef={rockAnchorRef}
+                totalXP={totalXP}
+                rockScale={rockScale}
+                onGetReport={handleGetReport}
+                reportLoading={reportLoading}
+              />
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </div>
 
       <ProgressReportModal
@@ -182,4 +244,10 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
+}

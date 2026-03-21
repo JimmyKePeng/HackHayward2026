@@ -16,14 +16,14 @@
                 "title": "Forge your first spellbook by linking a CSS file to an HTML scroll",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Enchant the body with mystical background colors like papaya whip or gold",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {

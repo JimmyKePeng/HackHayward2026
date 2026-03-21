@@ -6,7 +6,7 @@ function ProgressPanel({ totalXP, rockScale, rockAnchorRef }) {
 
   return (
     <div className="panel">
-      <h2>Progress</h2>
+      <h2>XP &amp; rarity</h2>
       <p>
         <strong>Total XP:</strong> {totalXP}
       </p>
@@ -36,7 +36,8 @@ function ProgressPanel({ totalXP, rockScale, rockAnchorRef }) {
       </div>
 
       <p className="muted pet-rock-hint">
-        Your blob pet starts in the slot below — drag it anywhere. Tap without dragging to boop.
+        Your blob starts in the slot below — drag it anywhere. Tap without
+        dragging to boop.
       </p>
       <div ref={rockAnchorRef} className="pet-rock-anchor" aria-hidden />
     </div>

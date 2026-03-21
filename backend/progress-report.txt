@@ -1,11 +1,11 @@
 === Gamified Self-Help Quest — Progress Report ===
-Generated (UTC): 2026-03-21T21:43:03.316Z
+Generated (UTC): 2026-03-21T21:50:45.422Z
 
 Quest history is stored separately from your active list. Quests you remove from the app
 remain below as their last saved snapshot.
 
 --- Summary ---
-Total XP (lifetime, current): 495
+Total XP (lifetime, current): 505
 Quest runs in report archive: 4
 
 --- All quest runs (4) ---
@@ -13,7 +13,7 @@ Quest runs in report archive: 4
 [1] Arcane Codex Mastery: CSS Sorcerer's Journey
     Goal: i want to learn css
     Created: 2026-03-21T20:22:22.821Z
-    Tasks done: 0 / 20
+    Tasks done: 2 / 20
     (currently selected in app)
 
 [2] The Enchanted Codex: Python Apprentice Questline
