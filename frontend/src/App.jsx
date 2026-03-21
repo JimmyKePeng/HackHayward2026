@@ -1,121 +1,232 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect, useMemo, useState } from "react";
+
+const STORAGE_KEY = "quest-app-state";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [goal, setGoal] = useState("");
+  const [theme, setTheme] = useState("fantasy");
+  const [appState, setAppState] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setAppState(JSON.parse(saved));
+      } catch {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (appState) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+    }
+  }, [appState]);
+
+  const totalXP = appState?.totalXP || 0;
+  const rockScale = 1 + totalXP / 100;
+
+  const todaysObjectives = useMemo(() => {
+    if (!appState?.questline?.quests) return [];
+    return appState.questline.quests
+      .flatMap((quest) =>
+        quest.subquests
+          .filter((subquest) => !subquest.completed)
+          .map((subquest) => ({
+            ...subquest,
+            questTitle: quest.title,
+          }))
+      )
+      .slice(0, 5);
+  }, [appState]);
+
+  async function handleGenerate(e) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:3001/generate-quest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ goal, theme }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to generate quest.");
+      }
+
+      setAppState(data);
+    } catch (err) {
+      setError(err.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleToggleSubquest(questId, subquestId) {
+    setAppState((prev) => {
+      if (!prev) return prev;
+
+      const next = structuredClone(prev);
+
+      for (const quest of next.questline.quests) {
+        if (quest.id !== questId) continue;
+
+        for (const subquest of quest.subquests) {
+          if (subquest.id !== subquestId) continue;
+
+          if (!subquest.completed) {
+            subquest.completed = true;
+            next.totalXP += subquest.xp;
+          } else {
+            subquest.completed = false;
+            next.totalXP -= subquest.xp;
+          }
+        }
+
+        quest.completed = quest.subquests.every((sq) => sq.completed);
+      }
+
+      return next;
+    });
+  }
+
+  function handleReset() {
+    localStorage.removeItem(STORAGE_KEY);
+    setAppState(null);
+    setGoal("");
+    setTheme("fantasy");
+    setError("");
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-shell">
+      <div className="container">
+        <header className="hero">
+          <h1>Gamified Self-Help Quest App</h1>
+          <p>Turn one real goal into quests, XP, and a growing pet rock.</p>
+        </header>
 
-      <div className="ticks"></div>
+        <section className="panel">
+          <h2>Create Your Quest</h2>
+          <form onSubmit={handleGenerate} className="form">
+            <label>
+              Goal
+              <textarea
+                value={goal}
+                onChange={(e) => setGoal(e.target.value)}
+                placeholder="Example: I want to stop procrastinating on homework"
+                rows={4}
+                required
+              />
+            </label>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+            <label>
+              Theme
+              <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+                <option value="fantasy">Fantasy</option>
+                <option value="sci-fi">Sci-Fi</option>
+                <option value="adventure">Adventure</option>
+              </select>
+            </label>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+            <div className="button-row">
+              <button type="submit" disabled={loading}>
+                {loading ? "Generating..." : "Generate Quest"}
+              </button>
+
+              <button type="button" className="secondary" onClick={handleReset}>
+                Reset
+              </button>
+            </div>
+          </form>
+
+          {error && <p className="error">{error}</p>}
+        </section>
+
+        <section className="dashboard-grid">
+          <div className="panel">
+            <h2>Progress</h2>
+            <p><strong>Total XP:</strong> {totalXP}</p>
+            <div className="rock-area">
+              <div
+                className="rock"
+                style={{ transform: `scale(${rockScale})` }}
+                title="Pet Rock"
+              />
+            </div>
+            <p className="muted">Your rock grows as XP increases.</p>
+          </div>
+
+          <div className="panel">
+            <h2>Today's Objectives</h2>
+            {todaysObjectives.length === 0 ? (
+              <p className="muted">No active tasks yet.</p>
+            ) : (
+              <ul className="objective-list">
+                {todaysObjectives.map((task) => (
+                  <li key={task.id}>
+                    <strong>{task.title}</strong>
+                    <span>{task.questTitle}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
+
+        <section className="panel">
+          <h2>Questline</h2>
+
+          {!appState?.questline ? (
+            <p className="muted">Generate a quest to begin.</p>
+          ) : (
+            <>
+              <p className="quest-title">{appState.questline.quest_title}</p>
+
+              <div className="quest-list">
+                {appState.questline.quests.map((quest) => (
+                  <div key={quest.id} className="quest-card">
+                    <div className="quest-header">
+                      <h3>{quest.title}</h3>
+                      <span className="badge">{quest.difficulty}</span>
+                    </div>
+
+                    <ul className="subquest-list">
+                      {quest.subquests.map((subquest) => (
+                        <li key={subquest.id} className="subquest-item">
+                          <label>
+                            <input
+                              type="checkbox"
+                              checked={subquest.completed}
+                              onChange={() =>
+                                handleToggleSubquest(quest.id, subquest.id)
+                              }
+                            />
+                            <span>
+                              {subquest.title} (+{subquest.xp} XP)
+                            </span>
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </section>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
