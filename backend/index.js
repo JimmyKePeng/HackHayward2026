@@ -457,6 +457,30 @@ app.post("/generate-quest", async (req, res) => {
     }
 });
 
+/**
+ * Same AI generation as /generate-quest, but only returns the new questline.
+ * Use the original run's userGoal + theme so the new line matches the same intent/style.
+ */
+app.post("/regenerate-quest", async (req, res) => {
+    try {
+        const { goal, theme } = req.body;
+
+        if (!goal || !theme) {
+            return res.status(400).json({ error: "Goal and theme are required." });
+        }
+
+        const generatedQuestline = await generateQuestlineWithPerplexity(goal, theme);
+        const questline = addIdsAndXp(generatedQuestline);
+
+        res.json({ questline });
+    } catch (error) {
+        console.error("Error regenerating quest:", error);
+        const message =
+            error instanceof Error ? error.message : "Something went wrong.";
+        res.status(500).json({ error: message });
+    }
+});
+
 /** If the archive is empty but quest-progress.txt exists, import runs once (existing installs). */
 async function bootstrapArchiveFromProgressIfNeeded() {
     try {

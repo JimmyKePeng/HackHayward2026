@@ -19,6 +19,8 @@ export default function QuestsPage({
   activeQuestRun,
   onSelectQuestRun,
   onDeleteQuestRun,
+  onRegenerateQuestRun,
+  regeneratingRunId,
   onToggleSubquest,
   onDeleteQuestInActiveRun,
 }) {
@@ -52,6 +54,8 @@ export default function QuestsPage({
           activeQuestRunId={activeQuestRunId}
           onSelectQuestRun={onSelectQuestRun}
           onDeleteQuestRun={onDeleteQuestRun}
+          onRegenerateQuestRun={onRegenerateQuestRun}
+          regeneratingRunId={regeneratingRunId}
         />
       </section>
 

@@ -226,6 +226,29 @@ export function useQuestState() {
   }
 
   /**
+   * Replace a run's questline (e.g. after AI regenerate). Subtracts XP earned from
+   * completed tasks in the old line so lifetime total stays consistent.
+   */
+  const replaceQuestRunQuestline = useCallback((runId, newQuestline) => {
+    setAppState((prev) => {
+      if (!prev) return prev;
+      const next = structuredClone(prev);
+      const run = next.questHistory.find((r) => r.id === runId);
+      if (!run) return prev;
+
+      let earnedFromRun = 0;
+      for (const q of run.questline?.quests ?? []) {
+        for (const sq of q.subquests ?? []) {
+          if (sq.completed) earnedFromRun += sq.xp ?? 0;
+        }
+      }
+      next.totalXP = Math.max(0, (next.totalXP ?? 0) - earnedFromRun);
+      run.questline = newQuestline;
+      return next;
+    });
+  }, []);
+
+  /**
    * Remove one quest from the active questline.
    * Total XP is unchanged — deleting quests does not take away earned XP.
    */
@@ -266,6 +289,7 @@ export function useQuestState() {
     handleUncheckAllInActiveRun,
     handleCheckAllInActiveRun,
     handleDeleteQuestRun,
+    replaceQuestRunQuestline,
     handleDeleteQuestInActiveRun,
     clearStoredState,
     questHistory,

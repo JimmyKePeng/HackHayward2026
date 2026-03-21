@@ -35,11 +35,11 @@ function ProgressPanel({ totalXP, rockScale, rockAnchorRef }) {
         </p>
       </div>
 
-      <p className="muted pet-rock-hint">
+      {/* <p className="muted pet-rock-hint">
         Your blob starts in the slot below — drag it anywhere. Tap without
         dragging to boop.
       </p>
-      <div ref={rockAnchorRef} className="pet-rock-anchor" aria-hidden />
+      <div ref={rockAnchorRef} className="pet-rock-anchor" aria-hidden /> */}
     </div>
   );
 }

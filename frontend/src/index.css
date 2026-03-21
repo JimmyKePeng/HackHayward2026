@@ -157,6 +157,160 @@ select {
   background: #4b5563;
 }
 
+/* Home dashboard: Today's focus, then Your blob (vertical stack) */
+.home-dashboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.home-card h2 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.home-focus__text {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.home-focus__text a,
+.home-focus__goal a {
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+.home-focus__goal {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+}
+
+.home-focus__badge {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.home-focus__next-label {
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+
+.home-focus__next-task {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #f1f5f9;
+}
+
+.home-focus__meta {
+  margin: 0 0 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.home-focus__progress {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.home-pet-card__sub {
+  margin: -4px 0 12px;
+  font-size: 0.82rem;
+}
+
+.home-pet-card__peek-label {
+  margin: 0 0 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.home-pet-card__pills {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.home-pet-card__pills li {
+  flex: 1 1 80px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #111827;
+  border: 1px solid #374151;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.home-pet-card__pill-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.home-pet-card__pill-value {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f9fafb;
+}
+
+.home-pet-card__tier-progress {
+  margin-top: 4px;
+  margin-bottom: 14px;
+}
+
+.home-pet-card__blob {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 140px;
+  margin-bottom: 8px;
+}
+
+.home-pet-card__blob .blob-pet-wrap {
+  transform: scale(0.95);
+}
+
+.home-pet-card__caption {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: #cbd5e1;
+  text-align: center;
+}
+
+.home-pet-card__link {
+  display: block;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+.home-pet-card__link:hover {
+  text-decoration: underline;
+}
+
 .panel {
   background: #1f2937;
   border: 1px solid #374151;
@@ -645,6 +799,31 @@ button:disabled {
   flex: 1;
   min-width: 0;
   width: auto;
+}
+
+.quest-history-regenerate {
+  flex-shrink: 0;
+  width: 42px;
+  border-radius: 10px;
+  border: 1px solid #1d4ed8;
+  background: #172554;
+  color: #93c5fd;
+  font-size: 1.15rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.quest-history-regenerate:hover:not(:disabled) {
+  background: #1e3a8a;
+  border-color: #3b82f6;
+  color: #dbeafe;
+}
+
+.quest-history-regenerate:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .quest-history-delete {

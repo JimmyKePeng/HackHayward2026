@@ -12,7 +12,14 @@ function formatWhen(ts) {
   }
 }
 
-function QuestListPanel({ questHistory, activeQuestRunId, onSelectQuestRun, onDeleteQuestRun }) {
+function QuestListPanel({
+  questHistory,
+  activeQuestRunId,
+  onSelectQuestRun,
+  onDeleteQuestRun,
+  onRegenerateQuestRun,
+  regeneratingRunId,
+}) {
   const sorted = [...questHistory].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
   return (
@@ -20,6 +27,8 @@ function QuestListPanel({ questHistory, activeQuestRunId, onSelectQuestRun, onDe
       <h2>Quest</h2>
       <p className="muted quest-panel-sub">
         Each time you generate, a new quest is added here. Click one to open it below.
+        Use <strong>↻</strong> to regenerate with the <strong>same goal &amp; theme</strong> (new
+        AI questline).
       </p>
       {sorted.length === 0 ? (
         <p className="muted">No quests yet. Generate one to get started.</p>
@@ -40,6 +49,19 @@ function QuestListPanel({ questHistory, activeQuestRunId, onSelectQuestRun, onDe
                     {run.userGoal ? `${run.userGoal.slice(0, 48)}${run.userGoal.length > 48 ? "…" : ""}` : "—"}
                     {run.createdAt ? ` · ${formatWhen(run.createdAt)}` : ""}
                   </span>
+                </button>
+                <button
+                  type="button"
+                  className="quest-history-regenerate"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRegenerateQuestRun(run.id);
+                  }}
+                  disabled={regeneratingRunId === run.id}
+                  aria-label={`Regenerate quest with same goal and theme: ${title}`}
+                  title="Regenerate questline (same goal & theme) via AI"
+                >
+                  {regeneratingRunId === run.id ? "…" : "↻"}
                 </button>
                 <button
                   type="button"

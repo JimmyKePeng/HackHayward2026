@@ -12,6 +12,7 @@ import "./BlobPet.css";
  * @param {"none"|"xp"|"tier"|"celebrate"|"boop"} props.reaction
  * @param {string} props.quip
  * @param {string} props.tierLabel
+ * @param {boolean} [props.showQuip] — set false for compact / preview cards
  */
 export default function BlobPet({
   hue,
@@ -22,6 +23,7 @@ export default function BlobPet({
   reaction = "none",
   quip = "",
   tierLabel,
+  showQuip = true,
 }) {
   const s = Math.min(2.75, Math.max(0.85, scale));
 
@@ -58,9 +60,11 @@ export default function BlobPet({
           </span>
         ) : null}
       </div>
-      <p className="blob-pet__quip" role="status">
-        {quip || `Blob · ${tierLabel}`}
-      </p>
+      {showQuip ? (
+        <p className="blob-pet__quip" role="status">
+          {quip || `Blob · ${tierLabel}`}
+        </p>
+      ) : null}
     </div>
   );
 }

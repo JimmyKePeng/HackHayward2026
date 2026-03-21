@@ -30,19 +30,19 @@
                 "title": "Invoke text colors using names, hex, or RGB potions on your ancient runes",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Test your incantations in the browser's crystal viewer",
                 "difficulty": "easy",
                 "id": "quest-1-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               }
             ],
             "id": "quest-1",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Rune Weaver: Selectors & Fonts",
@@ -52,33 +52,33 @@
                 "title": "Summon selectors to target headers, paragraphs, and elven classes",
                 "difficulty": "medium",
                 "id": "quest-2-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Weave font families like Arial or Helvetica into your enchanted texts",
                 "difficulty": "medium",
                 "id": "quest-2-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Resize runes with font-size spells and align them with text-align",
                 "difficulty": "medium",
                 "id": "quest-2-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Create a fantasy cheat sheet page with body-wide enchantments",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Shadowforge: Colors & Borders",
@@ -88,33 +88,33 @@
                 "title": "Master hex colors and RGB elixirs for dark grays and glowing blues",
                 "difficulty": "medium",
                 "id": "quest-3-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Craft borders around your spell cards with solid, dotted, or dragon-scale styles",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Apply padding and margins to space your arcane elements like a wizard's tome",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Override cascade rules to layer colors on nested elements",
                 "difficulty": "medium",
                 "id": "quest-3-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Dragon's Lair Layout: Advanced Styling",
@@ -124,33 +124,33 @@
                 "title": "Build a mythical website folder with a hero section and fantasy navigation",
                 "difficulty": "hard",
                 "id": "quest-4-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Style links as glowing portals with hover effects and uppercase text",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Position elements using float spells for a treasure map layout",
                 "difficulty": "hard",
                 "id": "quest-4-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Polish your dragon lair page with full styling and preview in Chrome",
                 "difficulty": "hard",
                 "id": "quest-4-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               }
             ],
             "id": "quest-4",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Elder Scroll: Master the Cascade",
@@ -160,33 +160,33 @@
                 "title": "Experiment with inline, internal, and external CSS to understand priority",
                 "difficulty": "hard",
                 "id": "quest-5-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Create conflicting styles and resolve them with specificity runes",
                 "difficulty": "hard",
                 "id": "quest-5-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Design a complete fantasy portfolio page applying all prior spells",
                 "difficulty": "hard",
                 "id": "quest-5-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Share your enchanted creation and reflect on your sorcerer's progress",
                 "difficulty": "hard",
                 "id": "quest-5-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               }
             ],
             "id": "quest-5",
-            "completed": false
+            "completed": true
           }
         ]
       }
@@ -199,35 +199,6 @@
       "questline": {
         "quest_title": "The Enchanted Codex: Python Apprentice Questline",
         "quests": [
-          {
-            "title": "Awaken the Ancient Scroll",
-            "difficulty": "easy",
-            "subquests": [
-              {
-                "title": "Install Python and VS Code as your magical forge",
-                "difficulty": "easy",
-                "id": "quest-1-sub-1",
-                "completed": true,
-                "xp": 5
-              },
-              {
-                "title": "Launch the Python REPL and cast your first 'Hello, World!' spell",
-                "difficulty": "easy",
-                "id": "quest-1-sub-2",
-                "completed": true,
-                "xp": 5
-              },
-              {
-                "title": "Watch a beginner tutorial intro (first 10 mins of Dave Gray or similar)",
-                "difficulty": "easy",
-                "id": "quest-1-sub-3",
-                "completed": true,
-                "xp": 5
-              }
-            ],
-            "id": "quest-1",
-            "completed": true
-          },
           {
             "title": "Master the Runes of Variables and Data",
             "difficulty": "easy",
@@ -374,37 +345,30 @@
       "userGoal": "i want to clean my room\n",
       "theme": "fantasy",
       "questline": {
-        "quest_title": "Dragon's Hoard Purification: Cleanse Your Enchanted Chamber",
+        "quest_title": "The Dragon's Hoard: Cleanse Your Enchanted Chamber",
         "quests": [
           {
             "title": "Enter the Dragon's Lair",
             "difficulty": "easy",
             "subquests": [
               {
-                "title": "Don your adventurer's garb: apron as armor, kerchief as hood",
+                "title": "Don your adventurer's garb (apron as armor, kerchief as hood)",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
                 "completed": true,
                 "xp": 5
               },
               {
-                "title": "Survey the hoard: make a simple map of clutter zones in your room",
+                "title": "Survey the hoard: Pick up 10 visible treasures or trash",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
                 "completed": true,
                 "xp": 5
               },
               {
-                "title": "Gather your tools: broom as enchanted staff, trash bag as treasure sack",
+                "title": "Sort the first pile: Separate junk from keepers",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": true,
-                "xp": 5
-              },
-              {
-                "title": "Clear the floor path: remove items blocking your way like defeating minor minions",
-                "difficulty": "easy",
-                "id": "quest-1-sub-4",
                 "completed": true,
                 "xp": 5
               }
@@ -413,32 +377,32 @@
             "completed": true
           },
           {
-            "title": "Sort the Cursed Artifacts",
+            "title": "Sneak Past the Dragon's Traps",
             "difficulty": "medium",
             "subquests": [
               {
-                "title": "Identify trash curses: toss three broken or useless items",
+                "title": "Clear the floor: Remove 20 items from walking paths",
                 "difficulty": "easy",
                 "id": "quest-2-sub-1",
                 "completed": true,
                 "xp": 5
               },
               {
-                "title": "Find disguised treasures: sort three keepers into a 'magical relic' pile",
+                "title": "Disarm curses: Wipe dust from 3 surfaces with a magic cloth",
                 "difficulty": "medium",
                 "id": "quest-2-sub-2",
                 "completed": true,
                 "xp": 10
               },
               {
-                "title": "Neutralize dark energy: wipe dust from one surface with a cleansing ritual",
+                "title": "Identify artifacts: Organize clothes into keep, donate, discard piles",
                 "difficulty": "medium",
                 "id": "quest-2-sub-3",
                 "completed": true,
                 "xp": 10
               },
               {
-                "title": "Detect illusions: decide fate for three questionable items (keep, donate, discard)",
+                "title": "Bag the loot: Fill one bag with items for the charity realm",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
                 "completed": true,
@@ -453,28 +417,28 @@
             "difficulty": "medium",
             "subquests": [
               {
-                "title": "Polish the runes: clean one shelf or desk like revealing ancient spells",
+                "title": "Polish enchanted surfaces: Clean desk or shelves",
                 "difficulty": "easy",
                 "id": "quest-3-sub-1",
                 "completed": true,
                 "xp": 5
               },
               {
-                "title": "Organize potions: neatly stack books or clothes in their proper alcoves",
+                "title": "Arrange potions: Sort papers and books neatly",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
                 "completed": true,
                 "xp": 10
               },
               {
-                "title": "Sweep the enchanted floor: vacuum or sweep away the dust dragons",
-                "difficulty": "medium",
+                "title": "Make the bed: Invoke the spell of tidy repose",
+                "difficulty": "easy",
                 "id": "quest-3-sub-3",
                 "completed": true,
-                "xp": 10
+                "xp": 5
               },
               {
-                "title": "Arrange the altar: make one spot beautiful, like a hero's display",
+                "title": "Vacuum the shadows: Suck away floor grime with your arcane broom",
                 "difficulty": "medium",
                 "id": "quest-3-sub-4",
                 "completed": true,
@@ -485,63 +449,63 @@
             "completed": true
           },
           {
-            "title": "Side Quest to the Fey Charity Portal",
+            "title": "Deliver Treasures to the Fey Merchant",
             "difficulty": "hard",
             "subquests": [
               {
-                "title": "Pack faerie gifts: bag up five donate-worthy items for the magical shop",
+                "title": "Prepare the tribute: Final sort of donate bag",
                 "difficulty": "medium",
                 "id": "quest-4-sub-1",
                 "completed": true,
                 "xp": 10
               },
               {
-                "title": "Transport the bounty: take bags to your door or car as offering to otherworldly beings",
+                "title": "Deep clean corners: Tackle hidden clutter spots",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
                 "completed": true,
                 "xp": 20
               },
               {
-                "title": "Seal the portal: return and confirm the room feels lighter and purified",
+                "title": "Claim your reward: Drop off donations (or plan for tomorrow)",
                 "difficulty": "hard",
                 "id": "quest-4-sub-3",
                 "completed": true,
                 "xp": 20
-              },
-              {
-                "title": "Claim your boon: reward yourself with a hero's rest or small treat",
-                "difficulty": "easy",
-                "id": "quest-4-sub-4",
-                "completed": true,
-                "xp": 5
               }
             ],
             "id": "quest-4",
             "completed": true
           },
           {
-            "title": "Final Chamber Consecration",
+            "title": "Seal the Chamber's Magic",
             "difficulty": "hard",
             "subquests": [
               {
-                "title": "Inspect for hidden beasts: check under bed and furniture for stray clutter",
+                "title": "Final sweep: Check every surface for stray items",
                 "difficulty": "medium",
                 "id": "quest-5-sub-1",
                 "completed": true,
                 "xp": 10
               },
               {
-                "title": "Perform the great alignment: straighten all remaining items into harmony",
-                "difficulty": "hard",
+                "title": "Admire your glory: Arrange 3 decorative spots",
+                "difficulty": "easy",
                 "id": "quest-5-sub-2",
                 "completed": true,
-                "xp": 20
+                "xp": 5
               },
               {
-                "title": "Invoke the cleaning fairy: give the room a final wipe-down glow-up",
-                "difficulty": "hard",
+                "title": "Log your epic: Note what you conquered for next quest",
+                "difficulty": "easy",
                 "id": "quest-5-sub-3",
+                "completed": true,
+                "xp": 5
+              },
+              {
+                "title": "Rest like a hero: Enjoy your purified realm",
+                "difficulty": "hard",
+                "id": "quest-5-sub-4",
                 "completed": true,
                 "xp": 20
               }

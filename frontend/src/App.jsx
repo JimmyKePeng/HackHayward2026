@@ -25,6 +25,7 @@ function AppRoutes() {
   const [reportText, setReportText] = useState("");
   const [reportLoading, setReportLoading] = useState(false);
   const [reportError, setReportError] = useState("");
+  const [regeneratingRunId, setRegeneratingRunId] = useState(null);
   const {
     appState,
     loading,
@@ -36,6 +37,7 @@ function AppRoutes() {
     handleUncheckAllInActiveRun,
     handleCheckAllInActiveRun,
     handleDeleteQuestRun,
+    replaceQuestRunQuestline,
     handleDeleteQuestInActiveRun,
     clearStoredState,
     questHistory,
@@ -45,9 +47,6 @@ function AppRoutes() {
     totalXP,
     rockScale,
   } = useQuestState();
-
-  const activeQuestTitle =
-    activeQuestRun?.questline?.quest_title?.trim() || "";
 
   async function handleGenerate(e) {
     e.preventDefault();
@@ -101,6 +100,38 @@ function AppRoutes() {
     setGoal("");
     setTheme("fantasy");
     setError("");
+  }
+
+  async function handleRegenerateQuest(runId) {
+    const run = questHistory.find((r) => r.id === runId);
+    if (!run) return;
+    const goal = (run.userGoal || "").trim();
+    const theme = run.theme || "fantasy";
+    if (!goal) {
+      setError("This quest has no saved goal — add one or create a new quest.");
+      return;
+    }
+    setRegeneratingRunId(runId);
+    setError("");
+    try {
+      const res = await fetch(`${API_BASE_URL}/regenerate-quest`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ goal, theme }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to regenerate quest.");
+      }
+      if (!data.questline) {
+        throw new Error("Invalid response from server.");
+      }
+      replaceQuestRunQuestline(runId, data.questline);
+    } catch (err) {
+      setError(err.message || "Something went wrong.");
+    } finally {
+      setRegeneratingRunId(null);
+    }
   }
 
   async function handleGetReport() {
@@ -183,8 +214,9 @@ function AppRoutes() {
             element={
               <HomePage
                 totalXP={totalXP}
+                rockScale={rockScale}
                 questCount={questHistory.length}
-                activeQuestTitle={activeQuestTitle}
+                activeQuestRun={activeQuestRun}
               />
             }
           />
@@ -212,6 +244,8 @@ function AppRoutes() {
                 activeQuestRun={activeQuestRun}
                 onSelectQuestRun={setActiveQuestRunId}
                 onDeleteQuestRun={handleDeleteQuestRun}
+                onRegenerateQuestRun={handleRegenerateQuest}
+                regeneratingRunId={regeneratingRunId}
                 onToggleSubquest={handleToggleSubquest}
                 onDeleteQuestInActiveRun={handleDeleteQuestInActiveRun}
               />
