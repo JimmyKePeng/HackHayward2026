@@ -6,12 +6,22 @@ Turn a real-life goal into an AI-generated **questline** (quests and subquests),
 
 - **Quest generation** — Enter a goal + theme (fantasy, sci-fi, adventure); the backend calls the **Perplexity** API to produce structured JSON questlines.
 - **Tasks & XP** — Check off subquests on the Quests page or from **Home** (“Today’s focus”). Difficulty maps to XP (easy / medium / hard).
-- **Pet blob** — Draggable blob with moods, reactions, and tier-based colors that scale with XP.
+- **Pet blob** — Draggable corner pet with moods, reactions, and tier-based colors that scale with XP. Optional **`compactGround`** mode (used on the Pet page) uses a smaller drop shadow and bottom-anchored scaling so the blob sits cleanly on surfaces.
 - **Rarity tiers** — Common → Legendary; XP bar shows progress within the current tier.
 - **Regenerate** — Per quest run, **↻** re-rolls the questline with the **same goal & theme** (XP from completed tasks on that run is adjusted).
 - **Persistence** — State syncs to `localStorage` and the backend (`quest-progress.txt`).
 - **Progress report** — Separate archive (`quest-report-archive.json`) keeps **all** quest runs (including removed ones); **Get Report** writes `progress-report.txt` and shows it in a modal.
-- **Routes** — **Home** (focus + blob preview + XP bar), **Quests** (create, list, questline), **Pet** (seesaw mini-game — bigger blob = higher launch), **Progress** (full XP panel, blob anchor, report).
+- **Routes** — **Home** (focus + blob preview + XP bar), **Quests** (create, list, questline), **Pet** (interactive seesaw — see below), **Progress** (full XP panel, blob anchor, report).
+
+### Pet page (`/pet`)
+
+- **Idle** — You stand near the **left** end of a narrow plank; the right side is empty. The board tilts toward you (your side is heavier).
+- **Drop** — A **Drop** button beside the scene spawns the blob **above** the right end; it falls onto the board while the beam reacts.
+- **Launch** — Your jump height scales with blob size / XP. Below a small XP threshold, you only **wiggle** and the UI nudges you toward **Quests** to grow the blob.
+- **Settle** — When the sequence ends, both you and the blob stay on the board; final tilt follows **relative weight** (you vs. blob scale). **Reset** returns to the idle setup so you can play again.
+- **Polish** — Falling blob uses a stable silhouette (no wobble during the fall), deck area sized so tall blobs aren’t clipped after landing, `prefers-reduced-motion` skips the long animation, and the fixed corner pet stays off the Progress anchor as before.
+
+Implementation: `frontend/src/pages/PetPage.jsx`, `frontend/src/pages/PetPage.css`; blob props in `frontend/src/components/BlobPet.jsx` + `BlobPet.css`.
 
 ## Tech stack
 
@@ -125,9 +135,9 @@ HackHayward2026/
 │   └── package.json
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx       # Routes, quest generation, report modal
-│   │   ├── pages/        # Home, Quests, Pet, Progress
-│   │   ├── components/   # Blob pet, panels, forms, etc.
+│   │   ├── App.jsx       # Routes (incl. /pet), quest generation, report modal
+│   │   ├── pages/        # Home, Quests, PetPage (seesaw), Progress
+│   │   ├── components/   # BlobPet, panels, forms, PetRockFixed, etc.
 │   │   └── hooks/        # useQuestState (sync + XP)
 │   └── package.json
 └── README.md
@@ -154,4 +164,4 @@ ISC (backend `package.json`) / see individual packages for frontend deps.
 
 ---
 
-*Made for HackHayward 2026 — ship goals, XP, and a supportive blob.*
+*Made for HackHayward 2026 — ship goals, XP, a supportive blob, and a seesaw on the Pet page.*
