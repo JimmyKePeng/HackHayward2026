@@ -101,12 +101,13 @@ export default function SkillPage({ appState }) {
           </span>
           <div>
             <h1>Skill</h1>
-            <p>
+            <p><strong>One skill per quest topic</strong> </p>
+            {/* <p>
               <strong>One skill per quest topic</strong> — only when you finish
               the <em>entire</em> questline (every quest, every subtask). Two
               completed topics → two skills. Updates when you reload; the server
               merges your archive when you open this page.
-            </p>
+            </p> */}
           </div>
         </div>
       </header>
@@ -117,10 +118,10 @@ export default function SkillPage({ appState }) {
           <div className="skill-report__head-main">
             <span className="skill-report__badge">Archive snapshot</span>
             <h2 className="skill-report__title">What you&apos;ve achieved</h2>
-            <p className="skill-report__sub">
+            {/* <p className="skill-report__sub">
               Saved to <code>progress-report.txt</code> when this loads. Partial
               progress on a topic does not appear until the whole run is done.
-            </p>
+            </p> */}
           </div>
           <div className="skill-report__head-actions">
             <button
@@ -131,10 +132,10 @@ export default function SkillPage({ appState }) {
             >
               {suggestLoading ? "Asking AI…" : "Suggest what to learn next"}
             </button>
-            <p className="skill-report__suggest-hint muted">
+            {/* <p className="skill-report__suggest-hint muted">
               Uses your quest goals &amp; titles → Perplexity suggests 3 next
               topics. Pick one to open Quests and auto-generate a questline.
-            </p>
+            </p> */}
           </div>
         </div>
 

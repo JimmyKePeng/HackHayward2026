@@ -353,9 +353,8 @@ function PetRockFixed({
         </span>
       ) : null}
       <div
-        className={`pet-rock-fixed__rock-wrap${
-          celebrate ? " pet-rock-fixed__rock-wrap--celebrate" : ""
-        }`}
+        className={`pet-rock-fixed__rock-wrap${celebrate ? " pet-rock-fixed__rock-wrap--celebrate" : ""
+          }`}
       >
         <BlobPet
           hue={blobColors.hue}
@@ -372,7 +371,7 @@ function PetRockFixed({
       <span className="pet-rock-fixed__caption">
         {petName} · {tierLabel}
       </span>
-      <span className="pet-rock-fixed__drag-hint">Drag anywhere · tap to boop</span>
+      {/* <span className="pet-rock-fixed__drag-hint">Drag anywhere · tap to boop</span> */}
     </div>
   );
 }

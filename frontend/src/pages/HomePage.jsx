@@ -144,12 +144,12 @@ export default function HomePage({
         <p className="home-focus__progress muted">
           Tasks in this run: {focus.completed}/{focus.total} done
         </p>
-        {canToggle ? (
+        {/* {canToggle ? (
           <p className="home-focus__toggle-hint muted">
             Check off to earn XP — the next unfinished task will show here right
             away.
           </p>
-        ) : null}
+        ) : null} */}
         {focusEncourage ? (
           <p className="home-focus__cheer" role="status" aria-live="polite">
             <span className="home-focus__cheer-xp">

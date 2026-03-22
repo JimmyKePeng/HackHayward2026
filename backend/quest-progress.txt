@@ -1,5 +1,5 @@
 {
-  "totalXP": 445,
+  "totalXP": 245,
   "questHistory": [
     {
       "id": "c73d6e25-2487-467a-ad8c-fa25ba2b4ca3",
@@ -272,176 +272,6 @@
             ],
             "id": "quest-4",
             "completed": true
-          }
-        ]
-      }
-    },
-    {
-      "id": "8592ced1-21e8-454a-ab9f-b6e3f4e6e82b",
-      "createdAt": 1774154857689,
-      "userGoal": "i want to learn some basic of probability because i have a stat course next semester",
-      "theme": "sci-fi",
-      "questline": {
-        "quest_title": "Quantum Probability Navigator: Decode the Cosmos",
-        "quests": [
-          {
-            "title": "Calibrate Your Probability Scanner",
-            "difficulty": "easy",
-            "subquests": [
-              {
-                "title": "Scan a binary star system: Compute the probability of heads or tails on a quantum coin flip (P(E) = favorable outcomes / total outcomes)",
-                "difficulty": "easy",
-                "id": "quest-1-sub-1",
-                "completed": false,
-                "xp": 5
-              },
-              {
-                "title": "Map the sample space of a hyperspace die roll: List all outcomes and note probabilities sum to 1",
-                "difficulty": "easy",
-                "id": "quest-1-sub-2",
-                "completed": false,
-                "xp": 5
-              },
-              {
-                "title": "Log impossible and certain events: Assign P=0 to asteroid collision failure and P=1 to warp drive activation",
-                "difficulty": "easy",
-                "id": "quest-1-sub-3",
-                "completed": false,
-                "xp": 5
-              }
-            ],
-            "id": "quest-1",
-            "completed": false
-          },
-          {
-            "title": "Intercept Complementary Signals",
-            "difficulty": "easy",
-            "subquests": [
-              {
-                "title": "Decode signal complement: If alien message arrival is 0.3, compute no-arrival probability (P(A') = 1 - P(A))",
-                "difficulty": "easy",
-                "id": "quest-2-sub-1",
-                "completed": false,
-                "xp": 5
-              },
-              {
-                "title": "Simulate photon paths: Verify complementary events sum to 1 in a light-speed experiment",
-                "difficulty": "easy",
-                "id": "quest-2-sub-2",
-                "completed": false,
-                "xp": 5
-              },
-              {
-                "title": "Journal your scan: Write why probabilities range 0 to 1 in interstellar navigation",
-                "difficulty": "easy",
-                "id": "quest-2-sub-3",
-                "completed": false,
-                "xp": 5
-              },
-              {
-                "title": "Quiz your AI co-pilot: Answer 5 basic probability range questions correctly",
-                "difficulty": "easy",
-                "id": "quest-2-sub-4",
-                "completed": false,
-                "xp": 5
-              }
-            ],
-            "id": "quest-2",
-            "completed": false
-          },
-          {
-            "title": "Union of Galactic Events",
-            "difficulty": "medium",
-            "subquests": [
-              {
-                "title": "Merge event horizons: Calculate P(A ∪ B) = P(A) + P(B) - P(A ∩ B) for two comet sightings",
-                "difficulty": "medium",
-                "id": "quest-3-sub-1",
-                "completed": false,
-                "xp": 10
-              },
-              {
-                "title": "Handle mutually exclusive wormholes: Compute P(A ∪ B) = P(A) + P(B) for non-overlapping jumps",
-                "difficulty": "medium",
-                "id": "quest-3-sub-2",
-                "completed": false,
-                "xp": 10
-              },
-              {
-                "title": "Practice with overlapping nebulae: Solve 3 union problems using real numbers",
-                "difficulty": "medium",
-                "id": "quest-3-sub-3",
-                "completed": false,
-                "xp": 10
-              }
-            ],
-            "id": "quest-3",
-            "completed": false
-          },
-          {
-            "title": "Independent Hyperspace Jumps",
-            "difficulty": "medium",
-            "subquests": [
-              {
-                "title": "Test event independence: Verify P(A ∩ B) = P(A) * P(B) for separate engine failures",
-                "difficulty": "medium",
-                "id": "quest-4-sub-1",
-                "completed": false,
-                "xp": 10
-              },
-              {
-                "title": "Multiply probabilities: Compute joint success for two independent shield activations",
-                "difficulty": "medium",
-                "id": "quest-4-sub-2",
-                "completed": false,
-                "xp": 10
-              },
-              {
-                "title": "Disjoint event patrol: Confirm P(A ∩ B) = 0 for non-intersecting asteroid fields",
-                "difficulty": "medium",
-                "id": "quest-4-sub-3",
-                "completed": false,
-                "xp": 10
-              },
-              {
-                "title": "Solve a mini-mission: 4 independence calculations in a fleet scenario",
-                "difficulty": "medium",
-                "id": "quest-4-sub-4",
-                "completed": false,
-                "xp": 10
-              }
-            ],
-            "id": "quest-4",
-            "completed": false
-          },
-          {
-            "title": "Master Conditional Warp Calculations",
-            "difficulty": "hard",
-            "subquests": [
-              {
-                "title": "Compute conditional probability: P(A|B) = P(A ∩ B)/P(B) for engine failure given power surge",
-                "difficulty": "hard",
-                "id": "quest-5-sub-1",
-                "completed": false,
-                "xp": 20
-              },
-              {
-                "title": "Apply Bayes' theorem: Update beliefs on alien base location with new sensor data",
-                "difficulty": "hard",
-                "id": "quest-5-sub-2",
-                "completed": false,
-                "xp": 20
-              },
-              {
-                "title": "Calculate expected value: Average loot from randomized quantum chests (sum of value * probability)",
-                "difficulty": "hard",
-                "id": "quest-5-sub-3",
-                "completed": false,
-                "xp": 20
-              }
-            ],
-            "id": "quest-5",
-            "completed": false
           }
         ]
       }
@@ -830,33 +660,33 @@
                 "title": "Install Node.js and VS Code as your starship cockpit[1]",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Declare variables (let, const) and log 'Captain's Log: Stardate...' to console[1][2]",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Master data types: strings for alien messages, numbers for warp speeds, booleans for shields up/down[1][2]",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Write a function to calculate hyperspace jump distance[1]",
                 "difficulty": "easy",
                 "id": "quest-1-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               }
             ],
             "id": "quest-1",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Control the Galactic Navigation Systems",
@@ -866,33 +696,33 @@
                 "title": "Use if-else to check if asteroid field is safe to traverse[1][2]",
                 "difficulty": "easy",
                 "id": "quest-2-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Loop through star systems with for and while to scan for lifeforms[1][4]",
                 "difficulty": "easy",
                 "id": "quest-2-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Create arrays of planets and use map to generate coordinates[1]",
                 "difficulty": "medium",
                 "id": "quest-2-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Build objects for starships with properties like fuel and weapons[1]",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Awaken the Quantum Interface (DOM Mastery)",
@@ -902,33 +732,33 @@
                 "title": "Select HTML elements with querySelector to display holographic HUD[1]",
                 "difficulty": "medium",
                 "id": "quest-3-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Add event listeners for laser fire button clicks[1]",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Manipulate styles to animate shield activation[1]",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Understand scope: Keep secret codes hidden from enemy scanners[1]",
                 "difficulty": "medium",
                 "id": "quest-3-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Warp Drive Activation (Async Adventures)",
@@ -938,33 +768,33 @@
                 "title": "Use setTimeout for delayed photon torpedo launch[1]",
                 "difficulty": "medium",
                 "id": "quest-4-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Fetch data from a sci-fi API like Star Wars for ship intel[1][2]",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Handle errors with try-catch during black hole encounters[1]",
                 "difficulty": "medium",
                 "id": "quest-4-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Practice ES6+: Arrow functions for quick AI responses[1]",
                 "difficulty": "medium",
                 "id": "quest-4-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-4",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Captain's Final Mission: Build the Nebula Command Center",
@@ -974,32 +804,32 @@
                 "title": "Create a to-do list for mission logs with localStorage[2]",
                 "difficulty": "hard",
                 "id": "quest-5-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Build a rock-paper-scissors game against alien AI[2]",
                 "difficulty": "hard",
                 "id": "quest-5-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Deploy a simple starship dashboard project to the web[1]",
                 "difficulty": "hard",
                 "id": "quest-5-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               }
             ],
             "id": "quest-5",
-            "completed": true
+            "completed": false
           }
         ]
       }
     }
   ],
-  "activeQuestRunId": "8592ced1-21e8-454a-ab9f-b6e3f4e6e82b",
+  "activeQuestRunId": "bbb2be0c-2688-4070-a37b-675167bc794c",
   "petName": "Pet Rock",
   "petMineralBalance": 0,
   "petTintIndex": 0,

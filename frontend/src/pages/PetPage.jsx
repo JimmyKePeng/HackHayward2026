@@ -109,13 +109,15 @@ export default function PetPage({
 
       <section className="panel pet-play">
         <div className="pet-play__stats">
+          <span><strong>{petName}</strong></span>
+          <span>:</span>
           <span>
             <strong>Total XP:</strong> {totalXP}
           </span>
-          <span>·</span>
-          <span>
+          {/* <span>·</span> */}
+          {/* <span>
             <strong>{petName} scale:</strong> {scale.toFixed(2)}×
-          </span>
+          </span> */}
           <span>·</span>
           <span>
             <strong>Tier:</strong> {tierLabel}
@@ -125,9 +127,8 @@ export default function PetPage({
         <div className="pet-play__row">
           <div className="pet-play__stage" aria-live="polite">
             <div
-              className={`pet-seesaw pet-seesaw--phase-${phase}${
-                blobTooSmall ? " pet-seesaw--tiny" : ""
-              }`}
+              className={`pet-seesaw pet-seesaw--phase-${phase}${blobTooSmall ? " pet-seesaw--tiny" : ""
+                }`}
               style={{
                 "--tilt-idle": `${tiltIdleDeg}deg`,
                 "--tilt-rest": `${tiltRestDeg}deg`,

@@ -829,33 +829,33 @@
                 "title": "Install Node.js and VS Code as your starship cockpit[1]",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Declare variables (let, const) and log 'Captain's Log: Stardate...' to console[1][2]",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Master data types: strings for alien messages, numbers for warp speeds, booleans for shields up/down[1][2]",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Write a function to calculate hyperspace jump distance[1]",
                 "difficulty": "easy",
                 "id": "quest-1-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               }
             ],
             "id": "quest-1",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Control the Galactic Navigation Systems",
@@ -865,33 +865,33 @@
                 "title": "Use if-else to check if asteroid field is safe to traverse[1][2]",
                 "difficulty": "easy",
                 "id": "quest-2-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Loop through star systems with for and while to scan for lifeforms[1][4]",
                 "difficulty": "easy",
                 "id": "quest-2-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 5
               },
               {
                 "title": "Create arrays of planets and use map to generate coordinates[1]",
                 "difficulty": "medium",
                 "id": "quest-2-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Build objects for starships with properties like fuel and weapons[1]",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Awaken the Quantum Interface (DOM Mastery)",
@@ -901,33 +901,33 @@
                 "title": "Select HTML elements with querySelector to display holographic HUD[1]",
                 "difficulty": "medium",
                 "id": "quest-3-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Add event listeners for laser fire button clicks[1]",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Manipulate styles to animate shield activation[1]",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Understand scope: Keep secret codes hidden from enemy scanners[1]",
                 "difficulty": "medium",
                 "id": "quest-3-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Warp Drive Activation (Async Adventures)",
@@ -937,33 +937,33 @@
                 "title": "Use setTimeout for delayed photon torpedo launch[1]",
                 "difficulty": "medium",
                 "id": "quest-4-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Fetch data from a sci-fi API like Star Wars for ship intel[1][2]",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Handle errors with try-catch during black hole encounters[1]",
                 "difficulty": "medium",
                 "id": "quest-4-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               },
               {
                 "title": "Practice ES6+: Arrow functions for quick AI responses[1]",
                 "difficulty": "medium",
                 "id": "quest-4-sub-4",
-                "completed": true,
+                "completed": false,
                 "xp": 10
               }
             ],
             "id": "quest-4",
-            "completed": true
+            "completed": false
           },
           {
             "title": "Captain's Final Mission: Build the Nebula Command Center",
@@ -973,26 +973,26 @@
                 "title": "Create a to-do list for mission logs with localStorage[2]",
                 "difficulty": "hard",
                 "id": "quest-5-sub-1",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Build a rock-paper-scissors game against alien AI[2]",
                 "difficulty": "hard",
                 "id": "quest-5-sub-2",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               },
               {
                 "title": "Deploy a simple starship dashboard project to the web[1]",
                 "difficulty": "hard",
                 "id": "quest-5-sub-3",
-                "completed": true,
+                "completed": false,
                 "xp": 20
               }
             ],
             "id": "quest-5",
-            "completed": true
+            "completed": false
           }
         ]
       }

@@ -39,12 +39,12 @@ export default function PetMineralCare({
 
       <div className="pet-care__intro">
         <h3 className="pet-care__title">Minerals &amp; looks</h3>
-        <p className="pet-care__blurb">
+        {/* <p className="pet-care__blurb">
           Take a <strong>10-question quiz</strong> built from your saved quest topics
           (goals &amp; titles). Get <strong>{QUIZ_MINERALS_PASS_THRESHOLD}+ correct</strong>{" "}
           to earn <strong>1 mineral</strong>. Spend minerals to <strong>feed</strong>{" "}
           {petName} or <strong>unlock color moods</strong>.
-        </p>
+        </p> */}
       </div>
 
       <div className="pet-care__stats">
@@ -62,10 +62,10 @@ export default function PetMineralCare({
         >
           Take knowledge quiz (earn minerals)
         </button>
-        <p className="pet-care__quiz-hint muted">
+        {/* <p className="pet-care__quiz-hint muted">
           Sends your learned topics to the server; Perplexity writes the questions.
           You need an archive of quest runs with goals — same data as the Skill page.
-        </p>
+        </p> */}
       </div>
 
       <div className="pet-care__feed-block">
@@ -103,7 +103,7 @@ export default function PetMineralCare({
         </button>
         {petMineralBalance < MINERAL_FEED_COST ? (
           <p className="pet-care__hint muted">
-            Pass the quiz (6+/10) to earn minerals for treats.
+            Pass the quiz to earn minerals for treats.
           </p>
         ) : null}
       </div>
