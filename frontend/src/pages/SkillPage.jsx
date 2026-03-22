@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import SkillReportView from "../components/SkillReportView";
 import { migrateAppState } from "../hooks/useQuestState";
 import "./SkillPage.css";
 
@@ -86,9 +87,9 @@ export default function SkillPage({ appState }) {
             <p className="report-modal__error skill-report__error">{error}</p>
           )}
           {!loading && !error && (
-            <pre className="skill-report__pre" tabIndex={0}>
-              {reportText || "No report content yet."}
-            </pre>
+            <div className="skill-report__content" tabIndex={0}>
+              <SkillReportView reportText={reportText} />
+            </div>
           )}
         </div>
       </section>
