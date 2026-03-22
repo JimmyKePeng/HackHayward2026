@@ -4,7 +4,8 @@
  */
 
 const SUMMARY_MARKER = "--- Summary ---";
-const RUNS_MARKER = /^--- All quest runs/;
+/** Backend may emit "All quest runs" (legacy) or "Skills achieved" (completed quests only). */
+const RUNS_MARKER = /^--- (All quest runs|Skills achieved)/;
 const END_MARKER = "--- End of report ---";
 
 function skipBlanks(lines, start) {
@@ -130,6 +131,12 @@ export function parseProgressReport(text) {
       if (/^\[\d+\]\s/.test(trimmed)) break;
       if (trimmed.startsWith("(")) {
         run.notes.push(trimmed);
+        i += 1;
+        continue;
+      }
+      const questline = trimmed.match(/^Questline:\s*(.*)$/);
+      if (questline) {
+        run.fields.push({ label: "Questline", value: questline[1] });
         i += 1;
         continue;
       }

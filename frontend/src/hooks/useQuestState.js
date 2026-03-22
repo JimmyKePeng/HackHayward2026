@@ -1,8 +1,53 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { PET_TINT_COUNT } from "../utils/rockAppearance";
 
 const STORAGE_KEY = "quest-app-state";
 const API_BASE_URL = "http://localhost:3001";
 const EMPTY_QUEST_HISTORY = [];
+
+/** Dispatched when the player spends a mineral to feed the pet (Pet page). */
+export const PET_FEED_MINERAL_EVENT = "pet-feed-mineral";
+
+export const MINERAL_FEED_COST = 1;
+export const MINERAL_UNLOCK_TINT_COST = 5;
+
+function petCareFromRaw(raw) {
+  const defaults = {
+    petMineralBalance: 0,
+    petTintIndex: 0,
+    petUnlockedTints: [0],
+    petFeedCount: 0,
+  };
+  if (!raw || typeof raw !== "object") return defaults;
+
+  let balance;
+  if (raw.petMineralBalance != null && Number.isFinite(Number(raw.petMineralBalance))) {
+    balance = Math.max(0, Math.floor(Number(raw.petMineralBalance)));
+  } else {
+    // Minerals are quiz-only; do not derive balance from completed subquests.
+    balance = 0;
+  }
+
+  const feedCount = Math.max(0, Math.floor(Number(raw.petFeedCount) || 0));
+  let unlocked = [0];
+  if (Array.isArray(raw.petUnlockedTints)) {
+    const u = raw.petUnlockedTints
+      .map((x) => Math.floor(Number(x)))
+      .filter((x) => Number.isFinite(x) && x >= 0 && x < PET_TINT_COUNT);
+    unlocked = u.length ? [...new Set([0, ...u])].sort((a, b) => a - b) : [0];
+  }
+  let tint = Math.min(
+    PET_TINT_COUNT - 1,
+    Math.max(0, Math.floor(Number(raw.petTintIndex) || 0)),
+  );
+  if (!unlocked.includes(tint)) tint = 0;
+  return {
+    petMineralBalance: balance,
+    petTintIndex: tint,
+    petUnlockedTints: unlocked,
+    petFeedCount: feedCount,
+  };
+}
 
 /** XP value for a subquest (avoids NaN when `xp` is missing). */
 export function subquestXpValue(sub) {
@@ -36,6 +81,7 @@ export function migrateAppState(raw) {
         raw.questHistory[raw.questHistory.length - 1]?.id ??
         null,
       petName,
+      ...petCareFromRaw(raw),
     };
   }
 
@@ -54,6 +100,7 @@ export function migrateAppState(raw) {
       ],
       activeQuestRunId: id,
       petName,
+      ...petCareFromRaw(raw),
     };
   }
 
@@ -62,6 +109,7 @@ export function migrateAppState(raw) {
     questHistory: [],
     activeQuestRunId: null,
     petName,
+    ...petCareFromRaw(raw),
   };
 }
 
@@ -133,7 +181,8 @@ export function useQuestState() {
   }, [appState, hydrated]);
 
   const totalXP = appState?.totalXP || 0;
-  const rockScale = 1 + totalXP / 100;
+  /** Visual size curve: gentler than 1 + XP/100 so early XP doesn’t balloon the rock. */
+  const rockScale = 1 + totalXP / 400;
 
   const petName = useMemo(
     () => normalizePetName(appState?.petName),
@@ -151,6 +200,7 @@ export function useQuestState() {
           questHistory: [],
           activeQuestRunId: null,
           petName: normalized,
+          ...petCareFromRaw({}),
         };
       }
       return { ...prev, petName: normalized };
@@ -159,6 +209,74 @@ export function useQuestState() {
 
   const questHistory = appState?.questHistory ?? EMPTY_QUEST_HISTORY;
   const activeQuestRunId = appState?.activeQuestRunId ?? null;
+
+  const petMineralBalance = appState?.petMineralBalance ?? 0;
+
+  const petTintIndex = appState?.petTintIndex ?? 0;
+  const petUnlockedTints = appState?.petUnlockedTints ?? [0];
+  const petFeedCount = appState?.petFeedCount ?? 0;
+
+  const feedPetMineral = useCallback(() => {
+    let dispatched = false;
+    setAppState((prev) => {
+      if (!prev) return prev;
+      const bal = prev.petMineralBalance ?? 0;
+      if (bal < MINERAL_FEED_COST) return prev;
+      dispatched = true;
+      return {
+        ...prev,
+        petMineralBalance: bal - MINERAL_FEED_COST,
+        petFeedCount: (prev.petFeedCount ?? 0) + 1,
+      };
+    });
+    if (dispatched) {
+      queueMicrotask(() => {
+        window.dispatchEvent(new CustomEvent(PET_FEED_MINERAL_EVENT));
+      });
+    }
+    return dispatched;
+  }, []);
+
+  const unlockPetTint = useCallback((index) => {
+    if (index < 1 || index >= PET_TINT_COUNT) return false;
+    let ok = false;
+    setAppState((prev) => {
+      if (!prev) return prev;
+      const unlocked = new Set(prev.petUnlockedTints ?? [0]);
+      if (unlocked.has(index)) return prev;
+      const bal = prev.petMineralBalance ?? 0;
+      if (bal < MINERAL_UNLOCK_TINT_COST) return prev;
+      ok = true;
+      unlocked.add(index);
+      return {
+        ...prev,
+        petMineralBalance: bal - MINERAL_UNLOCK_TINT_COST,
+        petUnlockedTints: [...unlocked].sort((a, b) => a - b),
+        petTintIndex: index,
+      };
+    });
+    return ok;
+  }, []);
+
+  const awardQuizMineral = useCallback(() => {
+    setAppState((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        petMineralBalance: (prev.petMineralBalance ?? 0) + 1,
+      };
+    });
+  }, []);
+
+  const setPetTintIndex = useCallback((index) => {
+    setAppState((prev) => {
+      if (!prev) return prev;
+      if (index < 0 || index >= PET_TINT_COUNT) return prev;
+      const unlocked = new Set(prev.petUnlockedTints ?? [0]);
+      if (!unlocked.has(index)) return prev;
+      return { ...prev, petTintIndex: index };
+    });
+  }, []);
 
   const activeQuestRun = useMemo(() => {
     if (!activeQuestRunId || !questHistory.length) return null;
@@ -369,5 +487,13 @@ export function useQuestState() {
     rockScale,
     petName,
     setPetName,
+    petTintIndex,
+    petUnlockedTints,
+    petFeedCount,
+    petMineralBalance,
+    feedPetMineral,
+    unlockPetTint,
+    setPetTintIndex,
+    awardQuizMineral,
   };
 }

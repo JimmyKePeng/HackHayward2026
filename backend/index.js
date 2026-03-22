@@ -69,15 +69,242 @@ function countSubquests(run) {
     return { completed, total };
 }
 
+/** True when every subquest is done (or quest.completed flag set). */
+function isQuestFullyCompleted(quest) {
+    if (quest?.completed === true) return true;
+    const subs = quest?.subquests ?? [];
+    if (subs.length === 0) return false;
+    return subs.every((sq) => sq.completed === true);
+}
+
+/** Entire questline finished — one Skill entry per run/topic, not per quest. */
+function isRunFullyCompleted(run) {
+    const quests = run.questline?.quests ?? [];
+    if (quests.length === 0) return false;
+    return quests.every((q) => isQuestFullyCompleted(q));
+}
+
+/** Unique user goals + quest titles from archive runs (for “what you learned” context). */
+function extractLearnedTopics(archiveRuns) {
+    const topics = [];
+    const seen = new Set();
+    for (const run of archiveRuns ?? []) {
+        const goal = typeof run.userGoal === "string" ? run.userGoal.trim() : "";
+        const title =
+            typeof run.questline?.quest_title === "string"
+                ? run.questline.quest_title.trim()
+                : "";
+        for (const p of [goal, title]) {
+            if (!p || p === "—") continue;
+            const key = p.toLowerCase();
+            if (seen.has(key)) continue;
+            seen.add(key);
+            topics.push(p);
+        }
+    }
+    return topics;
+}
+
+function normalizeNextTopicSuggestions(parsed) {
+    const raw = parsed?.suggestions;
+    if (!Array.isArray(raw)) return null;
+    const out = [];
+    const seen = new Set();
+    for (const item of raw) {
+        if (typeof item !== "string") continue;
+        const t = item.trim().slice(0, 200);
+        if (!t) continue;
+        const k = t.toLowerCase();
+        if (seen.has(k)) continue;
+        seen.add(k);
+        out.push(t);
+        if (out.length >= 3) break;
+    }
+    return out.length >= 3 ? out : null;
+}
+
+async function suggestNextTopicsWithPerplexity(learnedTopics) {
+    const apiKey = process.env.PERPLEXITY_API_KEY?.trim();
+    if (!apiKey) {
+        throw new Error("Missing PERPLEXITY_API_KEY in backend .env (backend/index.js folder).");
+    }
+
+    const listText =
+        learnedTopics.length > 0
+            ? learnedTopics.map((t, i) => `${i + 1}. ${t}`).join("\n")
+            : "(No saved quest history yet — suggest broadly useful starter learning topics.)";
+
+    const systemPrompt = [
+        "You suggest concise next learning goals for a self-improvement app.",
+        "Return ONLY valid JSON, no markdown or extra text.",
+        'Schema: {"suggestions":["string","string","string"]}',
+        "Rules:",
+        "- Exactly 3 strings.",
+        "- Each 8–140 characters: specific, actionable learning topics (not vague like 'learn more').",
+        "- Build on or complement what the user already explored; do not copy their list verbatim.",
+        "- If the list is empty, suggest 3 engaging starter topics anyone could pick up.",
+    ].join("\n");
+
+    const userPrompt = [
+        "Areas the user has already worked on (goals and/or quest titles):",
+        listText,
+        "",
+        "Suggest exactly 3 NEW topics they could learn next.",
+    ].join("\n");
+
+    const response = await fetch(PERPLEXITY_API_URL, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            model: PERPLEXITY_MODEL,
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt },
+            ],
+            temperature: 0.35,
+        }),
+    });
+
+    const rawText = await response.text();
+    if (!response.ok) {
+        let detail = rawText;
+        try {
+            const errJson = JSON.parse(rawText);
+            detail = errJson.error?.message || errJson.message || rawText;
+        } catch {
+            // keep rawText
+        }
+        throw new Error(`Perplexity API error (${response.status}): ${detail}`);
+    }
+
+    let payload;
+    try {
+        payload = JSON.parse(rawText);
+    } catch {
+        throw new Error(`Perplexity returned non-JSON: ${rawText.slice(0, 200)}`);
+    }
+
+    const content = messageContentToString(payload?.choices?.[0]?.message?.content);
+    const parsed = extractJsonObject(content);
+    const suggestions = normalizeNextTopicSuggestions(parsed);
+    if (!suggestions) {
+        throw new Error("Perplexity did not return 3 valid suggestions. Try again.");
+    }
+    return suggestions;
+}
+
+function normalizeKnowledgeQuiz(parsed) {
+    const raw = parsed?.questions;
+    if (!Array.isArray(raw) || raw.length !== 10) return null;
+
+    const out = [];
+    for (const item of raw) {
+        const question = typeof item?.question === "string" ? item.question.trim() : "";
+        const options = Array.isArray(item?.options)
+            ? item.options.map((o) => String(o).trim()).slice(0, 4)
+            : [];
+        const correctIndex = Math.floor(Number(item?.correctIndex));
+
+        if (!question || options.length !== 4) return null;
+        if (!Number.isFinite(correctIndex) || correctIndex < 0 || correctIndex > 3) return null;
+
+        out.push({ question, options, correctIndex });
+    }
+    return out.length === 10 ? out : null;
+}
+
+async function generateKnowledgeQuizWithPerplexity(learnedTopics) {
+    const apiKey = process.env.PERPLEXITY_API_KEY?.trim();
+    if (!apiKey) {
+        throw new Error("Missing PERPLEXITY_API_KEY in backend .env (backend/index.js folder).");
+    }
+
+    if (!learnedTopics.length) {
+        throw new Error(
+            "No quest topics in your archive yet. Generate a quest and save progress, then try again.",
+        );
+    }
+
+    const listText = learnedTopics.map((t, i) => `${i + 1}. ${t}`).join("\n");
+
+    const systemPrompt = [
+        "You write short knowledge-check quizzes for a self-improvement app.",
+        "Return ONLY valid JSON, no markdown or extra text.",
+        'Schema: {"questions":[{"question":"string","options":["A","B","C","D"],"correctIndex":0}]}',
+        "Rules:",
+        "- Exactly 10 questions.",
+        "- Each question: clear, non-trick multiple choice.",
+        "- Each options array must have exactly 4 distinct strings (no empty strings).",
+        "- correctIndex is 0, 1, 2, or 3 (index into options for the only correct answer).",
+        "- Base questions ONLY on the topics the user lists; do not invent unrelated trivia.",
+        "- Difficulty: mixed recall and light application suitable for someone who studied those goals.",
+    ].join("\n");
+
+    const userPrompt = [
+        "The user has worked on these goals / quest titles (topics they learned):",
+        listText,
+        "",
+        "Create exactly 10 multiple-choice questions that test understanding of these topics combined.",
+    ].join("\n");
+
+    const response = await fetch(PERPLEXITY_API_URL, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            model: PERPLEXITY_MODEL,
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt },
+            ],
+            temperature: 0.25,
+        }),
+    });
+
+    const rawText = await response.text();
+    if (!response.ok) {
+        let detail = rawText;
+        try {
+            const errJson = JSON.parse(rawText);
+            detail = errJson.error?.message || errJson.message || rawText;
+        } catch {
+            // keep rawText
+        }
+        throw new Error(`Perplexity API error (${response.status}): ${detail}`);
+    }
+
+    let payload;
+    try {
+        payload = JSON.parse(rawText);
+    } catch {
+        throw new Error(`Perplexity returned non-JSON: ${rawText.slice(0, 200)}`);
+    }
+
+    const content = messageContentToString(payload?.choices?.[0]?.message?.content);
+    const parsed = extractJsonObject(content);
+    const questions = normalizeKnowledgeQuiz(parsed);
+    if (!questions) {
+        throw new Error("Perplexity did not return 10 valid quiz questions. Try again.");
+    }
+    return questions;
+}
+
 function formatProgressReport(appState, generatedAtIso, archiveRuns) {
     const lines = [];
     lines.push("=== Gamified Self-Help Quest — Progress Report ===");
     lines.push(`Generated (UTC): ${generatedAtIso}`);
     lines.push("");
     lines.push(
-        "Quest history is stored separately from your active list. Quests you remove from the app",
+        "The Skill page lists one achievement per quest topic/run when the whole questline is done.",
     );
-    lines.push("remain below as their last saved snapshot.");
+    lines.push(
+        "Runs you remove from the app still contribute archived snapshots for suggestions & quizzes.",
+    );
     lines.push("");
 
     const activeIds = new Set(
@@ -89,23 +316,29 @@ function formatProgressReport(appState, generatedAtIso, archiveRuns) {
             ? Math.max(0, Number(appState.totalXP) || 0)
             : null;
 
+    const runs = Array.isArray(archiveRuns) ? archiveRuns : [];
+
+    const completedRuns = runs.filter((run) => isRunFullyCompleted(run));
+
     lines.push("--- Summary ---");
     if (totalXP !== null) {
         lines.push(`Total XP (lifetime, current): ${totalXP}`);
     } else {
         lines.push("Total XP: — (no saved app state)");
     }
-    const runs = Array.isArray(archiveRuns) ? archiveRuns : [];
     lines.push(`Quest runs in report archive: ${runs.length}`);
+    lines.push(`Skills achieved (fully completed topics): ${completedRuns.length}`);
     lines.push("");
 
-    lines.push(`--- All quest runs (${runs.length}) ---`);
+    lines.push(`--- Skills achieved (${completedRuns.length} completed topics) ---`);
 
-    if (runs.length === 0) {
-        lines.push("(none yet — generate a quest and save progress.)");
+    if (completedRuns.length === 0) {
+        lines.push(
+            "(none yet — finish every subtask in every quest in a run to earn one skill for that topic.)",
+        );
     } else {
-        runs.forEach((run, i) => {
-            const title = run.questline?.quest_title || "Untitled";
+        completedRuns.forEach((run, i) => {
+            const runTitle = run.questline?.quest_title || "Untitled";
             const goal = run.userGoal || "—";
             const created = run.createdAt
                 ? new Date(run.createdAt).toISOString()
@@ -115,15 +348,15 @@ function formatProgressReport(appState, generatedAtIso, archiveRuns) {
             const removedFromApp = Boolean(run.id && !inApp);
 
             lines.push("");
-            lines.push(`[${i + 1}] ${title}`);
+            lines.push(`[${i + 1}] ${runTitle}`);
             lines.push(`    Goal: ${goal}`);
             lines.push(`    Created: ${created}`);
             lines.push(`    Tasks done: ${completed} / ${total}`);
             if (run.id && run.id === appState?.activeQuestRunId) {
-                lines.push("    (currently selected in app)");
+                lines.push("    (run currently selected in app)");
             }
             if (removedFromApp) {
-                lines.push("    (removed from app — last snapshot kept in report)");
+                lines.push("    (run removed from app — last snapshot kept in archive)");
             }
         });
     }
@@ -398,6 +631,76 @@ app.get("/progress-report", async (req, res) => {
         }
         console.error("Error reading progress report:", error);
         res.status(500).json({ error: "Failed to read progress report." });
+    }
+});
+
+/**
+ * POST { appState? } — merge archive like /progress-report, extract learned topics,
+ * ask Perplexity for 3 next topics to learn. Returns { suggestions: string[3], topicsUsed: string[] }.
+ */
+app.post("/suggest-next-topics", async (req, res) => {
+    try {
+        let appState = req.body?.appState;
+
+        if (appState === undefined || appState === null) {
+            try {
+                const raw = await fs.readFile(PROGRESS_FILE, "utf8");
+                appState = JSON.parse(raw);
+            } catch (error) {
+                if (error.code === "ENOENT") {
+                    appState = null;
+                } else {
+                    throw error;
+                }
+            }
+        }
+
+        const archive = await loadQuestArchive();
+        const merged = mergeQuestArchive(archive, appState);
+        const topicsUsed = extractLearnedTopics(merged.runs);
+        const suggestions = await suggestNextTopicsWithPerplexity(topicsUsed);
+
+        res.json({ suggestions, topicsUsed });
+    } catch (error) {
+        console.error("Error suggesting next topics:", error);
+        const message =
+            error instanceof Error ? error.message : "Something went wrong.";
+        res.status(500).json({ error: message });
+    }
+});
+
+/**
+ * POST { appState? } — merge archive, extract learned topics, Perplexity returns
+ * 10 multiple-choice questions (4 options each, correctIndex 0–3).
+ */
+app.post("/pet-knowledge-quiz", async (req, res) => {
+    try {
+        let appState = req.body?.appState;
+
+        if (appState === undefined || appState === null) {
+            try {
+                const raw = await fs.readFile(PROGRESS_FILE, "utf8");
+                appState = JSON.parse(raw);
+            } catch (error) {
+                if (error.code === "ENOENT") {
+                    appState = null;
+                } else {
+                    throw error;
+                }
+            }
+        }
+
+        const archive = await loadQuestArchive();
+        const merged = mergeQuestArchive(archive, appState);
+        const topicsUsed = extractLearnedTopics(merged.runs);
+        const questions = await generateKnowledgeQuizWithPerplexity(topicsUsed);
+
+        res.json({ questions, topicsUsed });
+    } catch (error) {
+        console.error("Error building pet knowledge quiz:", error);
+        const message =
+            error instanceof Error ? error.message : "Something went wrong.";
+        res.status(500).json({ error: message });
     }
 });
 

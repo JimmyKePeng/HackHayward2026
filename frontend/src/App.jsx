@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BrowserRouter,
   Navigate,
@@ -6,6 +6,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import PetRockFixed from "./components/PetRockFixed";
 import HomePage from "./pages/HomePage";
@@ -23,6 +24,8 @@ const API_BASE_URL = "http://localhost:3001";
 function AppRoutes() {
   const rockAnchorRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
+  const processedAutoGenIds = useRef(new Set());
   const [goal, setGoal] = useState("");
   const [theme, setTheme] = useState("fantasy");
   const [regeneratingRunId, setRegeneratingRunId] = useState(null);
@@ -48,10 +51,21 @@ function AppRoutes() {
     rockScale,
     petName,
     setPetName,
+    petTintIndex,
+    petUnlockedTints,
+    petFeedCount,
+    petMineralBalance,
+    feedPetMineral,
+    unlockPetTint,
+    setPetTintIndex,
+    awardQuizMineral,
   } = useQuestState();
 
-  async function handleGenerate(e) {
-    e.preventDefault();
+  async function generateQuestForGoal(goalText, themeVal) {
+    const g = (goalText || "").trim();
+    const tTheme = themeVal || "fantasy";
+    if (!g) return;
+
     setError("");
     setLoading(true);
 
@@ -61,7 +75,7 @@ function AppRoutes() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ goal, theme }),
+        body: JSON.stringify({ goal: g, theme: tTheme }),
       });
 
       const data = await res.json();
@@ -73,8 +87,8 @@ function AppRoutes() {
       const newRun = {
         id: crypto.randomUUID(),
         createdAt: Date.now(),
-        userGoal: goal,
-        theme,
+        userGoal: g,
+        theme: tTheme,
         questline: data.questline,
       };
 
@@ -88,6 +102,10 @@ function AppRoutes() {
           questHistory: [...(migrated.questHistory ?? []), newRun],
           activeQuestRunId: newRun.id,
           petName: normalizePetName(migrated?.petName),
+          petMineralBalance: migrated.petMineralBalance ?? 0,
+          petTintIndex: migrated.petTintIndex ?? 0,
+          petUnlockedTints: migrated.petUnlockedTints ?? [0],
+          petFeedCount: migrated.petFeedCount ?? 0,
         };
       });
       setGoal("");
@@ -97,6 +115,28 @@ function AppRoutes() {
       setLoading(false);
     }
   }
+
+  function handleGenerate(e) {
+    e.preventDefault();
+    void generateQuestForGoal(goal, theme);
+  }
+
+  /** Skill page: pick AI topic → land on Quests with goal filled + quest generated */
+  useEffect(() => {
+    const topic = location.state?.autoGenerateGoal;
+    const id = location.state?.autoGenId;
+    if (typeof topic !== "string" || !topic.trim()) return;
+    if (typeof id !== "string" || !id) return;
+    if (processedAutoGenIds.current.has(id)) return;
+    processedAutoGenIds.current.add(id);
+
+    const trimmed = topic.trim();
+    navigate("/quests", { replace: true, state: {} });
+    setGoal(trimmed);
+    void generateQuestForGoal(trimmed, theme);
+    // generateQuestForGoal is stable enough for this flow; listing it would retrigger needlessly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot navigation payload only
+  }, [location.state, navigate, theme]);
 
   async function handleReset() {
     await clearStoredState();
@@ -145,11 +185,20 @@ function AppRoutes() {
         totalXP={totalXP}
         rockScale={rockScale}
         petName={petName}
+        petTintIndex={petTintIndex}
         anchorRef={rockAnchorRef}
       />
 
       <nav className="app-nav" aria-label="Main">
-        <span className="app-nav__brand">Questify</span>
+        <span className="app-nav__brand" title="Questify">
+          <span className="app-nav__brand-mark" aria-hidden>
+            ✦
+          </span>
+          <span className="app-nav__brand-word">
+            <span className="app-nav__brand-quest">Quest</span>
+            <span className="app-nav__brand-ify">ify</span>
+          </span>
+        </span>
         <div className="app-nav__links">
           <NavLink
             to="/"
@@ -206,6 +255,7 @@ function AppRoutes() {
                 onToggleSubquest={handleToggleSubquest}
                 petName={petName}
                 onPetNameChange={setPetName}
+                petTintIndex={petTintIndex}
               />
             }
           />
@@ -216,6 +266,15 @@ function AppRoutes() {
                 totalXP={totalXP}
                 rockScale={rockScale}
                 petName={petName}
+                petTintIndex={petTintIndex}
+                petMineralBalance={petMineralBalance}
+                petUnlockedTints={petUnlockedTints}
+                petFeedCount={petFeedCount}
+                appState={appState}
+                onFeedPetMineral={feedPetMineral}
+                onUnlockPetTint={unlockPetTint}
+                onSelectPetTint={setPetTintIndex}
+                onAwardQuizMineral={awardQuizMineral}
               />
             }
           />

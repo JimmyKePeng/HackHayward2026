@@ -6,12 +6,12 @@ Turn a real-life goal into an AI-generated **questline** (quests and subquests),
 
 - **Quest generation** — Enter a goal + theme (fantasy, sci-fi, adventure); the backend calls the **Perplexity** API to produce structured JSON questlines.
 - **Tasks & XP** — Check off subquests on the Quests page or from **Home** (“Today’s focus”). Difficulty maps to XP (easy / medium / hard).
-- **Pet blob** — Draggable corner pet with moods, reactions, and tier-based colors that scale with XP. Optional **`compactGround`** mode (used on the Pet page) uses a smaller drop shadow and bottom-anchored scaling so the blob sits cleanly on surfaces.
+- **Pet blob** — Draggable corner pet with moods, reactions, and tier-based colors. Visual size grows gently: **`rockScale = 1 + totalXP / 400`**. Optional **`compactGround`** mode (Pet page) uses a smaller drop shadow and bottom-anchored scaling.
 - **Rarity tiers** — Common → Legendary; XP bar shows progress within the current tier.
 - **Regenerate** — Per quest run, **↻** re-rolls the questline with the **same goal & theme** (XP from completed tasks on that run is adjusted).
 - **Persistence** — State syncs to `localStorage` and the backend (`quest-progress.txt`).
-- **Skills / achievements** — Separate archive (`quest-report-archive.json`) keeps **all** quest runs (including removed ones). The **Skill** page loads the same human-readable summary inline (backend still writes `progress-report.txt` on each load).
-- **Routes** — **Home** (focus + blob preview + XP / tier + lifetime XP hint + pet anchor behavior), **Quests** (create, list, questline), **Pet** (interactive seesaw — see below), **Skill** (scrollable achievement report). Old **`/progress`** URLs redirect to **Home**.
+- **Skills / achievements** — **One skill per quest run/topic** when the **entire questline** is finished (every quest’s subtasks checked). Two topics fully done → two rows (`POST /progress-report` → `progress-report.txt`). **Suggest next** uses **`POST /suggest-next-topics`** (Perplexity).
+- **Routes** — **Home** (focus + blob preview + XP / tier + lifetime XP hint + pet anchor behavior), **Quests** (create, list, questline), **Pet** (seesaw + minerals / tints — see below), **Skill** (scrollable achievement report). Old **`/progress`** URLs redirect to **Home**.
 
 ### Pet page (`/pet`)
 
@@ -20,8 +20,9 @@ Turn a real-life goal into an AI-generated **questline** (quests and subquests),
 - **Launch** — Your jump height scales with blob size / XP. Below a small XP threshold, you only **wiggle** and the UI nudges you toward **Quests** to grow the blob.
 - **Settle** — When the sequence ends, both you and the blob stay on the board; final tilt follows **relative weight** (you vs. blob scale). **Reset** returns to the idle setup so you can play again.
 - **Polish** — Falling blob uses a stable silhouette (no wobble during the fall), deck area sized so tall blobs aren’t clipped after landing, and `prefers-reduced-motion` skips the long animation.
+- **Minerals & looks** — Open **Take knowledge quiz** on the Pet page: the client sends saved quest topics to **`POST /pet-knowledge-quiz`**; Perplexity returns **10** multiple-choice questions. React grades locally; **6+ correct** earns **1 mineral**. Spend minerals to **feed** the pet or **unlock color moods** (tints on top of tier colors). **Color mood** swatches use the same gradient as the blob (`getBlobSurfaceGradient`). Saved in app state / `quest-progress.txt`.
 
-Implementation: `frontend/src/pages/PetPage.jsx`, `frontend/src/pages/PetPage.css`; blob props in `frontend/src/components/BlobPet.jsx` + `BlobPet.css`.
+Implementation: `frontend/src/pages/PetPage.jsx`, `frontend/src/pages/PetPage.css`; `PetMineralCare.jsx`; `PetKnowledgeQuizModal.jsx`; `rockAppearance.js` (`getBlobColors`, `getBlobSurfaceGradient`, `PET_TINT_PRESETS`); blob in `BlobPet.jsx` + `BlobPet.css`.
 
 ## Tech stack
 
@@ -111,8 +112,10 @@ Serve `frontend/dist` with any static host; ensure the API is reachable (CORS is
 | `DELETE` | `/progress` | Clear progress + report files |
 | `POST` | `/generate-quest` | Body: `{ goal, theme }` → AI questline |
 | `POST` | `/regenerate-quest` | Body: `{ goal, theme }` → new questline only |
-| `POST` | `/progress-report` | Build report, merge archive, write `progress-report.txt` |
+| `POST` | `/progress-report` | Merge archive, write `progress-report.txt` (Skill: **fully completed runs** only) |
 | `GET` | `/progress-report` | Read last report file |
+| `POST` | `/pet-knowledge-quiz` | Body: `{ appState }` → Perplexity builds 10 MCQs from learned topics; returns `{ questions, topicsUsed }` |
+| `POST` | `/suggest-next-topics` | Body: `{ appState }` → suggested follow-up topics (Skill page) |
 
 ## Data files (backend folder)
 

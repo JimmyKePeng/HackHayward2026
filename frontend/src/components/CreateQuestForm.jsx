@@ -5,7 +5,6 @@ function CreateQuestForm({
   onGoalChange,
   onThemeChange,
   onGenerate,
-  onReset,
   onUncheckAll,
   onCheckAll,
   canBulkToggleQuests,
@@ -33,12 +32,12 @@ function CreateQuestForm({
       </label>
 
       <div className="button-row button-row--wrap">
-        <button type="submit" disabled={loading}>
+        <button
+          type="submit"
+          className="btn-primary-gradient"
+          disabled={loading}
+        >
           {loading ? "Generating..." : "Generate Quest"}
-        </button>
-
-        <button type="button" className="secondary" onClick={onReset}>
-          Reset Everything
         </button>
 
         <button

@@ -3,6 +3,7 @@ import BlobPet from "./BlobPet";
 import {
   DEFAULT_PET_NAME,
   PET_CELEBRATE_TASK_EVENT,
+  PET_FEED_MINERAL_EVENT,
 } from "../hooks/useQuestState";
 import { getBlobColors, getRockAppearance, RARITY_TIERS } from "../utils/rockAppearance";
 import { getQuip } from "../utils/blobPetQuips";
@@ -57,12 +58,13 @@ function PetRockFixed({
   totalXP,
   rockScale,
   petName = DEFAULT_PET_NAME,
+  petTintIndex = 0,
   anchorRef,
 }) {
   const { tierLabel, scale } = getRockAppearance(totalXP, rockScale, {
     maxScale: 2.75,
   });
-  const blobColors = getBlobColors(totalXP);
+  const blobColors = getBlobColors(totalXP, { tintIndex: petTintIndex });
 
   const [mood, setMood] = useState("idle");
   const [reaction, setReaction] = useState("none");
@@ -137,6 +139,23 @@ function PetRockFixed({
     window.addEventListener(PET_CELEBRATE_TASK_EVENT, onTaskCelebration);
     return () => window.removeEventListener(PET_CELEBRATE_TASK_EVENT, onTaskCelebration);
   }, [runXpCelebration]);
+
+  useEffect(() => {
+    function onFeedMineral() {
+      clearXpPartyTimers();
+      setMood("happy");
+      setReaction("love");
+      setQuip(getQuip("love"));
+      const t1 = window.setTimeout(() => setReaction("none"), 750);
+      const t2 = window.setTimeout(() => {
+        setMood("idle");
+        setQuip(getQuip("idle", tierLabelRef.current));
+      }, 2600);
+      xpPartyTimersRef.current.push(t1, t2);
+    }
+    window.addEventListener(PET_FEED_MINERAL_EVENT, onFeedMineral);
+    return () => window.removeEventListener(PET_FEED_MINERAL_EVENT, onFeedMineral);
+  }, [clearXpPartyTimers]);
 
   useEffect(() => () => clearXpPartyTimers(), [clearXpPartyTimers]);
 

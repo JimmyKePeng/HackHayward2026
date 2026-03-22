@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { formatDatePST } from "../utils/formatReportDatePST";
 import { parseProgressReport } from "../utils/parseProgressReport";
 
 /**
@@ -44,8 +45,8 @@ export default function SkillReportView({ reportText }) {
 
       {generated ? (
         <p className="skill-report__generated">
-          <span className="skill-report__generated-label">Generated (UTC)</span>
-          <time dateTime={generated}>{generated}</time>
+          <span className="skill-report__generated-label">Generated (Pacific)</span>
+          <time dateTime={generated}>{formatDatePST(generated)}</time>
         </p>
       ) : null}
 
@@ -96,7 +97,11 @@ export default function SkillReportView({ reportText }) {
                       {run.fields.map((f) => (
                         <li key={f.label}>
                           <span className="skill-report__meta-label">{f.label}</span>
-                          <span className="skill-report__meta-value">{f.value}</span>
+                          <span className="skill-report__meta-value">
+                            {f.label === "Created"
+                              ? formatDatePST(f.value)
+                              : f.value}
+                          </span>
                         </li>
                       ))}
                     </ul>

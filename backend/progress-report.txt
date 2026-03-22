@@ -1,55 +1,29 @@
 === Gamified Self-Help Quest — Progress Report ===
-Generated (UTC): 2026-03-22T02:19:24.901Z
+Generated (UTC): 2026-03-22T04:53:41.833Z
 
-Quest history is stored separately from your active list. Quests you remove from the app
-remain below as their last saved snapshot.
+The Skill page lists one achievement per quest topic/run when the whole questline is done.
+Runs you remove from the app still contribute archived snapshots for suggestions & quizzes.
 
 --- Summary ---
-Total XP (lifetime, current): 985
-Quest runs in report archive: 8
+Total XP (lifetime, current): 420
+Quest runs in report archive: 4
+Skills achieved (fully completed topics): 3
 
---- All quest runs (8) ---
+--- Skills achieved (3 completed topics) ---
 
-[1] Arcane Codex Mastery: CSS Sorcerer's Journey
-    Goal: i want to learn css
-    Created: 2026-03-21T20:22:22.821Z
-    Tasks done: 20 / 20
-    (currently selected in app)
+[1] Galactic Code Odyssey: Forge Your Web Developer Destiny
+    Goal: i want to become a web developer
+    Created: 2026-03-22T04:31:00.413Z
+    Tasks done: 14 / 14
 
-[2] The Enchanted Codex: Python Apprentice Questline
-    Goal: i want to learn python
-    Created: 2026-03-21T20:23:00.846Z
-    Tasks done: 15 / 15
-
-[3] The Dragon's Hoard: Cleanse Your Enchanted Chamber
-    Goal: i want to clean my room
-
-    Created: 2026-03-21T21:12:37.230Z
-    Tasks done: 18 / 18
-
-[4] The Homework Hero's Quest
-    Goal: I want to stop procrastinating on homework
-    Created: 2026-03-21T21:15:47.343Z
+[2] Epic Quest to Conquer the Procrastination Dragon
+    Goal: i want to stop procrastinating on hw
+    Created: 2026-03-22T04:41:54.884Z
     Tasks done: 13 / 13
 
-[5] Pacific Patience Drive: Survive the Exclusion Zone
-    Goal: i want to be a more patient driver
-    Created: 2026-03-21T22:31:24.524Z
+[3] Quantum Probability Navigator: Decode the Cosmos
+    Goal: i want to learn some basic of probability because i have a stat course next semester
+    Created: 2026-03-22T04:47:37.689Z
     Tasks done: 17 / 17
-
-[6] The Weight Loss Adventure: Quest for the Legendary Fitness Realm
-    Goal: i want to loss weight
-    Created: 2026-03-21T22:38:54.730Z
-    Tasks done: 16 / 16
-
-[7] Beep Boop: The Robotic Awakening
-    Goal: beep boop
-    Created: 2026-03-21T22:50:26.362Z
-    Tasks done: 17 / 17
-
-[8] Quantum Focus Protocol: Defeat the Procrastination Nebula
-    Goal: I wan to stop procrastinating on homework
-    Created: 2026-03-21T23:11:30.503Z
-    Tasks done: 14 / 14
 
 --- End of report ---

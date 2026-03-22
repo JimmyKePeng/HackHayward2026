@@ -2,6 +2,18 @@
   box-sizing: border-box;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -71,10 +83,84 @@ select {
   border-radius: 14px;
 }
 
+/* Logo-style wordmark — larger, gradient split, gem mark */
 .app-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 4px 2px;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   font-weight: 800;
-  color: #93c5fd;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  user-select: none;
+}
+
+.app-nav__brand-mark {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: #eef2ff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(
+    145deg,
+    #4f46e5 0%,
+    #6366f1 40%,
+    #7c3aed 72%,
+    #a855f7 100%
+  );
+  border-radius: 12px;
+  box-shadow:
+    0 4px 18px rgba(99, 102, 241, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.12) inset;
+}
+
+.app-nav__brand-word {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 1.5rem;
+}
+
+.app-nav__brand-quest {
+  background: linear-gradient(100deg, #f8fafc 0%, #c7d2fe 55%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 10px rgba(99, 102, 241, 0.35));
+}
+
+.app-nav__brand-ify {
+  background: linear-gradient(100deg, #c4b5fd 0%, #e879f9 45%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 10px rgba(168, 85, 247, 0.35));
+}
+
+@media (max-width: 480px) {
+  .app-nav__brand-word {
+    font-size: 1.28rem;
+  }
+
+  .app-nav__brand-mark {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
 }
 
 .app-nav__links {
@@ -490,6 +576,38 @@ button {
   font-weight: 700;
 }
 
+/**
+ * Primary CTA — same look as Skill page “Suggest what to learn next”
+ * (also used for Quests “Generate Quest”).
+ */
+button.btn-primary-gradient {
+  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 55%, #a855f7 100%);
+  color: #f8fafc;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow:
+    0 4px 16px rgba(99, 102, 241, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease,
+    opacity 0.15s ease;
+}
+
+button.btn-primary-gradient:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+button.btn-primary-gradient:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
 button.secondary {
   background: #4b5563;
 }
@@ -507,6 +625,26 @@ button:disabled {
 
 .dashboard-grid--single {
   grid-template-columns: 1fr;
+}
+
+/* Quests page — reset at bottom */
+.quest-page__reset-section {
+  margin-top: 8px;
+  margin-bottom: 24px;
+  padding: 24px 20px 8px;
+  border-top: 1px solid rgba(71, 85, 105, 0.55);
+  max-width: 1100px;
+}
+
+.quest-page__reset-section .quest-page__reset-lead {
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+
+.quest-page__reset-section .quest-page__reset-btn {
+  font-weight: 700;
 }
 
 .rock-area {

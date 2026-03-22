@@ -1,3 +1,21 @@
+/**
+ * Cosmetic tints applied on top of rarity-based HSL (hue shifts wrap 0–360).
+ * Index 0 is always free; others unlock with minerals on the Pet page.
+ */
+export const PET_TINT_PRESETS = [
+  { id: 0, label: "Rarity", hueShift: 0, satShift: 0, lightShift: 0 },
+  { id: 1, label: "Rose quartz", hueShift: 42, satShift: 12, lightShift: 6 },
+  { id: 2, label: "Mint moon", hueShift: 168, satShift: 10, lightShift: -4 },
+  { id: 3, label: "Sunset", hueShift: -38, satShift: 14, lightShift: 2 },
+  { id: 4, label: "Deep sea", hueShift: 208, satShift: 6, lightShift: -8 },
+];
+
+export const PET_TINT_COUNT = PET_TINT_PRESETS.length;
+
+function clampChannel(n, min, max) {
+  return Math.min(max, Math.max(min, Math.round(n)));
+}
+
 export const RARITY_TIERS = [
   { minXP: 0, maxXP: 99, hue: 215, saturation: 10, lightness: 62, label: "Common" },
   { minXP: 100, maxXP: 249, hue: 140, saturation: 45, lightness: 56, label: "Uncommon" },
@@ -9,7 +27,7 @@ export const RARITY_TIERS = [
 /**
  * Shared visuals for the pet rock (Home preview + fixed corner rock).
  * @param {number} totalXP
- * @param {number} rockScale — from 1 + XP/100
+ * @param {number} rockScale — from 1 + XP/400 (see useQuestState)
  * @param {{ maxScale?: number | null }} [options] — cap scale for fixed overlay so it stays on-screen
  */
 export function getRockAppearance(totalXP, rockScale, options = {}) {
@@ -49,7 +67,13 @@ export function getRockAppearance(totalXP, rockScale, options = {}) {
 }
 
 /** HSL palette for blob pet (same tier math as rock, no transform). */
-export function getBlobColors(totalXP) {
+export function getBlobColors(totalXP, options = {}) {
+  const tintIdx = Math.max(
+    0,
+    Math.min(PET_TINT_PRESETS.length - 1, Number(options.tintIndex) || 0),
+  );
+  const preset = PET_TINT_PRESETS[tintIdx] ?? PET_TINT_PRESETS[0];
+
   const tierIndex = RARITY_TIERS.findIndex(
     (tier) => totalXP >= tier.minXP && totalXP <= tier.maxXP
   );
@@ -64,9 +88,13 @@ export function getBlobColors(totalXP) {
     Math.max(0, (totalXP - currentTier.minXP) / tierSpan)
   );
 
-  const hue = currentTier.hue;
-  const saturation = Math.round(currentTier.saturation + tierProgress * 6);
-  const lightness = Math.round(currentTier.lightness - tierProgress * 4);
+  const baseHue = currentTier.hue;
+  const baseSat = currentTier.saturation + tierProgress * 6;
+  const baseLight = currentTier.lightness - tierProgress * 4;
+
+  const hue = (baseHue + preset.hueShift + 360) % 360;
+  const saturation = clampChannel(baseSat + preset.satShift, 0, 100);
+  const lightness = clampChannel(baseLight + preset.lightShift, 18, 88);
 
   return {
     hue,
@@ -74,7 +102,20 @@ export function getBlobColors(totalXP) {
     lightness,
     tierLabel: currentTier.label,
     tierIndex: tierIndex >= 0 ? tierIndex : 0,
+    tintIndex: tintIdx,
   };
+}
+
+/**
+ * CSS gradient matching `BlobPet` body (so tint swatches match the real pet).
+ * @param {number} totalXP
+ * @param {number} tintIndex
+ */
+export function getBlobSurfaceGradient(totalXP, tintIndex) {
+  const { hue, saturation, lightness } = getBlobColors(totalXP, {
+    tintIndex,
+  });
+  return `linear-gradient(145deg, hsl(${hue} ${saturation}% ${lightness + 10}%), hsl(${hue} ${saturation}% ${lightness - 6}%))`;
 }
 
 /** Progress toward filling the current rarity tier (for UI bar). */

@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import BlobPet from "../components/BlobPet";
+import PetMineralCare from "../components/PetMineralCare";
 import { DEFAULT_PET_NAME } from "../hooks/useQuestState";
 import { getBlobColors, getRockAppearance } from "../utils/rockAppearance";
 import "./PetPage.css";
@@ -23,9 +24,18 @@ export default function PetPage({
   totalXP,
   rockScale,
   petName = DEFAULT_PET_NAME,
+  petTintIndex = 0,
+  petMineralBalance = 0,
+  petUnlockedTints = [0],
+  petFeedCount = 0,
+  appState,
+  onFeedPetMineral,
+  onUnlockPetTint,
+  onSelectPetTint,
+  onAwardQuizMineral,
 }) {
   const { scale } = getRockAppearance(totalXP, rockScale, { maxScale: 2.75 });
-  const blobColors = getBlobColors(totalXP);
+  const blobColors = getBlobColors(totalXP, { tintIndex: petTintIndex });
   const { tierLabel } = blobColors;
 
   const blobWeight = scale;
@@ -224,6 +234,22 @@ export default function PetPage({
             {petName}.
           </p>
         )}
+
+        <hr className="pet-play__divider" aria-hidden />
+
+        <PetMineralCare
+          petName={petName}
+          totalXP={totalXP}
+          petMineralBalance={petMineralBalance}
+          petUnlockedTints={petUnlockedTints}
+          petTintIndex={petTintIndex}
+          petFeedCount={petFeedCount}
+          appState={appState}
+          onFeedMineral={onFeedPetMineral}
+          onUnlockTint={onUnlockPetTint}
+          onSelectTint={onSelectPetTint}
+          onAwardQuizMineral={onAwardQuizMineral}
+        />
       </section>
     </>
   );

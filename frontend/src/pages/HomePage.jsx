@@ -18,6 +18,7 @@ export default function HomePage({
   onToggleSubquest,
   petName,
   onPetNameChange,
+  petTintIndex = 0,
 }) {
   /** Recompute when run reference or any subquest completion changes */
   const focusCompletionKey = useMemo(() => {
@@ -36,7 +37,7 @@ export default function HomePage({
     [activeQuestRun, focusCompletionKey],
   );
   const { scale } = getRockAppearance(totalXP, rockScale, { maxScale: 1.38 });
-  const blobColors = getBlobColors(totalXP);
+  const blobColors = getBlobColors(totalXP, { tintIndex: petTintIndex });
   const tierInfo = getTierProgressInfo(totalXP);
   const tierLabel = blobColors.tierLabel;
 
