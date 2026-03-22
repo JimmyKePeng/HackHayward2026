@@ -16,6 +16,15 @@ const XP_GAIN = [
   "XP acquired. My soul is 2% larger.",
 ];
 
+/** Extra encouragement when you finish a task from Today’s focus on Home */
+const HOME_FOCUS = [
+  "That’s one down — you’re crushing it.",
+  "Nice! The floating me is cheering too.",
+  "Task: defeated. Blob: proud.",
+  "Momentum unlocked. Keep that streak.",
+  "Tiny win, huge brain. Science.",
+];
+
 const TIER_UP = [
   "Rarity unlocked. We’re basically famous now.",
   "Main character energy just dropped.",
@@ -65,13 +74,15 @@ export function pickRandom(arr) {
 }
 
 /**
- * @param {"idle"|"happy"|"excited"|"sleepy"|"love"|"shocked"|"xp"|"tier"|"click"} kind
+ * @param {"idle"|"happy"|"excited"|"sleepy"|"love"|"shocked"|"xp"|"tier"|"click"|"focus"} kind
  * @param {string} [tierLabel]
  */
 export function getQuip(kind, tierLabel) {
   switch (kind) {
     case "xp":
       return pickRandom(XP_GAIN);
+    case "focus":
+      return pickRandom(HOME_FOCUS);
     case "tier":
       return pickRandom(TIER_UP);
     case "happy":

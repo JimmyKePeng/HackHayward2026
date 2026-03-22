@@ -8,12 +8,15 @@ import {
   useLocation,
 } from "react-router-dom";
 import PetRockFixed from "./components/PetRockFixed";
-import { ProgressReportModal } from "./components/ProgressReportModal";
 import HomePage from "./pages/HomePage";
 import PetPage from "./pages/PetPage";
 import QuestsPage from "./pages/QuestsPage";
-import ProgressPage from "./pages/ProgressPage";
-import { migrateAppState, useQuestState } from "./hooks/useQuestState";
+import SkillPage from "./pages/SkillPage";
+import {
+  migrateAppState,
+  normalizePetName,
+  useQuestState,
+} from "./hooks/useQuestState";
 
 const API_BASE_URL = "http://localhost:3001";
 
@@ -22,10 +25,6 @@ function AppRoutes() {
   const location = useLocation();
   const [goal, setGoal] = useState("");
   const [theme, setTheme] = useState("fantasy");
-  const [reportOpen, setReportOpen] = useState(false);
-  const [reportText, setReportText] = useState("");
-  const [reportLoading, setReportLoading] = useState(false);
-  const [reportError, setReportError] = useState("");
   const [regeneratingRunId, setRegeneratingRunId] = useState(null);
   const {
     appState,
@@ -47,6 +46,8 @@ function AppRoutes() {
     setActiveQuestRunId,
     totalXP,
     rockScale,
+    petName,
+    setPetName,
   } = useQuestState();
 
   async function handleGenerate(e) {
@@ -86,6 +87,7 @@ function AppRoutes() {
           totalXP: previousXP,
           questHistory: [...(migrated.questHistory ?? []), newRun],
           activeQuestRunId: newRun.id,
+          petName: normalizePetName(migrated?.petName),
         };
       });
       setGoal("");
@@ -136,42 +138,18 @@ function AppRoutes() {
     }
   }
 
-  async function handleGetReport() {
-    setReportError("");
-    setReportText("");
-    setReportOpen(true);
-    setReportLoading(true);
-    try {
-      const res = await fetch(`${API_BASE_URL}/progress-report`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ appState: migrateAppState(appState) }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to generate progress report.");
-      }
-      setReportText(data.report ?? "");
-    } catch (err) {
-      setReportError(err.message || "Something went wrong.");
-    } finally {
-      setReportLoading(false);
-    }
-  }
-
-  const showOffscreenAnchor = location.pathname !== "/progress";
-
   return (
     <div className="app-shell">
       <PetRockFixed
         key={location.pathname}
         totalXP={totalXP}
         rockScale={rockScale}
+        petName={petName}
         anchorRef={rockAnchorRef}
       />
 
       <nav className="app-nav" aria-label="Main">
-        <span className="app-nav__brand">Quest App</span>
+        <span className="app-nav__brand">Questify</span>
         <div className="app-nav__links">
           <NavLink
             to="/"
@@ -199,23 +177,21 @@ function AppRoutes() {
             Pet
           </NavLink>
           <NavLink
-            to="/progress"
+            to="/skill"
             className={({ isActive }) =>
               `app-nav__link${isActive ? " app-nav__link--active" : ""}`
             }
           >
-            Progress
+            Skill
           </NavLink>
         </div>
       </nav>
 
-      {showOffscreenAnchor ? (
-        <div
-          ref={rockAnchorRef}
-          className="pet-rock-anchor pet-rock-anchor--offscreen"
-          aria-hidden
-        />
-      ) : null}
+      <div
+        ref={rockAnchorRef}
+        className="pet-rock-anchor pet-rock-anchor--offscreen"
+        aria-hidden
+      />
 
       <div className="container">
         <Routes>
@@ -228,12 +204,20 @@ function AppRoutes() {
                 questCount={questHistory.length}
                 activeQuestRun={activeQuestRun}
                 onToggleSubquest={handleToggleSubquest}
+                petName={petName}
+                onPetNameChange={setPetName}
               />
             }
           />
           <Route
             path="/pet"
-            element={<PetPage totalXP={totalXP} rockScale={rockScale} />}
+            element={
+              <PetPage
+                totalXP={totalXP}
+                rockScale={rockScale}
+                petName={petName}
+              />
+            }
           />
           <Route
             path="/quests"
@@ -266,29 +250,14 @@ function AppRoutes() {
               />
             }
           />
+          <Route path="/progress" element={<Navigate to="/" replace />} />
           <Route
-            path="/progress"
-            element={
-              <ProgressPage
-                rockAnchorRef={rockAnchorRef}
-                totalXP={totalXP}
-                rockScale={rockScale}
-                onGetReport={handleGetReport}
-                reportLoading={reportLoading}
-              />
-            }
+            path="/skill"
+            element={<SkillPage appState={appState} />}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
-
-      <ProgressReportModal
-        open={reportOpen}
-        onClose={() => setReportOpen(false)}
-        reportText={reportText}
-        loading={reportLoading}
-        error={reportError}
-      />
     </div>
   );
 }

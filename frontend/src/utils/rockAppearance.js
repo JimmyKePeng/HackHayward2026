@@ -7,7 +7,7 @@ export const RARITY_TIERS = [
 ];
 
 /**
- * Shared visuals for the pet rock (Progress panel + fixed corner rock).
+ * Shared visuals for the pet rock (Home preview + fixed corner rock).
  * @param {number} totalXP
  * @param {number} rockScale — from 1 + XP/100
  * @param {{ maxScale?: number | null }} [options] — cap scale for fixed overlay so it stays on-screen

@@ -4,8 +4,28 @@ const STORAGE_KEY = "quest-app-state";
 const API_BASE_URL = "http://localhost:3001";
 const EMPTY_QUEST_HISTORY = [];
 
+/** XP value for a subquest (avoids NaN when `xp` is missing). */
+export function subquestXpValue(sub) {
+  const n = Number(sub?.xp);
+  return Number.isFinite(n) && n >= 0 ? n : 5;
+}
+
+export const PET_CELEBRATE_TASK_EVENT = "pet-celebrate-task";
+
+/** Default label for the draggable pet (caption, accessibility, quip fallback). */
+export const DEFAULT_PET_NAME = "Blob pet";
+
+/** Trim, cap length, fall back to default if empty. */
+export function normalizePetName(raw) {
+  if (typeof raw !== "string") return DEFAULT_PET_NAME;
+  const t = raw.trim().slice(0, 32);
+  return t.length > 0 ? t : DEFAULT_PET_NAME;
+}
+
 export function migrateAppState(raw) {
   if (!raw || typeof raw !== "object") return null;
+
+  const petName = normalizePetName(raw.petName);
 
   if (Array.isArray(raw.questHistory) && raw.questHistory.length > 0) {
     return {
@@ -15,6 +35,7 @@ export function migrateAppState(raw) {
         raw.activeQuestRunId ??
         raw.questHistory[raw.questHistory.length - 1]?.id ??
         null,
+      petName,
     };
   }
 
@@ -32,6 +53,7 @@ export function migrateAppState(raw) {
         },
       ],
       activeQuestRunId: id,
+      petName,
     };
   }
 
@@ -39,6 +61,7 @@ export function migrateAppState(raw) {
     totalXP: raw.totalXP ?? 0,
     questHistory: [],
     activeQuestRunId: null,
+    petName,
   };
 }
 
@@ -112,6 +135,28 @@ export function useQuestState() {
   const totalXP = appState?.totalXP || 0;
   const rockScale = 1 + totalXP / 100;
 
+  const petName = useMemo(
+    () => normalizePetName(appState?.petName),
+    [appState?.petName],
+  );
+
+  const setPetName = useCallback((name) => {
+    setAppState((prev) => {
+      const normalized = normalizePetName(
+        typeof name === "string" ? name : DEFAULT_PET_NAME,
+      );
+      if (!prev) {
+        return {
+          totalXP: 0,
+          questHistory: [],
+          activeQuestRunId: null,
+          petName: normalized,
+        };
+      }
+      return { ...prev, petName: normalized };
+    });
+  }, []);
+
   const questHistory = appState?.questHistory ?? EMPTY_QUEST_HISTORY;
   const activeQuestRunId = appState?.activeQuestRunId ?? null;
 
@@ -128,6 +173,7 @@ export function useQuestState() {
   }, []);
 
   function handleToggleSubquest(questId, subquestId) {
+    let xpGained = 0;
     setAppState((prev) => {
       if (!prev?.activeQuestRunId) return prev;
 
@@ -143,10 +189,12 @@ export function useQuestState() {
 
           if (!subquest.completed) {
             subquest.completed = true;
-            next.totalXP += subquest.xp;
+            const add = subquestXpValue(subquest);
+            next.totalXP += add;
+            xpGained = add;
           } else {
             subquest.completed = false;
-            next.totalXP -= subquest.xp;
+            next.totalXP -= subquestXpValue(subquest);
           }
         }
 
@@ -155,6 +203,15 @@ export function useQuestState() {
 
       return next;
     });
+    if (xpGained > 0) {
+      queueMicrotask(() => {
+        window.dispatchEvent(
+          new CustomEvent(PET_CELEBRATE_TASK_EVENT, {
+            detail: { xp: xpGained },
+          }),
+        );
+      });
+    }
   }
 
   function handleUncheckAllInActiveRun() {
@@ -169,7 +226,7 @@ export function useQuestState() {
         for (const subquest of quest.subquests) {
           if (subquest.completed) {
             subquest.completed = false;
-            next.totalXP -= subquest.xp;
+            next.totalXP -= subquestXpValue(subquest);
           }
         }
         quest.completed = false;
@@ -180,6 +237,7 @@ export function useQuestState() {
   }
 
   function handleCheckAllInActiveRun() {
+    let bulkXp = 0;
     setAppState((prev) => {
       if (!prev?.activeQuestRunId) return prev;
 
@@ -191,7 +249,9 @@ export function useQuestState() {
         for (const subquest of quest.subquests) {
           if (!subquest.completed) {
             subquest.completed = true;
-            next.totalXP += subquest.xp;
+            const add = subquestXpValue(subquest);
+            next.totalXP += add;
+            bulkXp += add;
           }
         }
         quest.completed = quest.subquests.every((sq) => sq.completed);
@@ -199,6 +259,15 @@ export function useQuestState() {
 
       return next;
     });
+    if (bulkXp > 0) {
+      queueMicrotask(() => {
+        window.dispatchEvent(
+          new CustomEvent(PET_CELEBRATE_TASK_EVENT, {
+            detail: { xp: bulkXp },
+          }),
+        );
+      });
+    }
   }
 
   /**
@@ -298,5 +367,7 @@ export function useQuestState() {
     setActiveQuestRunId,
     totalXP,
     rockScale,
+    petName,
+    setPetName,
   };
 }

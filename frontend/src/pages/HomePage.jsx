@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import BlobPet from "../components/BlobPet";
+import { subquestXpValue } from "../hooks/useQuestState";
 import {
   getBlobColors,
   getRockAppearance,
@@ -15,10 +16,24 @@ export default function HomePage({
   questCount,
   activeQuestRun,
   onToggleSubquest,
+  petName,
+  onPetNameChange,
 }) {
+  /** Recompute when run reference or any subquest completion changes */
+  const focusCompletionKey = useMemo(() => {
+    if (!activeQuestRun?.questline?.quests) return "";
+    return activeQuestRun.questline.quests
+      .map((q) =>
+        (q.subquests || [])
+          .map((s) => `${s.id}:${s.completed === true ? 1 : 0}`)
+          .join(","),
+      )
+      .join("|");
+  }, [activeQuestRun]);
+
   const focus = useMemo(
     () => getTodayFocusInfo(activeQuestRun),
-    [activeQuestRun],
+    [activeQuestRun, focusCompletionKey],
   );
   const { scale } = getRockAppearance(totalXP, rockScale, { maxScale: 1.38 });
   const blobColors = getBlobColors(totalXP);
@@ -29,6 +44,32 @@ export default function HomePage({
     () => getQuip("idle", tierLabel),
     [tierLabel],
   );
+
+  /** Today’s focus: encouragement line after checking a task */
+  const [focusEncourage, setFocusEncourage] = useState(null);
+  /** Home card blob: quick excited reaction when a focus task is completed */
+  const [homePetCheer, setHomePetCheer] = useState(false);
+
+  const [petNameDraft, setPetNameDraft] = useState(petName);
+  useEffect(() => {
+    setPetNameDraft(petName);
+  }, [petName]);
+
+  function commitPetName() {
+    onPetNameChange?.(petNameDraft);
+  }
+
+  useEffect(() => {
+    if (!focusEncourage) return;
+    const t = window.setTimeout(() => setFocusEncourage(null), 3800);
+    return () => clearTimeout(t);
+  }, [focusEncourage]);
+
+  useEffect(() => {
+    if (!homePetCheer) return;
+    const t = window.setTimeout(() => setHomePetCheer(false), 2600);
+    return () => clearTimeout(t);
+  }, [homePetCheer]);
 
   let focusBody = null;
   if (questCount === 0) {
@@ -45,22 +86,11 @@ export default function HomePage({
         your next unchecked task here.
       </p>
     );
-  } else if (focus.allComplete) {
-    focusBody = (
-      <>
-        <p className="home-focus__badge">Run complete</p>
-        <p className="home-focus__text">
-          Every task in this questline is checked off ({focus.completed}/
-          {focus.total}). Time to celebrate — or{" "}
-          <Link to="/quests">start a new quest</Link>.
-        </p>
-      </>
-    );
   } else if (focus.nextTask) {
     const { questId, subquestId } = focus.nextTask;
     const q = activeQuestRun?.questline?.quests?.find((x) => x.id === questId);
     const sub = q?.subquests?.find((s) => s.id === subquestId);
-    const subCompleted = sub?.completed ?? false;
+    const subCompleted = sub?.completed === true;
 
     const canToggle =
       typeof onToggleSubquest === "function" &&
@@ -75,14 +105,23 @@ export default function HomePage({
             <strong>Your goal:</strong> {focus.userGoal}
           </p>
         ) : null}
-        <p className="home-focus__next-label">Next up</p>
+        <p className="home-focus__next-label">Next unfinished task</p>
         <div className="home-focus__task-row">
           {canToggle ? (
             <label className="home-focus__task-check">
               <input
                 type="checkbox"
                 checked={subCompleted}
-                onChange={() => onToggleSubquest(questId, subquestId)}
+                onChange={() => {
+                  if (!subCompleted) {
+                    setFocusEncourage({
+                      xp: subquestXpValue(sub),
+                      line: getQuip("focus"),
+                    });
+                    setHomePetCheer(true);
+                  }
+                  onToggleSubquest(questId, subquestId);
+                }}
               />
               <span className="home-focus__next-task">
                 {focus.nextTask.taskTitle}
@@ -106,9 +145,31 @@ export default function HomePage({
         </p>
         {canToggle ? (
           <p className="home-focus__toggle-hint muted">
-            Check off to earn XP — your next task appears here automatically.
+            Check off to earn XP — the next unfinished task will show here right
+            away.
           </p>
         ) : null}
+        {focusEncourage ? (
+          <p className="home-focus__cheer" role="status" aria-live="polite">
+            <span className="home-focus__cheer-xp">
+              +{focusEncourage.xp} XP
+            </span>
+            <span className="home-focus__cheer-text">{focusEncourage.line}</span>
+          </p>
+        ) : null}
+      </>
+    );
+  } else if (focus.allComplete) {
+    focusBody = (
+      <>
+        <p className="home-focus__badge home-focus__badge--complete">
+          RUN COMPLETE
+        </p>
+        <p className="home-focus__text">
+          Every task in this questline is checked off ({focus.completed}/
+          {focus.total}). Time to celebrate — or{" "}
+          <Link to="/quests">start a new quest</Link>.
+        </p>
       </>
     );
   } else {
@@ -135,11 +196,39 @@ export default function HomePage({
           {focusBody}
         </section>
 
-        <section className="panel home-card home-pet-card" aria-label="Pet preview">
-          <h2>Your blob</h2>
+        <section
+          className="panel home-card home-pet-card"
+          aria-label={`${petName} preview`}
+        >
+          <h2>Your pet</h2>
           <p className="home-pet-card__sub muted">
-            Same pet as the floating one — rarity grows with XP.
+            Same companion as the floating one — rarity grows with XP.
           </p>
+
+          <div className="home-pet-card__name-row">
+            <label className="home-pet-card__name-label" htmlFor="home-pet-name">
+              Name
+            </label>
+            <input
+              id="home-pet-name"
+              className="home-pet-card__name-input"
+              type="text"
+              maxLength={32}
+              autoComplete="off"
+              spellCheck="false"
+              value={petNameDraft}
+              onChange={(e) => setPetNameDraft(e.target.value)}
+              onBlur={commitPetName}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  commitPetName();
+                  e.currentTarget.blur();
+                }
+              }}
+              placeholder="Blob pet"
+            />
+          </div>
 
           <p className="home-pet-card__peek-label muted">At a glance</p>
           <ul className="home-pet-card__pills">
@@ -156,6 +245,9 @@ export default function HomePage({
               <span className="home-pet-card__pill-value">{tierLabel}</span>
             </li>
           </ul>
+          <p className="muted xp-lifetime-hint home-pet-card__xp-hint">
+            Lifetime total — removing quests from your list does not lower XP.
+          </p>
 
           <div
             className="tier-progress home-pet-card__tier-progress"
@@ -169,7 +261,7 @@ export default function HomePage({
             </div>
             <p className="tier-progress__label muted">
               {tierInfo.isMaxTier ? (
-                <>Max rarity — keep earning XP to grow your blob!</>
+                <>Max rarity — keep earning XP to grow {petName}!</>
               ) : (
                 <>
                   {tierInfo.xpIntoNextTier} XP until{" "}
@@ -185,16 +277,17 @@ export default function HomePage({
               saturation={blobColors.saturation}
               lightness={blobColors.lightness}
               scale={scale}
-              mood="idle"
-              reaction="none"
-              quip=""
+              mood={homePetCheer ? "excited" : "idle"}
+              reaction={homePetCheer ? "xp" : "none"}
+              quip={homePetCheer ? getQuip("xp") : ""}
               tierLabel={tierLabel}
-              showQuip={false}
+              petName={petName}
+              showQuip={homePetCheer}
             />
           </div>
           <p className="home-pet-card__caption">{blobOneLiner}</p>
-          <Link to="/progress" className="home-pet-card__link">
-            XP bar &amp; report →
+          <Link to="/skill" className="home-pet-card__link">
+            Achievement report →
           </Link>
         </section>
       </div>

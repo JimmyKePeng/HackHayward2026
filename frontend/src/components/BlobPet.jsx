@@ -1,4 +1,5 @@
 import "./BlobPet.css";
+import { DEFAULT_PET_NAME } from "../hooks/useQuestState";
 
 /**
  * Super simple blob buddy: eyes, mood, reaction flash, funny quip.
@@ -12,6 +13,7 @@ import "./BlobPet.css";
  * @param {"none"|"xp"|"tier"|"celebrate"|"boop"} props.reaction
  * @param {string} props.quip
  * @param {string} props.tierLabel
+ * @param {string} [props.petName] — shown in quip fallback
  * @param {boolean} [props.showQuip] — set false for compact / preview cards
  * @param {boolean} [props.compactGround] — no large shadow below blob (flush on a surface, e.g. seesaw plank)
  */
@@ -24,6 +26,7 @@ export default function BlobPet({
   reaction = "none",
   quip = "",
   tierLabel,
+  petName = DEFAULT_PET_NAME,
   showQuip = true,
   compactGround = false,
 }) {
@@ -71,7 +74,7 @@ export default function BlobPet({
       </div>
       {showQuip ? (
         <p className="blob-pet__quip" role="status">
-          {quip || `Blob · ${tierLabel}`}
+          {quip || `${petName} · ${tierLabel}`}
         </p>
       ) : null}
     </div>

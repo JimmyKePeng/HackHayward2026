@@ -532,33 +532,33 @@
                 "title": "Identify your first homework task and write it down as a mission objective",
                 "difficulty": "easy",
                 "id": "quest-2-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Set a 25-minute timer and complete one small homework section",
                 "difficulty": "medium",
                 "id": "quest-2-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Take a 5-minute nature break to recharge your energy",
                 "difficulty": "easy",
                 "id": "quest-2-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Repeat the cycle until one assignment is complete",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Master Real-World Problem Solving",
@@ -568,26 +568,26 @@
                 "title": "Connect one homework concept to something you observe in nature or the real world",
                 "difficulty": "medium",
                 "id": "quest-3-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Solve a challenging homework problem by breaking it into smaller steps",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Teach someone else what you learned to solidify your understanding",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Build Your Self-Reliance Streak",
@@ -597,26 +597,26 @@
                 "title": "Complete homework without checking your phone for 45 minutes",
                 "difficulty": "hard",
                 "id": "quest-4-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Attempt a difficult problem on your own before asking for help",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Finish all assigned homework before the deadline",
                 "difficulty": "hard",
                 "id": "quest-4-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               }
             ],
             "id": "quest-4",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Celebrate Your Victory",
@@ -626,26 +626,26 @@
                 "title": "Reflect on what you accomplished today",
                 "difficulty": "easy",
                 "id": "quest-5-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Reward yourself with outdoor time or a favorite activity",
                 "difficulty": "easy",
                 "id": "quest-5-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Plan tomorrow's homework adventure",
                 "difficulty": "easy",
                 "id": "quest-5-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               }
             ],
             "id": "quest-5",
-            "completed": false
+            "completed": true
           }
         ]
       }
@@ -666,26 +666,26 @@
                 "title": "During your next drive, breathe deeply for 5 counts before accelerating at green lights",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Practice smooth steering: Avoid sudden lane changes, glide like through cosmic drift",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Log 3 instances where you let a merging vehicle in without honking",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               }
             ],
             "id": "quest-1",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Navigate Anomalous Traffic Storms",
@@ -695,33 +695,33 @@
                 "title": "In heavy traffic, count to 10 before passing slow drivers ahead",
                 "difficulty": "medium",
                 "id": "quest-2-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Use wipers or lights as 'shields' - toggle them calmly instead of honking at rain or fog",
                 "difficulty": "easy",
                 "id": "quest-2-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Spot 5 'mannequin dummies' (pedestrians/cars) and yield patiently without rushing",
                 "difficulty": "medium",
                 "id": "quest-2-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Journal one positive thought about a 'breacher' driver who cuts you off",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Stabilize the Plasma Core (Rush Hour Run)",
@@ -731,26 +731,26 @@
                 "title": "During peak hours, maintain steady speed without tailgating - create a 'force field' gap",
                 "difficulty": "medium",
                 "id": "quest-3-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "If stopped, activate 'radio voices': Hum a sci-fi tune instead of getting frustrated",
                 "difficulty": "easy",
                 "id": "quest-3-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Safely siphon 'fuel' patience: Let 3 cars go first at intersections",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Breacher Extraction Through the Wall",
@@ -760,33 +760,33 @@
                 "title": "On a long commute, ignore road rage triggers - focus on 'zone mysteries' like scenery",
                 "difficulty": "hard",
                 "id": "quest-4-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Handle a frustrating delay (construction/accident) by planning an alternate 'warp route' calmly",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Track full drive: Rate your patience 1-10, upgrade with one improvement for next run",
                 "difficulty": "hard",
                 "id": "quest-4-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Share your 'extraction log' with a friend for feedback on patient piloting",
                 "difficulty": "medium",
                 "id": "quest-4-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-4",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Upgrade to Zone Master Pilot",
@@ -796,26 +796,26 @@
                 "title": "Complete a 30-min drive with zero honks or gestures - earn 'anomaly shield' badge",
                 "difficulty": "hard",
                 "id": "quest-5-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Teach a passenger your breathing technique during a joint drive",
                 "difficulty": "medium",
                 "id": "quest-5-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Reflect: Review logs, identify patterns, set 'mid-zone' goal for next week",
                 "difficulty": "hard",
                 "id": "quest-5-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               }
             ],
             "id": "quest-5",
-            "completed": false
+            "completed": true
           }
         ]
       }
@@ -836,33 +836,33 @@
                 "title": "Create Your Adventurer Avatar",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Map Your Starting Territory - Track Current Weight & Measurements",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Establish Daily Step Goals - Begin with 5,000 Steps",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Scout Nutrition - Log Your Meals for 3 Days",
                 "difficulty": "easy",
                 "id": "quest-1-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               }
             ],
             "id": "quest-1",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Cardio Expeditions - Journey Through Active Lands",
@@ -872,26 +872,26 @@
                 "title": "Complete 3 Walking Adventures (20-30 minutes each)",
                 "difficulty": "medium",
                 "id": "quest-2-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Master Speed Play Intervals - 2 Workouts",
                 "difficulty": "medium",
                 "id": "quest-2-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Conquer Steady-State Endurance Walk",
                 "difficulty": "medium",
                 "id": "quest-2-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Strength Training Quests - Forge Your Power",
@@ -901,26 +901,26 @@
                 "title": "Complete 2 Beginner Strength Training Sessions",
                 "difficulty": "medium",
                 "id": "quest-3-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Build Core Stability - 3 Core-Focused Workouts",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Progressive Resistance Challenge - Increase Difficulty by 1 Level",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Nutrition Mastery - Tame the Food Realm",
@@ -930,26 +930,26 @@
                 "title": "Track Daily Calories for 2 Weeks Consistently",
                 "difficulty": "medium",
                 "id": "quest-4-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Replace 5 High-Calorie Meals with Healthier Alternatives",
                 "difficulty": "medium",
                 "id": "quest-4-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Meal Prep Sunday - Prepare 3 Healthy Meals for the Week",
                 "difficulty": "medium",
                 "id": "quest-4-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-4",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Champion's Ascent - The Final Push to Victory",
@@ -959,26 +959,26 @@
                 "title": "Complete 4 Advanced Interval Training Sessions",
                 "difficulty": "hard",
                 "id": "quest-5-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Achieve 10,000 Daily Steps for 7 Consecutive Days",
                 "difficulty": "hard",
                 "id": "quest-5-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Reach Your First Weight Loss Milestone - Celebrate Victory",
                 "difficulty": "hard",
                 "id": "quest-5-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               }
             ],
             "id": "quest-5",
-            "completed": false
+            "completed": true
           }
         ]
       }
@@ -1169,26 +1169,26 @@
                 "title": "Scan your homework assignments and log them in your mission console (notebook or app)",
                 "difficulty": "easy",
                 "id": "quest-1-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Set a 5-minute hyperspace timer for your first task using a phone alarm",
                 "difficulty": "easy",
                 "id": "quest-1-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Launch into action: Work for just those 5 minutes without distractions",
                 "difficulty": "easy",
                 "id": "quest-1-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               }
             ],
             "id": "quest-1",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Navigate Asteroid Distractions",
@@ -1198,33 +1198,33 @@
                 "title": "Identify distraction asteroids (phone, social media) and activate shielding (turn off notifications)",
                 "difficulty": "easy",
                 "id": "quest-2-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Dock at a focus station: Choose one homework sector and complete 25 minutes of work (Pomodoro cycle)",
                 "difficulty": "medium",
                 "id": "quest-2-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Log your evasion success: Note what worked and award yourself a 5-minute reward scan (quick break)",
                 "difficulty": "medium",
                 "id": "quest-2-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Repeat docking for 2 cycles, building momentum against the nebula",
                 "difficulty": "medium",
                 "id": "quest-2-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-2",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Battle Chrono-Demons",
@@ -1234,26 +1234,26 @@
                 "title": "Summon ally droids: Tell a friend or family about your mission for accountability",
                 "difficulty": "easy",
                 "id": "quest-3-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 5
               },
               {
                 "title": "Engage demons head-on: Break homework into 3 micro-tasks and conquer one by one",
                 "difficulty": "medium",
                 "id": "quest-3-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Deploy anti-procrastination plasma: Visualize the nebula shrinking as you finish a full assignment section",
                 "difficulty": "medium",
                 "id": "quest-3-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               }
             ],
             "id": "quest-3",
-            "completed": false
+            "completed": true
           },
           {
             "title": "Forge the Productivity Singularity",
@@ -1263,33 +1263,33 @@
                 "title": "Enter the core: Schedule a full 1-hour uninterrupted homework warp session tomorrow",
                 "difficulty": "medium",
                 "id": "quest-4-sub-1",
-                "completed": false,
+                "completed": true,
                 "xp": 10
               },
               {
                 "title": "Harvest energy crystals: Review progress nightly and adjust your mission log",
                 "difficulty": "hard",
                 "id": "quest-4-sub-2",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Stabilize the singularity: Complete all pending homework before leisure portals (games/TV)",
                 "difficulty": "hard",
                 "id": "quest-4-sub-3",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               },
               {
                 "title": "Transmit victory signal: Share your success story in the app community",
                 "difficulty": "hard",
                 "id": "quest-4-sub-4",
-                "completed": false,
+                "completed": true,
                 "xp": 20
               }
             ],
             "id": "quest-4",
-            "completed": false
+            "completed": true
           }
         ]
       }

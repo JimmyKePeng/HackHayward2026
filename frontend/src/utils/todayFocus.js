@@ -1,5 +1,14 @@
 /**
- * Derive "today's focus" copy from the active quest run (first unchecked task, progress counts).
+ * Whether a subquest counts as done (only explicit true).
+ */
+function isSubquestCompleted(sq) {
+  return sq?.completed === true;
+}
+
+/**
+ * "Today's focus": first unfinished subquest in quest order, plus progress counts.
+ * After you check off a task, the next render should show the following unchecked task.
+ * "All complete" only when every subquest is explicitly completed.
  */
 export function getTodayFocusInfo(run) {
   if (!run?.questline?.quests?.length) {
@@ -21,8 +30,9 @@ export function getTodayFocusInfo(run) {
   for (const q of run.questline.quests) {
     for (const sq of q.subquests || []) {
       total += 1;
-      if (sq.completed) completed += 1;
-      else if (!nextTask) {
+      if (isSubquestCompleted(sq)) {
+        completed += 1;
+      } else if (!nextTask) {
         nextTask = {
           questId: q.id,
           subquestId: sq.id,

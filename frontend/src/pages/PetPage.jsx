@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import BlobPet from "../components/BlobPet";
+import { DEFAULT_PET_NAME } from "../hooks/useQuestState";
 import { getBlobColors, getRockAppearance } from "../utils/rockAppearance";
 import "./PetPage.css";
 
@@ -18,7 +19,11 @@ function tiltFromWeights(leftW, rightW, k = 9) {
   return clamp(k * (leftW - rightW), -26, 26);
 }
 
-export default function PetPage({ totalXP, rockScale }) {
+export default function PetPage({
+  totalXP,
+  rockScale,
+  petName = DEFAULT_PET_NAME,
+}) {
   const { scale } = getRockAppearance(totalXP, rockScale, { maxScale: 2.75 });
   const blobColors = getBlobColors(totalXP);
   const { tierLabel } = blobColors;
@@ -87,8 +92,8 @@ export default function PetPage({ totalXP, rockScale }) {
       <header className="hero hero--page hero--compact">
         <h1>Pet playground</h1>
         <p>
-          Stand on the seesaw, then drop your blob — the bigger it is, the higher
-          you&apos;ll pop.
+          Stand on the seesaw, then drop {petName} — the bigger they are, the
+          higher you&apos;ll pop.
         </p>
       </header>
 
@@ -99,7 +104,7 @@ export default function PetPage({ totalXP, rockScale }) {
           </span>
           <span>·</span>
           <span>
-            <strong>Blob scale:</strong> {scale.toFixed(2)}×
+            <strong>{petName} scale:</strong> {scale.toFixed(2)}×
           </span>
           <span>·</span>
           <span>
@@ -139,6 +144,7 @@ export default function PetPage({ totalXP, rockScale }) {
                         {showBlobOnBoard ? (
                           <div className="pet-seesaw__blob-on-board">
                             <BlobPet
+                              petName={petName}
                               hue={blobColors.hue}
                               saturation={blobColors.saturation}
                               lightness={blobColors.lightness}
@@ -163,6 +169,7 @@ export default function PetPage({ totalXP, rockScale }) {
                     <div className="pet-seesaw__blob-fall" aria-hidden>
                       <div className="pet-seesaw__blob-fall-inner">
                         <BlobPet
+                          petName={petName}
                           hue={blobColors.hue}
                           saturation={blobColors.saturation}
                           lightness={blobColors.lightness}
@@ -213,8 +220,8 @@ export default function PetPage({ totalXP, rockScale }) {
           </p>
         ) : (
           <p className="pet-play__hint">
-            After the drop, the board tips toward whoever&apos;s heavier — you or
-            your blob.
+            After the drop, the board tips toward whoever&apos;s heavier — you or{" "}
+            {petName}.
           </p>
         )}
       </section>

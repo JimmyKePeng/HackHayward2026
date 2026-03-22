@@ -199,6 +199,13 @@ select {
   border: 1px solid rgba(34, 197, 94, 0.4);
 }
 
+.home-focus__badge--complete {
+  letter-spacing: 0.08em;
+  background: rgba(251, 191, 36, 0.18);
+  color: #fde68a;
+  border-color: rgba(251, 191, 36, 0.45);
+}
+
 .home-focus__next-label {
   margin: 0 0 4px;
   font-size: 0.75rem;
@@ -252,6 +259,49 @@ select {
   line-height: 1.4;
 }
 
+.home-focus__cheer {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.22),
+    rgba(168, 85, 247, 0.12)
+  );
+  border: 1px solid rgba(129, 140, 248, 0.35);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: #e2e8f0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 10px;
+  animation: home-focus-cheer-in 0.35s ease-out;
+}
+
+@keyframes home-focus-cheer-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-focus__cheer-xp {
+  font-weight: 800;
+  color: #fbbf24;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.35);
+}
+
+.home-focus__cheer-text {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
 .home-focus__meta {
   margin: 0 0 6px;
   font-size: 0.82rem;
@@ -266,6 +316,45 @@ select {
 .home-pet-card__sub {
   margin: -4px 0 12px;
   font-size: 0.82rem;
+}
+
+.home-pet-card__name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin: 0 0 14px;
+}
+
+.home-pet-card__name-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+
+.home-pet-card__name-input {
+  flex: 1 1 140px;
+  min-width: 0;
+  max-width: 280px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #374151;
+  background: #111827;
+  color: #f9fafb;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.home-pet-card__name-input:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 1px;
+}
+
+.home-pet-card__name-input::placeholder {
+  color: #64748b;
+  font-weight: 500;
 }
 
 .home-pet-card__peek-label {
@@ -309,8 +398,13 @@ select {
   color: #f9fafb;
 }
 
+.home-pet-card__xp-hint {
+  margin: 0 0 12px;
+  line-height: 1.45;
+}
+
 .home-pet-card__tier-progress {
-  margin-top: 4px;
+  margin-top: 0;
   margin-bottom: 14px;
 }
 
@@ -431,7 +525,7 @@ button:disabled {
   box-shadow: inset -8px -8px 0 rgba(0, 0, 0, 0.15);
 }
 
-/* Draggable overlay — starts over Progress anchor, then drag anywhere */
+/* Draggable overlay — starts over default anchor, then drag anywhere */
 .pet-rock-fixed {
   position: fixed;
   z-index: 1000;
@@ -540,7 +634,7 @@ button:disabled {
   pointer-events: none;
 }
 
-/* Invisible target so the blob can place when not on Progress page */
+/* Invisible target so the draggable blob has a default anchor on every page */
 .pet-rock-anchor--offscreen {
   position: fixed;
   left: 50%;

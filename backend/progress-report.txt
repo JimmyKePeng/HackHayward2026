@@ -1,0 +1,55 @@
+=== Gamified Self-Help Quest — Progress Report ===
+Generated (UTC): 2026-03-22T00:24:43.928Z
+
+Quest history is stored separately from your active list. Quests you remove from the app
+remain below as their last saved snapshot.
+
+--- Summary ---
+Total XP (lifetime, current): 390
+Quest runs in report archive: 8
+
+--- All quest runs (8) ---
+
+[1] Arcane Codex Mastery: CSS Sorcerer's Journey
+    Goal: i want to learn css
+    Created: 2026-03-21T20:22:22.821Z
+    Tasks done: 20 / 20
+
+[2] The Enchanted Codex: Python Apprentice Questline
+    Goal: i want to learn python
+    Created: 2026-03-21T20:23:00.846Z
+    Tasks done: 15 / 15
+
+[3] The Dragon's Hoard: Cleanse Your Enchanted Chamber
+    Goal: i want to clean my room
+
+    Created: 2026-03-21T21:12:37.230Z
+    Tasks done: 18 / 18
+
+[4] The Homework Hero's Quest
+    Goal: I want to stop procrastinating on homework
+    Created: 2026-03-21T21:15:47.343Z
+    Tasks done: 0 / 13
+
+[5] Pacific Patience Drive: Survive the Exclusion Zone
+    Goal: i want to be a more patient driver
+    Created: 2026-03-21T22:31:24.524Z
+    Tasks done: 0 / 17
+
+[6] The Weight Loss Adventure: Quest for the Legendary Fitness Realm
+    Goal: i want to loss weight
+    Created: 2026-03-21T22:38:54.730Z
+    Tasks done: 0 / 16
+
+[7] Beep Boop: The Robotic Awakening
+    Goal: beep boop
+    Created: 2026-03-21T22:50:26.362Z
+    Tasks done: 17 / 17
+
+[8] Quantum Focus Protocol: Defeat the Procrastination Nebula
+    Goal: I wan to stop procrastinating on homework
+    Created: 2026-03-21T23:11:30.503Z
+    Tasks done: 7 / 14
+    (currently selected in app)
+
+--- End of report ---

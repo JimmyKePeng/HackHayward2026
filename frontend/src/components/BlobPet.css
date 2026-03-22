@@ -19,6 +19,50 @@
   animation: blob-wobble 7s ease-in-out infinite;
 }
 
+/* Stronger “petting” feedback on hover — faster squish + visible wiggle */
+.blob-pet-wrap:hover .blob-pet,
+.pet-rock-fixed__rock-wrap:hover .blob-pet {
+  animation:
+    blob-wobble 2.8s ease-in-out infinite,
+    blob-hover-pet 0.55s ease-in-out infinite alternate;
+}
+
+.blob-pet-wrap:hover .blob-pet.blob-pet--ground,
+.pet-rock-fixed__rock-wrap:hover .blob-pet.blob-pet--ground {
+  animation:
+    blob-wobble 2.8s ease-in-out infinite,
+    blob-hover-pet-ground 0.55s ease-in-out infinite alternate;
+}
+
+@keyframes blob-hover-pet {
+  0% {
+    transform: scale(calc(var(--blob-scale, 1) * 1.04)) translateY(-2px)
+      rotate(-3deg);
+  }
+  100% {
+    transform: scale(calc(var(--blob-scale, 1) * 1.12)) translateY(-8px)
+      rotate(3deg);
+  }
+}
+
+@keyframes blob-hover-pet-ground {
+  0% {
+    transform: scale(calc(var(--blob-scale, 1) * 1.03)) translateY(0)
+      rotate(-2.5deg);
+  }
+  100% {
+    transform: scale(calc(var(--blob-scale, 1) * 1.09)) translateY(-3px)
+      rotate(2.5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob-pet-wrap:hover .blob-pet,
+  .pet-rock-fixed__rock-wrap:hover .blob-pet {
+    animation: blob-wobble 7s ease-in-out infinite;
+  }
+}
+
 /* Sit on a surface (seesaw): scale from bottom so the silhouette doesn’t dip below the line */
 .blob-pet--ground {
   transform-origin: 50% 100%;

@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import BlobPet from "./BlobPet";
+import {
+  DEFAULT_PET_NAME,
+  PET_CELEBRATE_TASK_EVENT,
+} from "../hooks/useQuestState";
 import { getBlobColors, getRockAppearance, RARITY_TIERS } from "../utils/rockAppearance";
 import { getQuip } from "../utils/blobPetQuips";
 
@@ -47,9 +51,14 @@ function clampPosition(left, top, width, height) {
 
 /**
  * Fixed overlay: draggable blob pet (eyes, mood, reactions, quips).
- * With no saved position, starts centered on `anchorRef` (Progress panel slot).
+ * With no saved position, starts centered on `anchorRef` (off-screen home anchor).
  */
-function PetRockFixed({ totalXP, rockScale, anchorRef }) {
+function PetRockFixed({
+  totalXP,
+  rockScale,
+  petName = DEFAULT_PET_NAME,
+  anchorRef,
+}) {
   const { tierLabel, scale } = getRockAppearance(totalXP, rockScale, {
     maxScale: 2.75,
   });
@@ -75,12 +84,63 @@ function PetRockFixed({ totalXP, rockScale, anchorRef }) {
 
   const prevXpRef = useRef(null);
   const prevTierRef = useRef(null);
+  const tierLabelRef = useRef(tierLabel);
+  tierLabelRef.current = tierLabel;
+  const xpPartyTimersRef = useRef([]);
 
   useEffect(() => {
     posRef.current = pos;
   }, [pos]);
 
-  /** XP gain → excited + bounce; tier up → love + sparkles */
+  const clearXpPartyTimers = useCallback(() => {
+    xpPartyTimersRef.current.forEach(clearTimeout);
+    xpPartyTimersRef.current = [];
+  }, []);
+
+  /** XP from completing tasks (dispatched from quest state) → excited + pop + quip */
+  const runXpCelebration = useCallback(
+    (delta) => {
+      const d = Number(delta);
+      if (!Number.isFinite(d) || d <= 0) return;
+
+      clearXpPartyTimers();
+      const tl = tierLabelRef.current;
+
+      setXpPop(`+${Math.round(d)} XP`);
+      setCelebrate(true);
+      setMood("excited");
+      setReaction("xp");
+      setQuip(getQuip("xp"));
+
+      const push = (fn, ms) => {
+        xpPartyTimersRef.current.push(window.setTimeout(fn, ms));
+      };
+      push(() => setXpPop(null), 1300);
+      push(() => setCelebrate(false), 550);
+      push(() => setReaction("none"), 700);
+      push(() => {
+        setMood((m) => (m === "excited" ? "happy" : m));
+      }, 380);
+      push(() => {
+        setMood("idle");
+        setQuip(getQuip("idle", tierLabelRef.current));
+      }, 3400);
+    },
+    [clearXpPartyTimers],
+  );
+
+  useEffect(() => {
+    function onTaskCelebration(e) {
+      const xp = e?.detail?.xp;
+      runXpCelebration(xp);
+    }
+    window.addEventListener(PET_CELEBRATE_TASK_EVENT, onTaskCelebration);
+    return () => window.removeEventListener(PET_CELEBRATE_TASK_EVENT, onTaskCelebration);
+  }, [runXpCelebration]);
+
+  useEffect(() => () => clearXpPartyTimers(), [clearXpPartyTimers]);
+
+  /** Tier up → love + sparkles (driven by totalXP / tier label changes) */
   useEffect(() => {
     if (prevXpRef.current === null) {
       prevXpRef.current = totalXP;
@@ -88,32 +148,7 @@ function PetRockFixed({ totalXP, rockScale, anchorRef }) {
       return;
     }
 
-    const delta = totalXP - prevXpRef.current;
-    prevXpRef.current = totalXP;
-
     const timers = [];
-
-    if (delta > 0) {
-      setXpPop(`+${delta} XP`);
-      setCelebrate(true);
-      setMood("excited");
-      setReaction("xp");
-      setQuip(getQuip("xp"));
-      timers.push(window.setTimeout(() => setXpPop(null), 1100));
-      timers.push(window.setTimeout(() => setCelebrate(false), 550));
-      timers.push(window.setTimeout(() => setReaction("none"), 650));
-      timers.push(
-        window.setTimeout(() => {
-          setMood((m) => (m === "excited" ? "happy" : m));
-        }, 350),
-      );
-      timers.push(
-        window.setTimeout(() => {
-          setMood("idle");
-          setQuip(getQuip("idle", tierLabel));
-        }, 3200),
-      );
-    }
 
     if (prevTierRef.current !== tierLabel) {
       const oldIdx = RARITY_TIERS.findIndex((t) => t.label === prevTierRef.current);
@@ -140,6 +175,8 @@ function PetRockFixed({ totalXP, rockScale, anchorRef }) {
       }
       prevTierRef.current = tierLabel;
     }
+
+    prevXpRef.current = totalXP;
 
     return () => timers.forEach(clearTimeout);
   }, [totalXP, tierLabel]);
@@ -310,9 +347,12 @@ function PetRockFixed({ totalXP, rockScale, anchorRef }) {
           reaction={reactionKey}
           quip={quip}
           tierLabel={tierLabel}
+          petName={petName}
         />
       </div>
-      <span className="pet-rock-fixed__caption">Blob pet · {tierLabel}</span>
+      <span className="pet-rock-fixed__caption">
+        {petName} · {tierLabel}
+      </span>
       <span className="pet-rock-fixed__drag-hint">Drag anywhere · tap to boop</span>
     </div>
   );
