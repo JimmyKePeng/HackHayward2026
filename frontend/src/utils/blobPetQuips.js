@@ -1,7 +1,7 @@
-/** Short funny lines — mood / tier / context. Keep PG & hackathon-friendly. */
+/** Short funny lines for the pet rock — mood / tier / context. Keep PG & hackathon-friendly. */
 
 const IDLE = [
-  "Just blobbin’ around. No thoughts, head empty.",
+  "Just rollin’ around. No thoughts, head empty.",
   "I believe in you. Also in snacks.",
   "Professional cheer section. Woo.",
   "Drag me if you need moral support with wheels.",
@@ -20,7 +20,7 @@ const XP_GAIN = [
 const HOME_FOCUS = [
   "That’s one down — you’re crushing it.",
   "Nice! The floating me is cheering too.",
-  "Task: defeated. Blob: proud.",
+  "Task: defeated. Rock: proud.",
   "Momentum unlocked. Keep that streak.",
   "Tiny win, huge brain. Science.",
 ];
@@ -35,7 +35,7 @@ const TIER_UP = [
 
 const HAPPY = [
   "Look at you go. Iconic.",
-  "That tickles my blob heart. If I had one.",
+  "That tickles my rocky heart. If I had one.",
   "We’re so back.",
 ];
 
@@ -47,13 +47,13 @@ const EXCITED = [
 
 const SLEEPY = [
   "Zzz… still rooting for you… zzz…",
-  "Low power mode. Blob respects rest.",
+  "Low power mode. This rock respects rest.",
 ];
 
 const LOVE = [
   "You + tasks = OTP.",
   "If I had hands I’d high-five you.",
-  "Proud blob noises.",
+  "Proud pebble noises.",
 ];
 
 const CLICK = [
@@ -61,7 +61,7 @@ const CLICK = [
   "Booped. Legally distinct from a poke.",
   "Attention acquired. Proceed.",
   "You found the secret: I’m very clickable.",
-  "Same blob, new dopamine.",
+  "Same rock, new dopamine.",
 ];
 
 const SHOCKED = [

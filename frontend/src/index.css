@@ -243,7 +243,7 @@ select {
   background: #4b5563;
 }
 
-/* Home dashboard: Today's focus, then Your blob (vertical stack) */
+/* Home dashboard: Today's focus, then your pet rock (vertical stack) */
 .home-dashboard {
   display: grid;
   grid-template-columns: 1fr;
@@ -772,7 +772,7 @@ button:disabled {
   pointer-events: none;
 }
 
-/* Invisible target so the draggable blob has a default anchor on every page */
+/* Invisible target so the draggable pet rock has a default anchor on every page */
 .pet-rock-anchor--offscreen {
   position: fixed;
   left: 50%;

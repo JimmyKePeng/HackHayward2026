@@ -66,7 +66,7 @@ export function getRockAppearance(totalXP, rockScale, options = {}) {
   };
 }
 
-/** HSL palette for blob pet (same tier math as rock, no transform). */
+/** HSL palette for pet rock / corner companion (same tier math as rock preview, no transform). */
 export function getBlobColors(totalXP, options = {}) {
   const tintIdx = Math.max(
     0,
@@ -107,7 +107,7 @@ export function getBlobColors(totalXP, options = {}) {
 }
 
 /**
- * CSS gradient matching `BlobPet` body (so tint swatches match the real pet).
+ * CSS gradient matching the pet rock body in `BlobPet` (so tint swatches match on-screen).
  * @param {number} totalXP
  * @param {number} tintIndex
  */

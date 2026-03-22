@@ -57,8 +57,8 @@ export function subquestXpValue(sub) {
 
 export const PET_CELEBRATE_TASK_EVENT = "pet-celebrate-task";
 
-/** Default label for the draggable pet (caption, accessibility, quip fallback). */
-export const DEFAULT_PET_NAME = "Blob pet";
+/** Default label for the draggable pet rock (caption, accessibility, quip fallback). */
+export const DEFAULT_PET_NAME = "Rock pet";
 
 /** Trim, cap length, fall back to default if empty. */
 export function normalizePetName(raw) {

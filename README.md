@@ -1,28 +1,28 @@
 # Gamified Self-Help Quest App
 
-Turn a real-life goal into an AI-generated **questline** (quests and subquests), earn **XP**, grow a **blob pet**, and keep a **progress report** — built for **HackHayward 2026 using Cursor**.
+Turn a real-life goal into an AI-generated **questline** (quests and subquests), earn **XP**, grow a **pet rock** companion, and keep a **progress report** — built for **HackHayward 2026 using Cursor**.
 
 ## Features
 
 - **Quest generation** — Enter a goal + theme (fantasy, sci-fi, adventure); the backend calls the **Perplexity** API to produce structured JSON questlines.
 - **Tasks & XP** — Check off subquests on the Quests page or from **Home** (“Today’s focus”). Difficulty maps to XP (easy / medium / hard).
-- **Pet blob** — Draggable corner pet with moods, reactions, and tier-based colors. Visual size grows gently: **`rockScale = 1 + totalXP / 400`**. Optional **`compactGround`** mode (Pet page) uses a smaller drop shadow and bottom-anchored scaling.
+- **Pet rock** — Draggable corner companion with moods, reactions, and tier-based colors. Visual size grows gently: **`rockScale = 1 + totalXP / 400`**. Optional **`compactGround`** mode (Pet page) uses a smaller drop shadow and bottom-anchored scaling.
 - **Rarity tiers** — Common → Legendary; XP bar shows progress within the current tier.
 - **Regenerate** — Per quest run, **↻** re-rolls the questline with the **same goal & theme** (XP from completed tasks on that run is adjusted).
 - **Persistence** — State syncs to `localStorage` and the backend (`quest-progress.txt`).
 - **Skills / achievements** — **One skill per quest run/topic** when the **entire questline** is finished (every quest’s subtasks checked). Two topics fully done → two rows (`POST /progress-report` → `progress-report.txt`). **Suggest next** uses **`POST /suggest-next-topics`** (Perplexity).
-- **Routes** — **Home** (focus + blob preview + XP / tier + lifetime XP hint + pet anchor behavior), **Quests** (create, list, questline), **Pet** (seesaw + minerals / tints — see below), **Skill** (scrollable achievement report). Old **`/progress`** URLs redirect to **Home**.
+- **Routes** — **Home** (focus + rock preview + XP / tier + lifetime XP hint + pet anchor behavior), **Quests** (create, list, questline), **Pet** (seesaw + minerals / tints — see below), **Skill** (scrollable achievement report). Old **`/progress`** URLs redirect to **Home**.
 
 ### Pet page (`/pet`)
 
 - **Idle** — You stand near the **left** end of a narrow plank; the right side is empty. The board tilts toward you (your side is heavier).
-- **Drop** — A **Drop** button beside the scene spawns the blob **above** the right end; it falls onto the board while the beam reacts.
-- **Launch** — Your jump height scales with blob size / XP. Below a small XP threshold, you only **wiggle** and the UI nudges you toward **Quests** to grow the blob.
-- **Settle** — When the sequence ends, both you and the blob stay on the board; final tilt follows **relative weight** (you vs. blob scale). **Reset** returns to the idle setup so you can play again.
-- **Polish** — Falling blob uses a stable silhouette (no wobble during the fall), deck area sized so tall blobs aren’t clipped after landing, and `prefers-reduced-motion` skips the long animation.
-- **Minerals & looks** — Open **Take knowledge quiz** on the Pet page: the client sends saved quest topics to **`POST /pet-knowledge-quiz`**; Perplexity returns **10** multiple-choice questions. React grades locally; **6+ correct** earns **1 mineral**. Spend minerals to **feed** the pet or **unlock color moods** (tints on top of tier colors). **Color mood** swatches use the same gradient as the blob (`getBlobSurfaceGradient`). Saved in app state / `quest-progress.txt`.
+- **Drop** — A **Drop** button beside the scene spawns the rock **above** the right end; it falls onto the board while the beam reacts.
+- **Launch** — Your jump height scales with rock size / XP. Below a small XP threshold, you only **wiggle** and the UI nudges you toward **Quests** to grow the rock.
+- **Settle** — When the sequence ends, both you and the rock stay on the board; final tilt follows **relative weight** (you vs. rock scale). **Reset** returns to the idle setup so you can play again.
+- **Polish** — Falling rock uses a stable silhouette (no wobble during the fall), deck area sized so large rocks aren’t clipped after landing, and `prefers-reduced-motion` skips the long animation.
+- **Minerals & looks** — Open **Take knowledge quiz** on the Pet page: the client sends saved quest topics to **`POST /pet-knowledge-quiz`**; Perplexity returns **10** multiple-choice questions. React grades locally; **6+ correct** earns **1 mineral**. Spend minerals to **feed** the rock or **unlock color moods** (tints on top of tier colors). **Color mood** swatches use the same gradient as the pet rock (`getBlobSurfaceGradient`). Saved in app state / `quest-progress.txt`.
 
-Implementation: `frontend/src/pages/PetPage.jsx`, `frontend/src/pages/PetPage.css`; `PetMineralCare.jsx`; `PetKnowledgeQuizModal.jsx`; `rockAppearance.js` (`getBlobColors`, `getBlobSurfaceGradient`, `PET_TINT_PRESETS`); blob in `BlobPet.jsx` + `BlobPet.css`.
+Implementation: `frontend/src/pages/PetPage.jsx`, `frontend/src/pages/PetPage.css`; `PetMineralCare.jsx`; `PetKnowledgeQuizModal.jsx`; `rockAppearance.js` (`getBlobColors`, `getBlobSurfaceGradient`, `PET_TINT_PRESETS`); companion UI in `BlobPet.jsx` + `BlobPet.css` (component name historical).
 
 ## Tech stack
 
@@ -127,10 +127,18 @@ Serve `frontend/dist` with any static host; ensure the API is reachable (CORS is
 
 These are **local dev artifacts**; add them to `.gitignore` if you don’t want them committed.
 
+## Architecture diagrams
+
+- **`docs/DIAGRAMS.md`** — Mermaid source for system + flow charts (copy into [mermaid.live](https://mermaid.live) to export **PNG** / **SVG**).
+- **`docs/diagrams-viewer.html`** — Open in a browser (double-click or drag into Chrome), then **Print → Save as PDF** to download a single PDF of all diagrams.
+
 ## Project layout
 
 ```
 HackHayward2026/
+├── docs/
+│   ├── DIAGRAMS.md       # Mermaid diagrams (export via mermaid.live)
+│   └── diagrams-viewer.html  # Printable HTML for PDF export
 ├── backend/
 │   ├── index.js          # Express app + AI + persistence
 │   ├── .env              # Create locally (not committed)
@@ -139,7 +147,7 @@ HackHayward2026/
 │   ├── src/
 │   │   ├── App.jsx       # Routes (incl. /pet, /skill; /progress → home), quest generation
 │   │   ├── pages/        # Home, Quests, PetPage, Skill (report)
-│   │   ├── components/   # BlobPet, panels, forms, PetRockFixed, etc.
+│   │   ├── components/   # BlobPet (pet rock UI), panels, forms, PetRockFixed, etc.
 │   │   └── hooks/        # useQuestState (sync + XP)
 │   └── package.json
 └── README.md
@@ -166,4 +174,4 @@ ISC (backend `package.json`) / see individual packages for frontend deps.
 
 ---
 
-*Made for HackHayward 2026 — ship goals, XP, a supportive blob, and a seesaw on the Pet page.*
+*Made for HackHayward 2026 — ship goals, XP, a supportive pet rock, and a seesaw on the Pet page.*

@@ -2,7 +2,7 @@ import "./BlobPet.css";
 import { DEFAULT_PET_NAME } from "../hooks/useQuestState";
 
 /**
- * Super simple blob buddy: eyes, mood, reaction flash, funny quip.
+ * Pet rock companion: eyes, mood, reaction flash, funny quip (organic rock silhouette).
  *
  * @param {object} props
  * @param {number} props.hue
@@ -15,7 +15,7 @@ import { DEFAULT_PET_NAME } from "../hooks/useQuestState";
  * @param {string} props.tierLabel
  * @param {string} [props.petName] — shown in quip fallback
  * @param {boolean} [props.showQuip] — set false for compact / preview cards
- * @param {boolean} [props.compactGround] — no large shadow below blob (flush on a surface, e.g. seesaw plank)
+ * @param {boolean} [props.compactGround] — no large shadow below rock (flush on a surface, e.g. seesaw plank)
  */
 export default function BlobPet({
   hue,

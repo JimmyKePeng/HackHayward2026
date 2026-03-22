@@ -112,7 +112,7 @@ export default function PetMineralCare({
         <h4 className="pet-care__tints-title">Color mood</h4>
         <p className="pet-care__tints-sub muted">
           Unlock extra palettes for <strong>{MINERAL_UNLOCK_TINT_COST} minerals</strong> each.
-          Swatches match your pet at your current XP tier.
+          Swatches match {petName} at your current XP tier.
         </p>
         <ul className="pet-care__tint-list">
           {PET_TINT_PRESETS.map((preset, index) => {

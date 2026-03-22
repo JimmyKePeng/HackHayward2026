@@ -51,7 +51,7 @@ function clampPosition(left, top, width, height) {
 }
 
 /**
- * Fixed overlay: draggable blob pet (eyes, mood, reactions, quips).
+ * Fixed overlay: draggable pet rock (eyes, mood, reactions, quips).
  * With no saved position, starts centered on `anchorRef` (off-screen home anchor).
  */
 function PetRockFixed({
@@ -336,7 +336,7 @@ function PetRockFixed({
         pointerEvents: visible ? "auto" : "none",
       }}
       role="img"
-      aria-label={`Blob pet. Mood ${mood}. Rarity ${tierLabel}. Drag to move; tap without dragging for a reaction.`}
+      aria-label={`Pet rock. Mood ${mood}. Rarity ${tierLabel}. Drag to move; tap without dragging for a reaction.`}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}

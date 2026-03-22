@@ -48,7 +48,7 @@ export default function HomePage({
 
   /** Today’s focus: encouragement line after checking a task */
   const [focusEncourage, setFocusEncourage] = useState(null);
-  /** Home card blob: quick excited reaction when a focus task is completed */
+  /** Home card rock: quick excited reaction when a focus task is completed */
   const [homePetCheer, setHomePetCheer] = useState(false);
 
   const [petNameDraft, setPetNameDraft] = useState(petName);
@@ -186,7 +186,7 @@ export default function HomePage({
       <header className="hero hero--page">
         <h1>Gamified Self-Help Quest</h1>
         <p>
-          Turn goals into quests and XP — with a blob pet that actually cares
+          Turn goals into quests and XP — with a pet rock that actually cares
           (allegedly).
         </p>
       </header>
@@ -199,11 +199,11 @@ export default function HomePage({
 
         <section
           className="panel home-card home-pet-card"
-          aria-label={`${petName} preview`}
+          aria-label={`${petName} rock preview`}
         >
-          <h2>Your pet</h2>
+          <h2>Your rock</h2>
           <p className="home-pet-card__sub muted">
-            Same companion as the floating one — rarity grows with XP.
+            Same pet rock as the floating one — rarity grows with XP.
           </p>
 
           <div className="home-pet-card__name-row">
@@ -227,7 +227,7 @@ export default function HomePage({
                   e.currentTarget.blur();
                 }
               }}
-              placeholder="Blob pet"
+              placeholder="Rock pet"
             />
           </div>
 

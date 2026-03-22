@@ -1,6 +1,5 @@
 {
-  "totalXP": 420,
-  "questHistory": [
+  "runs": [
     {
       "id": "c73d6e25-2487-467a-ad8c-fa25ba2b4ca3",
       "createdAt": 1774153860413,
@@ -814,13 +813,5 @@
         ]
       }
     }
-  ],
-  "activeQuestRunId": "364018a4-0666-42ab-aabb-9d3050a1351d",
-  "petName": "Blob pet",
-  "petMineralBalance": 0,
-  "petTintIndex": 0,
-  "petUnlockedTints": [
-    0
-  ],
-  "petFeedCount": 2
+  ]
 }

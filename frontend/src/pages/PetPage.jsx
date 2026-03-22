@@ -45,7 +45,7 @@ export default function PetPage({
     [scale],
   );
 
-  /** How high the person flies (px), 0 if blob too small. */
+  /** How high the person flies (px), 0 if rock too small. */
   const launchHeight = useMemo(() => {
     if (totalXP < MIN_XP_FOR_LAUNCH) return 0;
     const t = clamp((scale - 1) / 1.75, 0, 1);
@@ -224,7 +224,7 @@ export default function PetPage({
 
         {blobTooSmall ? (
           <p className="pet-play__hint pet-play__hint--warn">
-            Your blob is still <strong>tiny</strong>. Complete quests and earn XP to
+            Your rock is still <strong>tiny</strong>. Complete quests and earn XP to
             grow it — then the seesaw will really launch you.{" "}
             <Link to="/quests">Go to Quests →</Link>
           </p>
