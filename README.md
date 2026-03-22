@@ -1,41 +1,97 @@
-# Gamified Self-Help Quest App
+# Questify — Gamified Self-Help Quest App
 
-Turn a real-life goal into an AI-generated **questline** (quests and subquests), earn **XP**, grow a **pet rock** companion, and keep a **progress report** — built for **HackHayward 2026 using Cursor**.
+Turn a real-life goal into an AI-generated **questline** (quests and subquests), earn **XP**, grow a **pet rock** companion, and track **skills** in a progress report — built for **HackHayward 2026** (React + Express + Perplexity).
+
+---
+
+## Overview
+
+| Area | What it does |
+| ---- | ------------- |
+| **Quests** | Generate themed questlines from a goal; switch between saved runs; regenerate or delete runs. |
+| **Home** | Today’s focus (first unchecked task), XP / tier, name your pet rock, preview. |
+| **Pet** | Seesaw mini-game, **minerals** (from quizzes), feed & **color mood** unlocks. |
+| **Skill** | Human-readable report + **Suggest what to learn next** (AI picks 3 topics). |
+
+**AI (Perplexity)** powers: quest generation, quest regeneration, next-topic suggestions, and the **10-question knowledge quiz** on the Pet page.
+
+---
 
 ## Features
 
-- **Quest generation** — Enter a goal + theme (fantasy, sci-fi, adventure); the backend calls the **Perplexity** API to produce structured JSON questlines.
-- **Tasks & XP** — Check off subquests on the Quests page or from **Home** (“Today’s focus”). Difficulty maps to XP (easy / medium / hard).
-- **Pet rock** — Draggable corner companion with moods, reactions, and tier-based colors. Visual size grows gently: **`rockScale = 1 + totalXP / 400`**. Optional **`compactGround`** mode (Pet page) uses a smaller drop shadow and bottom-anchored scaling.
-- **Rarity tiers** — Common → Legendary; XP bar shows progress within the current tier.
-- **Regenerate** — Per quest run, **↻** re-rolls the questline with the **same goal & theme** (XP from completed tasks on that run is adjusted).
-- **Persistence** — State syncs to `localStorage` and the backend (`quest-progress.txt`).
-- **Skills / achievements** — **One skill per quest run/topic** when the **entire questline** is finished (every quest’s subtasks checked). Two topics fully done → two rows (`POST /progress-report` → `progress-report.txt`). **Suggest next** uses **`POST /suggest-next-topics`** (Perplexity).
-- **Routes** — **Home** (focus + rock preview + XP / tier + lifetime XP hint + pet anchor behavior), **Quests** (create, list, questline), **Pet** (seesaw + minerals / tints — see below), **Skill** (scrollable achievement report). Old **`/progress`** URLs redirect to **Home**.
+### Quests & XP
 
-### Pet page (`/pet`)
+- **Quest generation** — Goal + theme (fantasy, sci-fi, adventure); backend returns structured JSON (quests → subquests with difficulty and XP).
+- **Tasks & XP** — Check off subquests on **Quests** or from **Home** (“Today’s focus”). XP uses easy / medium / hard (defaults in backend).
+- **Regenerate** — Per run, **↻** re-rolls the questline with the **same goal & theme**; XP from completed tasks on that run is adjusted.
+- **Lifetime XP** — Total XP is not reduced when you remove a quest run from the list (only task toggles change XP).
 
-- **Idle** — You stand near the **left** end of a narrow plank; the right side is empty. The board tilts toward you (your side is heavier).
-- **Drop** — A **Drop** button beside the scene spawns the rock **above** the right end; it falls onto the board while the beam reacts.
-- **Launch** — Your jump height scales with rock size / XP. Below a small XP threshold, you only **wiggle** and the UI nudges you toward **Quests** to grow the rock.
-- **Settle** — When the sequence ends, both you and the rock stay on the board; final tilt follows **relative weight** (you vs. rock scale). **Reset** returns to the idle setup so you can play again.
-- **Polish** — Falling rock uses a stable silhouette (no wobble during the fall), deck area sized so large rocks aren’t clipped after landing, and `prefers-reduced-motion` skips the long animation.
-- **Minerals & looks** — Open **Take knowledge quiz** on the Pet page: the client sends saved quest topics to **`POST /pet-knowledge-quiz`**; Perplexity returns **10** multiple-choice questions. React grades locally; **6+ correct** earns **1 mineral**. Spend minerals to **feed** the rock or **unlock color moods** (tints on top of tier colors). **Color mood** swatches use the same gradient as the pet rock (`getBlobSurfaceGradient`). Saved in app state / `quest-progress.txt`.
+### Pet rock
 
-Implementation: `frontend/src/pages/PetPage.jsx`, `frontend/src/pages/PetPage.css`; `PetMineralCare.jsx`; `PetKnowledgeQuizModal.jsx`; `rockAppearance.js` (`getBlobColors`, `getBlobSurfaceGradient`, `PET_TINT_PRESETS`); companion UI in `BlobPet.jsx` + `BlobPet.css` (component name historical).
+- **Floating companion** — Draggable overlay (`PetRockFixed`) with moods, reactions, and short quips.
+- **Growth** — Visual scale: **`rockScale = 1 + totalXP / 400`** (gentle growth vs raw XP).
+- **Rarity tiers** — Common → Legendary; tier drives hue and the Home/Pet rock look.
+- **Naming** — Default name **“Rock pet”**; editable on Home (stored in app state).
+
+### Minerals & knowledge quiz
+
+- **Earning** — Minerals come from the **Take knowledge quiz** flow only (not from checking off quest tasks). Pass threshold: **6 / 10** correct → **+1 mineral** (client-side grading using server-provided answers).
+- **Spending** — **1 mineral** per feed; **5 minerals** per extra **color mood** tint (first tint is free). Stored as `petMineralBalance`.
+- **Quiz** — `POST /pet-knowledge-quiz` sends `appState`; backend derives **learned topics** from the quest archive and asks Perplexity for **10** multiple-choice questions (4 options each). UI: `PetKnowledgeQuizModal` (portal).
+
+### Skills & archive
+
+- **Skill page** — Calls **`POST /progress-report`**, which merges `appState` into **`quest-report-archive.json`**, then writes **`progress-report.txt`**. The UI lists **one row per fully completed quest run** (every quest in the line has all subtasks done) — so two finished topics ≈ two skills, not one row per sub-quest.
+- **Suggest next** — **`POST /suggest-next-topics`** sends archived goals/titles to Perplexity; returns 3 strings. Picking one can navigate to Quests and auto-run **Generate Quest** (see `App.jsx` navigation state).
+
+### Persistence
+
+- **Client** — `localStorage` key `quest-app-state`.
+- **Server** — `POST /progress` saves **`quest-progress.txt`** (JSON app state). On load, frontend may hydrate from **`GET /progress`** when the backend is up.
+- **Reset** — **Quests** page, **bottom**: **Reset Everything** opens a **confirm** dialog, then clears local + backend progress (`DELETE /progress` pattern via app reset).
+
+### UI conventions
+
+- **Primary actions** — **Generate Quest** (Quests), **Suggest what to learn next** (Skill), and similar CTAs use the shared **`btn-primary-gradient`** style (purple gradient).
+- **Danger** — Full reset is separated at the **end** of the Quests page with confirmation.
+
+### Routes
+
+| Path | Page |
+| ---- | ---- |
+| `/` | Home |
+| `/quests` | Create runs, list runs, active questline |
+| `/pet` | Seesaw + minerals + quiz + tints |
+| `/skill` | Report + suggest topics |
+| `/progress` | Redirects to **Home** |
+
+---
+
+## Pet playground (`/pet`) — detail
+
+- **Seesaw** — Idle → **Drop** animates the rock onto the plank → **Settle** uses weight vs. XP scale; **Reset** restarts the mini-scene.
+- **Low XP** — Below a threshold you “wiggle” instead of a big launch; copy nudges you to Quests.
+- **Accessibility** — `prefers-reduced-motion` short-circuits long motion.
+- **Implementation** — `PetPage.jsx`, `PetPage.css`, `BlobPet.jsx` (pet rock UI; legacy filename), `rockAppearance.js` (`getBlobColors`, `getBlobSurfaceGradient`, tint presets).
+
+---
 
 ## Tech stack
 
-| Layer    | Stack                                      |
-| -------- | ------------------------------------------ |
-| Frontend | React 19, Vite 8, React Router 7, CSS      |
-| Backend  | Node.js, Express 5, CORS, dotenv           |
+| Layer    | Stack |
+| -------- | ----- |
+| Frontend | React 19, Vite 8, React Router 7, CSS |
+| Backend  | Node.js, Express 5, CORS, dotenv |
 | AI       | Perplexity Chat Completions–compatible API |
+
+---
 
 ## Prerequisites
 
 - **Node.js** 18+ (20+ recommended)
-- A **Perplexity API key** ([Perplexity API](https://docs.perplexity.ai/)) for quest generation
+- **Perplexity API key** — [Perplexity API docs](https://docs.perplexity.ai/)
+
+---
 
 ## Quick start
 
@@ -44,10 +100,7 @@ Implementation: `frontend/src/pages/PetPage.jsx`, `frontend/src/pages/PetPage.cs
 ```bash
 cd HackHayward2026
 
-# Backend
 cd backend && npm install && cd ..
-
-# Frontend
 cd frontend && npm install && cd ..
 ```
 
@@ -58,120 +111,152 @@ Create `backend/.env`:
 ```env
 PERPLEXITY_API_KEY=your_key_here
 
-# Optional overrides
+# Optional (defaults are in backend/index.js)
 # PORT=3001
-# PERPLEXITY_API_URL=https://api.perplexity.ai/chat/completions
+# PERPLEXITY_API_URL=https://api.perplexity.ai/v1/sonar
 # PERPLEXITY_MODEL=sonar-pro
 ```
 
-> The app expects the chat URL to include a path that ends with chat completions (see `backend/index.js`). Adjust `PERPLEXITY_API_URL` if your account uses a different base URL.
+> Your Perplexity account may require a different base URL or model — check `PERPLEXITY_API_URL` / `PERPLEXITY_MODEL` in `backend/index.js` and Perplexity’s docs.
 
 ### 3. Run the servers
 
-**Terminal A — API (default port 3001)**
+**Terminal A — API (port 3001)**
 
 ```bash
 cd backend
 npm start
-# or: node index.js
 ```
 
-You should see: `Server running on http://localhost:3001`
-
-**Terminal B — Frontend (Vite dev server)**
+**Terminal B — Frontend**
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-Open the URL Vite prints (usually **http://localhost:5173**).
+Open the URL Vite prints (often **http://localhost:5173**).
 
-The frontend is configured to call the API at **`http://localhost:3001`**. If you change the port, update `API_BASE_URL` in:
+If you change the API port or host, update **`API_BASE_URL`** in:
 
 - `frontend/src/hooks/useQuestState.js`
 - `frontend/src/App.jsx`
+- `frontend/src/components/PetKnowledgeQuizModal.jsx` (and any other hardcoded `localhost:3001` callers)
 
 ### 4. Production build (frontend)
 
 ```bash
 cd frontend
 npm run build
-npm run preview   # optional local preview of dist/
+npm run preview   # optional
 ```
 
-Serve `frontend/dist` with any static host; ensure the API is reachable (CORS is enabled on the backend).
+Serve `frontend/dist` behind any static host; the browser must reach the API (CORS is enabled on the backend).
 
-## API overview (backend)
+---
+
+## API (backend)
 
 | Method | Path | Description |
 | ------ | ---- | ----------- |
 | `GET` | `/` | Health / ping |
 | `GET` | `/progress` | Load saved app state JSON |
 | `POST` | `/progress` | Save app state JSON |
-| `DELETE` | `/progress` | Clear progress + report files |
-| `POST` | `/generate-quest` | Body: `{ goal, theme }` → AI questline |
-| `POST` | `/regenerate-quest` | Body: `{ goal, theme }` → new questline only |
-| `POST` | `/progress-report` | Merge archive, write `progress-report.txt` (Skill: **fully completed runs** only) |
+| `DELETE` | `/progress` | Clear saved progress and related files |
+| `POST` | `/generate-quest` | `{ goal, theme }` → AI questline |
+| `POST` | `/regenerate-quest` | `{ goal, theme }` → new questline JSON only |
+| `POST` | `/progress-report` | `{ appState }` → merge archive, write `progress-report.txt` |
 | `GET` | `/progress-report` | Read last report file |
-| `POST` | `/pet-knowledge-quiz` | Body: `{ appState }` → Perplexity builds 10 MCQs from learned topics; returns `{ questions, topicsUsed }` |
-| `POST` | `/suggest-next-topics` | Body: `{ appState }` → suggested follow-up topics (Skill page) |
+| `POST` | `/pet-knowledge-quiz` | `{ appState }` → `{ questions, topicsUsed }` (10 MCQs) |
+| `POST` | `/suggest-next-topics` | `{ appState }` → suggested topics for Skill page |
+
+---
 
 ## Data files (backend folder)
 
 | File | Purpose |
 | ---- | ------- |
-| `quest-progress.txt` | Latest app state from the browser |
-| `quest-report-archive.json` | Historical quest runs for reports |
-| `progress-report.txt` | Last generated human-readable report |
+| `quest-progress.txt` | Last saved **app state** from the browser |
+| `quest-report-archive.json` | Merged **quest runs** for reports, quizzes, and suggestions |
+| `progress-report.txt` | Last **human-readable** Skill report |
 
-These are **local dev artifacts**; add them to `.gitignore` if you don’t want them committed.
+These are typical **local dev artifacts**; add to `.gitignore` if you don’t want them in git.
+
+---
+
+## App state (saved in JSON)
+
+Not exhaustive — important fields:
+
+| Field | Role |
+| ----- | ---- |
+| `totalXP` | Lifetime XP |
+| `questHistory` | Array of quest runs (`id`, `userGoal`, `theme`, `questline`, …) |
+| `activeQuestRunId` | Selected run |
+| `petName` | Display name for the rock |
+| `petMineralBalance` | Currency for feed / tints |
+| `petTintIndex`, `petUnlockedTints`, `petFeedCount` | Pet care |
+
+---
 
 ## Architecture diagrams
 
-- **`docs/DIAGRAMS.md`** — Mermaid source for system + flow charts (copy into [mermaid.live](https://mermaid.live) to export **PNG** / **SVG**).
-- **`docs/diagrams-viewer.html`** — Open in a browser (double-click or drag into Chrome), then **Print → Save as PDF** to download a single PDF of all diagrams.
+- **`docs/DIAGRAMS.md`** — Mermaid sources; paste into [mermaid.live](https://mermaid.live) to export **PNG** / **SVG**.
+- **`docs/diagrams-viewer.html`** — Open in a browser → **Print → Save as PDF** for a single PDF of diagrams.
+
+---
 
 ## Project layout
 
 ```
 HackHayward2026/
 ├── docs/
-│   ├── DIAGRAMS.md       # Mermaid diagrams (export via mermaid.live)
-│   └── diagrams-viewer.html  # Printable HTML for PDF export
+│   ├── DIAGRAMS.md
+│   └── diagrams-viewer.html
 ├── backend/
-│   ├── index.js          # Express app + AI + persistence
+│   ├── index.js          # Express, Perplexity calls, file persistence
 │   ├── .env              # Create locally (not committed)
 │   └── package.json
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx       # Routes (incl. /pet, /skill; /progress → home), quest generation
-│   │   ├── pages/        # Home, Quests, PetPage, Skill (report)
-│   │   ├── components/   # BlobPet (pet rock UI), panels, forms, PetRockFixed, etc.
-│   │   └── hooks/        # useQuestState (sync + XP)
+│   │   ├── App.jsx       # Routes, quest generation, Skill auto-nav
+│   │   ├── pages/        # Home, Quests, Pet, Skill
+│   │   ├── components/   # BlobPet (pet rock), PetRockFixed, forms, PetKnowledgeQuizModal, …
+│   │   ├── hooks/        # useQuestState (state + sync)
+│   │   └── utils/        # rockAppearance, todayFocus, parseProgressReport, …
 │   └── package.json
 └── README.md
 ```
 
-## Scripts reference
+---
+
+## Scripts
 
 | Location | Command | Description |
 | -------- | ------- | ----------- |
-| `frontend/` | `npm run dev` | Dev server with HMR |
-| `frontend/` | `npm run build` | Production bundle to `dist/` |
+| `frontend/` | `npm run dev` | Dev server (HMR) |
+| `frontend/` | `npm run build` | Production bundle → `dist/` |
 | `frontend/` | `npm run lint` | ESLint |
-| `backend/` | `npm start` | Start API (`node index.js`) |
-
-## Troubleshooting
-
-- **“Failed to generate quest”** — Check `PERPLEXITY_API_KEY`, quota, and that `PERPLEXITY_API_URL` matches your Perplexity endpoint.
-- **CORS / network errors** — Backend must be running; frontend must target the correct host/port.
-- **Empty or stale UI** — Clear site data or use **Reset Everything** on the Quests form (clears local + backend progress).
-
-## License
-
-ISC (backend `package.json`) / see individual packages for frontend deps.
+| `backend/` | `npm start` | API (`node index.js`) |
 
 ---
 
-*Made for HackHayward 2026 — ship goals, XP, a supportive pet rock, and a seesaw on the Pet page.*
+## Troubleshooting
+
+| Issue | What to check |
+| ----- | ------------- |
+| Quest / quiz / suggest fails | `PERPLEXITY_API_KEY`, quota, and `PERPLEXITY_API_URL` / model |
+| Network / CORS | Backend running; `API_BASE_URL` matches |
+| Empty or stuck UI | Hard refresh; or use **Reset Everything** at the **bottom of Quests** (confirms before clearing) |
+| Quiz: “no topics” | Generate/save quests so the archive has goals; open Skill once to merge archive |
+| Skill list empty | A **skill** appears only when a **whole questline** in the archive is 100% complete |
+
+---
+
+## License
+
+ISC (backend `package.json`) / see frontend `package.json` for dependency licenses.
+
+---
+
+*HackHayward 2026 — goals, XP, a pet rock, quizzes, and skills.*

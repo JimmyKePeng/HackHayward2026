@@ -1,15 +1,15 @@
 === Gamified Self-Help Quest — Progress Report ===
-Generated (UTC): 2026-03-22T05:29:09.752Z
+Generated (UTC): 2026-03-22T06:11:03.393Z
 
 The Skill page lists one achievement per quest topic/run when the whole questline is done.
 Runs you remove from the app still contribute archived snapshots for suggestions & quizzes.
 
 --- Summary ---
-Total XP (lifetime, current): 970
+Total XP (lifetime, current): 445
 Quest runs in report archive: 6
-Skills achieved (fully completed topics): 6
+Skills achieved (fully completed topics): 3
 
---- Skills achieved (6 completed topics) ---
+--- Skills achieved (3 completed topics) ---
 
 [1] Galactic Code Odyssey: Forge Your Web Developer Destiny
     Goal: i want to become a web developer
@@ -21,23 +21,7 @@ Skills achieved (fully completed topics): 6
     Created: 2026-03-22T04:41:54.884Z
     Tasks done: 13 / 13
 
-[3] Quantum Probability Navigator: Decode the Cosmos
-    Goal: i want to learn some basic of probability because i have a stat course next semester
-    Created: 2026-03-22T04:47:37.689Z
-    Tasks done: 17 / 17
-
-[4] Python Codex: Awakening the AI Scribe
-    Goal: i want to learn the basic of python
-    Created: 2026-03-22T04:52:17.461Z
-    Tasks done: 20 / 20
-
-[5] Galactic Database Odyssey: Master SQL as a Cybernaut
-    Goal: Learn SQL basics to query databases for stats and web projects
-    Created: 2026-03-22T04:57:22.833Z
-    Tasks done: 18 / 18
-    (run currently selected in app)
-
-[6] Code Through the Cosmos: JavaScript Odyssey
+[3] Code Through the Cosmos: JavaScript Odyssey
     Goal: i want to learn javascript
     Created: 2026-03-22T05:19:43.096Z
     Tasks done: 19 / 19
